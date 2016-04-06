@@ -2,6 +2,7 @@ package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.InputProcessor;
 import com.groeps33.valley.shop.Consumable;
+import com.groeps33.valley.shop.Statboost;
 
 /**
  * Created by Bram on 6-4-2016.
@@ -25,6 +26,17 @@ public class Character extends Entity implements InputProcessor {
 
     public void setConsumable(Consumable consumable) {
         this.consumable = consumable;
+    }
+
+    public void Consume(){
+        if(this.consumable == null) return;
+        //String stat = consumable.getStat();
+        int boostValue = consumable.getBoost();
+
+    }
+
+    public void boostStat(Statboost statboost){
+
     }
 
 

@@ -12,6 +12,7 @@ public abstract class Entity {
     protected int maxHp;
     protected int defence;
     protected int attackDamage;
+    protected int attackSpeed;
     protected int moveSpeed;
     protected Vector2 location;
     protected Vector2 velocity;

@@ -6,12 +6,12 @@ package com.groeps33.valley.shop;
 
 enum Stat
     {
-        ATTACK_DAMAGE,
-        MOVE_SPEED,
-        DEFENC,
-        MAX_HP,
-        CURRENT_HP
-
+        currenHp,
+        maxHp,
+        defence,
+        attackDamage,
+        moveSpeed,
+        attackSpeed
     }
 
 
