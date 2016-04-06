@@ -54,6 +54,8 @@ public class IngameShop {
     public Consumable buyConsumable(String consumableName, Character customer){
         Consumable consumable = this.findConsumable(consumableName);
         if(consumable == null) return null;
+        if(customer.getGold() < consumable.getCost()) return null;
+        customer.reduceGold(consumable.getCost());
         customer.setConsumable(consumable);
         return consumable;
     }

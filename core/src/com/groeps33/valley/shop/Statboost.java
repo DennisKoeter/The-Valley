@@ -35,4 +35,8 @@ public class Statboost {
     public int getDuration(){
         return duration;
     }
+
+    public int getCost(){
+        return cost;
+    }
 }
