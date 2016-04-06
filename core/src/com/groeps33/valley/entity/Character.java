@@ -10,6 +10,10 @@ public class Character extends Entity implements InputProcessor {
 
     private Consumable consumable;
 
+    public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
+        super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
+    }
+
     public boolean useConsumable() {
         if (consumable != null) {
             consumable.consume(this);

@@ -7,12 +7,25 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Entity {
 
-    public Vector2 location;
+    protected String name;
+    protected int currentHp;
+    protected int maxHp;
+    protected int defence;
+    protected int attackDamage;
+    protected int moveSpeed;
+    protected Vector2 location;
     protected Vector2 velocity;
 
-    public Entity() {
-        location = new Vector2();
+    public Entity(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
+        this.name = name;
+        this.maxHp = maxHp;
+        this.defence = defence;
+        this.attackDamage = attackDamage;
+        this.moveSpeed = moveSpeed;
+        location = new Vector2(x,y);
         velocity = new Vector2();
+
+        currentHp = maxHp;
     }
 
     public abstract void update(float deltaTime);
