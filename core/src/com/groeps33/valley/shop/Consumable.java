@@ -3,6 +3,9 @@ package com.groeps33.valley.shop;
 /**
  * Created by Robin on 6-4-2016.
  */
+
+import com.groeps33.valley.entity.Character;
+
 public class Consumable extends IngameShop {
     private String name;
     private Stat  stat;
@@ -22,7 +25,7 @@ public class Consumable extends IngameShop {
 
     }
 
-    public void Consume(Character c)
+    public void consume(Character c)
     {
 
     }

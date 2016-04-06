@@ -7,8 +7,13 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Entity {
 
-    private Vector2 location;
-    private Vector2 velocity;
+    public Vector2 location;
+    protected Vector2 velocity;
+
+    public Entity() {
+        location = new Vector2();
+        velocity = new Vector2();
+    }
 
     public abstract void update(float deltaTime);
 }
