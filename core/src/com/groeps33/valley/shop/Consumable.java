@@ -19,7 +19,6 @@ public class Consumable extends IngameShop {
         this.stat = stat;
         this.boost = boost;
         this.cost = cost;
-
     }
 
 
