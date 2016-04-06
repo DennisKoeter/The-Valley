@@ -30,7 +30,7 @@ public class Character extends Entity implements InputProcessor {
 
     public void Consume(){
         if(this.consumable == null) return;
-        String stat;
+        //String stat = consumable.getStat();
         int boostValue = consumable.getBoost();
 
     }

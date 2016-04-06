@@ -30,10 +30,7 @@ public class Consumable extends IngameShop {
         return name;
     }
 
-    public Stat getStat()
-    {  return stat;
-
-    }
+    public Stat getStat() { return stat; }
      public int getBoost()
      {
          return boost;
