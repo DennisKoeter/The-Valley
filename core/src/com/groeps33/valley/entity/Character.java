@@ -16,7 +16,7 @@ public class Character extends Entity implements InputProcessor {
 
     public boolean useConsumable() {
         if (consumable != null) {
-            consumable.consume(this);
+
             return true;
         }
 
