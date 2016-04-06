@@ -25,6 +25,7 @@ public class Character extends Entity implements InputProcessor {
     private int bonusHp;
     private int bonusDefence;
     private int bonusAttackDamage;
+    private int gold;
     private List<Statboost> statboosts;
 
     private Animation animation;
@@ -46,6 +47,13 @@ public class Character extends Entity implements InputProcessor {
         
     }
 
+    public int getGold(){
+        return this.gold;
+    }
+
+    public void reduceGold(int amount){
+        this.gold -= amount;
+    }
     public boolean useConsumable() {
         if(this.consumable == null) return false;
         Stats stat = consumable.getStat();

@@ -15,14 +15,27 @@ public class IngameShop {
         this.consumables = new ArrayList<Consumable>();
     }
 
+    /**
+     * adds a consumable to the shop, ready to be sold!
+     * @param consumable the consumable to be added
+     */
     public void addConsumable(Consumable consumable){
         this.consumables.add(consumable);
     }
 
+    /**
+     * returns an iterator containing all the consumables the shop has to offer.
+     * @return an iterator containing all the consumables in the shop.
+     */
     public Iterator<Consumable> getConsumables(){
         return this.consumables.iterator();
     }
 
+    /**
+     * finds a specific consumable in the shop, based on the name.
+     * @param consumableName the name of the consumable to be found
+     * @return the resulting Consumable object
+     */
     public Consumable findConsumable(String consumableName){
         for(Consumable consumable : this.consumables){
             if (consumable.getName().equals(consumableName)){
@@ -32,6 +45,12 @@ public class IngameShop {
         return null;
     }
 
+    /**
+     * purchases a consumable for a specific character
+     * @param consumableName the name of the consumable to be purchased
+     * @param customer the character making the purchase
+     * @return the purchased consumable, in case you want to display it or something..
+     */
     public Consumable buyConsumable(String consumableName, Character customer){
         Consumable consumable = this.findConsumable(consumableName);
         if(consumable == null) return null;
