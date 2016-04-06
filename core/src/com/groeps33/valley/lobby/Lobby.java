@@ -3,7 +3,8 @@ package com.groeps33.valley.lobby;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
- * Created by Edwin on 4/6/2016.
+ * @author Edwin
+ * Created on 4/6/2016
  */
 public class Lobby {
     int id;
