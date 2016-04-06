@@ -9,11 +9,11 @@ import com.groeps33.valley.entity.Character;
 
 public class Consumable extends IngameShop {
     private String name;
-    private Stat  stat;
+    private Stats stat;
     private int boost;
     private int cost;
 
-    public Consumable(String name, Stat stat, int boost, int cost)
+    public Consumable(String name, Stats stat, int boost, int cost)
     {
         this.name = name;
         this.stat = stat;
@@ -21,16 +21,14 @@ public class Consumable extends IngameShop {
         this.cost = cost;
     }
 
-
-
-
     public String getName()
     {
         return name;
     }
 
-    public Stat getStat() { return stat; }
-     public int getBoost()
+    public Stats getStat() { return stat; }
+
+    public int getBoost()
      {
          return boost;
      }
