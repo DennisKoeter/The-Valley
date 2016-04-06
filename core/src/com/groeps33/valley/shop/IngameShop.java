@@ -1,6 +1,7 @@
 package com.groeps33.valley.shop;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import com.groeps33.valley.entity.Character;
 
@@ -16,6 +17,10 @@ public class IngameShop {
 
     public void addConsumable(Consumable consumable){
         this.consumables.add(consumable);
+    }
+
+    public Iterator<Consumable> getConsumables(){
+        return this.consumables.iterator();
     }
 
     public Consumable findConsumable(String consumableName){
