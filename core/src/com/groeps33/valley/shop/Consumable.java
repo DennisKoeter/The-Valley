@@ -22,15 +22,7 @@ public class Consumable extends IngameShop {
 
     }
 
-    public enum Stat
-    {
-        attackDamage,
-        moveSpeed,
-        defence,
-        maxHp,
-        currenthp
 
-    };
 
 
     public String getName()
