@@ -34,7 +34,7 @@ public class Character extends Entity implements InputProcessor {
     TextureRegion[][] frames;
     float frameTime;
 
-
+    final int DOWN=0,LEFT=1,RIGHT=2,UP=3;
 
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
@@ -44,7 +44,7 @@ public class Character extends Entity implements InputProcessor {
         // in de consructor een andere spritesheet geladen worden.
         spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
         frames = TextureRegion.split(spriteSheet,spriteSheet.getWidth()/3,spriteSheet.getWidth()/4);
-        
+        animation = new Animation(0.10f,frames[0][0]);
     }
 
     public int getGold(){
@@ -99,6 +99,13 @@ public class Character extends Entity implements InputProcessor {
 
     @Override
     public void update(float deltaTime) {
+
+        frameTime+=deltaTime;
+        currentFrame = animation.getKeyFrame(frameTime, true);
+
+        if(!currentFrame.isFlipY())
+            currentFrame.flip(false,true);
+
     }
 
     @Override
