@@ -1,4 +1,4 @@
-package com.example.thevalley.screens;
+package com.groeps33.valley.screens;
 
 import com.badlogic.gdx.Game;
 
