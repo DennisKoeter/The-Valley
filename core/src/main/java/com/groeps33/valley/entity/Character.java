@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.groeps33.valley.shop.Consumable;
 import com.groeps33.valley.shop.Statboost;
 import com.groeps33.valley.shop.Stats;
-import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
