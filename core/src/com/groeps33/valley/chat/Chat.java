@@ -13,6 +13,14 @@ import java.util.List;
 public class Chat {
     private List<ChatMessage> messages;
 
+    public List<ChatMessage> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<ChatMessage> messages) {
+        this.messages = messages;
+    }
+
     /**
      * Creates a ChatMessage and adds it to this class' list of messages
      * @param textMessage the content of the chatmessage
