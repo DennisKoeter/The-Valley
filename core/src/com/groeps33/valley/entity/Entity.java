@@ -1,6 +1,7 @@
 package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.shop.Statboost;
 
 /**
  * Created by Bram on 6-4-2016.
