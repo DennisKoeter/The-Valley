@@ -36,5 +36,6 @@ public class IngameShop {
         Consumable consumable = this.findConsumable(consumableName);
         if(consumable == null) return null;
         customer.setConsumable(consumable);
+        return consumable;
     }
 }
