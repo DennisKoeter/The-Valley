@@ -1,9 +1,7 @@
 package com.groeps33.valley.chat;
 
 import com.groeps33.valley.entity.Character;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +25,6 @@ public class Chat {
      * @param sender the Character object of the sender
      */
     public void sendMessage(String textMessage, Character sender) {
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     }
 }
