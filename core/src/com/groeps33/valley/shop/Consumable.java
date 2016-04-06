@@ -26,4 +26,9 @@ public class Consumable extends IngameShop {
     {
 
     }
+
+    public String getName()
+    {
+        return name;
+    }
 }
