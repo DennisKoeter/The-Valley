@@ -34,4 +34,11 @@ public class LobbyManager {
         throw new NotImplementedException();
     }
 
+    /**
+     * Closes the lobby that matches the given name
+     * @param name the name of the lobby
+     */
+    public void closeLobby(String name) {
+        throw new NotImplementedException();
+    }
 }
