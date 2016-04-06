@@ -8,7 +8,7 @@ enum Stat
     {
         ATTACK_DAMAGE,
         MOVE_SPEED,
-        DEFENC,
+        DEFENCE,
         MAX_HP,
         CURRENT_HP
 
