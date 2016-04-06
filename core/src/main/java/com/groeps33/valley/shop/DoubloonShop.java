@@ -55,6 +55,8 @@ public class DoubloonShop {
     public Statboost buyStatboost(String statboostName, Character customer){
         Statboost statboost = this.findStatboost(statboostName);
         if(statboost == null) return null;
+        if(customer.getGold() < statboost.getCost()) return null;
+        customer.reduceGold(statboost.getCost());
         customer.addStatboost(statboost);
         return statboost;
     }

@@ -33,4 +33,6 @@ public class Consumable extends IngameShop {
          return boost;
      }
 
+    public int getCost(){ return cost; }
+
 }

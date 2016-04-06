@@ -35,4 +35,16 @@ public class Statboost {
     public int getDuration(){
         return duration;
     }
+
+    public int getCost(){
+        return cost;
+    }
+
+    /**
+     * reduces the duration of the statboost
+     * @param amount the amount by which the duration will be reduced
+     */
+    public void reduceDuration(int amount){
+        this.duration -= amount;
+    }
 }
