@@ -1,10 +1,13 @@
 package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
+import com.badlogic.gdx.math.Vector2;
 import com.groeps33.valley.shop.Consumable;
 import com.groeps33.valley.shop.Statboost;
 import com.groeps33.valley.shop.Stats;
@@ -15,7 +18,7 @@ import java.util.List;
 /**
  * Created by Bram on 6-4-2016.
  */
-public class Character extends Entity implements InputProcessor {
+public class Character extends Entity  {
 
     private Consumable consumable;
     private int bonusAttackSpeed;
@@ -32,7 +35,6 @@ public class Character extends Entity implements InputProcessor {
     TextureRegion[][] frames;
     float frameTime;
 
-    final int DOWN=0,LEFT=1,RIGHT=2,UP=3;
 
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
@@ -98,52 +100,59 @@ public class Character extends Entity implements InputProcessor {
     @Override
     public void update(float deltaTime) {
 
-        frameTime+=deltaTime;
+
+        int previousKey=0;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.W))
+        {
+            if (previousKey!=Input.Keys.M)
+                frameTime=0f;
+            frameTime+=deltaTime;
+            move(0,moveSpeed*frameTime);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.S))
+        {
+            if (previousKey!=Input.Keys.S)
+                frameTime=0f;
+            frameTime+=deltaTime;
+            move(0, -moveSpeed * frameTime);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.A))
+        {
+            if (previousKey!=Input.Keys.A)
+                frameTime=0f;
+            frameTime+=deltaTime;
+            move(-moveSpeed*frameTime,0);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.W))
+        {
+            if (previousKey!=Input.Keys.W)
+                frameTime=0f;
+            frameTime+=deltaTime;
+            move(moveSpeed*frameTime,0);
+        }
+
         currentFrame = animation.getKeyFrame(frameTime, true);
 
         if(!currentFrame.isFlipY())
             currentFrame.flip(false,true);
 
+
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
+    public Vector2 getLocation()
+    {
+        return location;
     }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
+    public TextureRegion getCurrentFrame()
+    {
+        return currentFrame;
     }
 
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+    public void move(float x, float y)
+    {
+        location.add(x,y);
     }
 
     public void setPosition(float x, float y) {
