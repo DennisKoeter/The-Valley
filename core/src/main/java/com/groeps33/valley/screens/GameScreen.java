@@ -23,11 +23,10 @@ public class GameScreen extends TheValleyScreen {
     private TiledMap tiledMap;
     private OrthographicCamera camera;
     private OrthogonalTiledMapRendererWithSprites tiledMapRenderer;
-
-    private SpriteBatch spriteBash;
     private Texture playerTexture;
     private Sprite playerSprite;
     private Character character;
+//    private SpriteBatch spriteBash;
 
     public GameScreen(Game game) {
         super(game);
@@ -39,11 +38,12 @@ public class GameScreen extends TheValleyScreen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("Map 1.tmx");
+//        spriteBash = new SpriteBatch();
      //  playerTexture = new Texture(character.getCurrentFrame()));
        // playerSprite = new Sprite(playerTexture);
         tiledMapRenderer = new OrthogonalTiledMapRendererWithSprites(tiledMap);
-        //tiledMapRenderer.addSprite(playerSprite);
-        spriteBash = new SpriteBatch();
+       // tiledMapRenderer.addSprite(playerSprite);
+        tiledMapRenderer.addCharacter(character);
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
@@ -82,14 +82,15 @@ public class GameScreen extends TheValleyScreen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
+        character.update(Gdx.graphics.getDeltaTime());
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
-        character.update(Gdx.graphics.getDeltaTime());
-
-        spriteBash.begin();
-        spriteBash.draw(character.getCurrentFrame(),character.getLocation().x,character.getLocation().y);
-        spriteBash.end();
+//        character.update(Gdx.graphics.getDeltaTime());
+//
+//        spriteBash.begin();
+//        spriteBash.draw(character.getCurrentFrame(),character.getLocation().x,character.getLocation().y);
+//        spriteBash.end();
 //
 //        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 //            playerSprite.setPosition(playerSprite.getX(), playerSprite.getY() + 1);
