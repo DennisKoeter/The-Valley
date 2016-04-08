@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
+import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.renderer.OrthogonalTiledMapRendererWithSprites;
 
 /**
@@ -26,6 +27,7 @@ public class GameScreen extends TheValleyScreen {
     private SpriteBatch spriteBash;
     private Texture playerTexture;
     private Sprite playerSprite;
+    private Character character;
 
     public GameScreen(Game game) {
         super(game);
@@ -33,13 +35,14 @@ public class GameScreen extends TheValleyScreen {
 
     @Override
     public void show() {
+        character = new Character(0,0,null,0,0,0,5);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("Map 1.tmx");
-        playerTexture = new Texture(Gdx.files.internal("sprites/player.png"));
-        playerSprite = new Sprite(playerTexture);
+     //  playerTexture = new Texture(character.getCurrentFrame()));
+       // playerSprite = new Sprite(playerTexture);
         tiledMapRenderer = new OrthogonalTiledMapRendererWithSprites(tiledMap);
-        tiledMapRenderer.addSprite(playerSprite);
+        //tiledMapRenderer.addSprite(playerSprite);
         spriteBash = new SpriteBatch();
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -64,7 +67,7 @@ public class GameScreen extends TheValleyScreen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 Vector3 clickCoordinates = new Vector3(screenX, screenY, 0);
                 Vector3 position = camera.unproject(clickCoordinates);
-                // player.setPosition(position.x, position.y);
+              //  player.setPosition(position.x, position.y);
                 playerSprite.setPosition(position.x - 32, position.y - 32);
                 return true;
             }
@@ -82,16 +85,21 @@ public class GameScreen extends TheValleyScreen {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 
+        character.update(Gdx.graphics.getDeltaTime());
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            playerSprite.setPosition(playerSprite.getX(), playerSprite.getY() + 1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            playerSprite.setPosition(playerSprite.getX(), playerSprite.getY() - 1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            playerSprite.setPosition(playerSprite.getX() - 1, playerSprite.getY());
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            playerSprite.setPosition(playerSprite.getX() + 1, playerSprite.getY());
-        }
+        spriteBash.begin();
+        spriteBash.draw(character.getCurrentFrame(),character.getLocation().x,character.getLocation().y);
+        spriteBash.end();
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+//            playerSprite.setPosition(playerSprite.getX(), playerSprite.getY() + 1);
+//        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+//            playerSprite.setPosition(playerSprite.getX(), playerSprite.getY() - 1);
+//        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+//            playerSprite.setPosition(playerSprite.getX() - 1, playerSprite.getY());
+//        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+//            playerSprite.setPosition(playerSprite.getX() + 1, playerSprite.getY());
+//        }
     }
 
     @Override
