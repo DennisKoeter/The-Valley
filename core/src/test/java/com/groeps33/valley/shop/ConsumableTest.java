@@ -21,6 +21,12 @@ public class ConsumableTest {
     }
 
     @Test
+    public void testConstructor() throws Exception {
+        Consumable test = new Consumable("test", Stat.ATTACK_DAMAGE, 1, 1);
+        assertNotNull("object is null", test);
+    }
+
+    @Test
     public void testGetName() throws Exception {
         assertEquals("names are not equal", c.getName(), name);
     }

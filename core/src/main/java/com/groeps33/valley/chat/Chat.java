@@ -25,6 +25,7 @@ public class Chat {
      * @param sender the Character object of the sender
      */
     public void sendMessage(String textMessage, Character sender) {
-
+        ChatMessage message = new ChatMessage(textMessage, sender);
+        this.messages.add(message);
     }
 }

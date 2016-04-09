@@ -22,6 +22,12 @@ public class StatboostTest {
     }
 
     @Test
+    public void testConstructor() throws Exception {
+        Statboost test = new Statboost("test", Stat.ATTACK_DAMAGE, 1, 1, 1);
+        assertNotNull("object is null", test);
+    }
+
+    @Test
     public void testGetName() throws Exception {
         assertEquals("names are not equal", statboost.getName(), name);
     }

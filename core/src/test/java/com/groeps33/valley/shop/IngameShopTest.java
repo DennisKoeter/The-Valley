@@ -29,6 +29,12 @@ public class IngameShopTest {
     }
 
     @Test
+    public void testConstructor() throws Exception {
+        IngameShop test = new IngameShop();
+        assertNotNull("object is null", test);
+    }
+
+    @Test
     public void testAddConsumable() throws Exception {
         expected.add(c2);
         shop.addConsumable(c2);
