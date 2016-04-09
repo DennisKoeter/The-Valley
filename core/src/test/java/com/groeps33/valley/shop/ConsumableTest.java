@@ -10,15 +10,19 @@ import static org.junit.Assert.*;
  */
 public class ConsumableTest {
     Consumable c;
+    String name = "health potion";
+    Stats stat = Stats.maxHp;
+    int boost = 10;
+    int cost = 100;
 
     @Before
     public void setUp() throws Exception {
-        c = new Consumable("health potion", Stats.maxHp, 10, 100);
+        c = new Consumable(name, stat, boost, cost);
     }
 
     @Test
     public void testGetName() throws Exception {
-        assertEquals("names are not equal", c.getName(), "health potion");
+        assertEquals("names are not equal", c.getName(), name);
     }
 
     @Test
