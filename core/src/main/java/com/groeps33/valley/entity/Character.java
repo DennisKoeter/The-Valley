@@ -2,15 +2,13 @@ package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.math.Vector2;
 import com.groeps33.valley.shop.Consumable;
 import com.groeps33.valley.shop.Statboost;
-import com.groeps33.valley.shop.Stats;
+import com.groeps33.valley.shop.Stat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,26 +54,26 @@ public class Character extends Entity  {
     }
     public boolean useConsumable() {
         if(this.consumable == null) return false;
-        Stats stat = consumable.getStat();
+        Stat stat = consumable.getStat();
         int boostValue = consumable.getBoost();
 
         switch (stat){
-            case defence:
+            case DEFENCE:
                 this.bonusDefence += boostValue;
                 break;
-            case attackDamage:
+            case ATTACK_DAMAGE:
                 this.bonusAttackDamage += boostValue;
                 break;
-            case attackSpeed:
+            case ATTACK_SPEED:
                 this.bonusAttackSpeed += boostValue;
                 break;
-            case moveSpeed:
+            case MOVE_SPEED:
                 this.bonusMoveSpeed += boostValue;
                 break;
-            case maxHp:
+            case MAX_HP:
                 this.bonusHp += boostValue;
                 break;
-            case currentHp:
+            case CURRENT_HP:
                 this.currentHp += boostValue;
                 break;
             default:

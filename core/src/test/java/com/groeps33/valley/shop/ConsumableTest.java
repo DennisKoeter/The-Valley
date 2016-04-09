@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class ConsumableTest {
     Consumable c;
     String name = "health potion";
-    Stats stat = Stats.maxHp;
+    Stat stat = Stat.MAX_HP;
     int boost = 10;
     int cost = 100;
 
@@ -27,16 +27,16 @@ public class ConsumableTest {
 
     @Test
     public void testGetStat() throws Exception {
-
+        assertEquals("stats are not equal", c.getStat(), stat);
     }
 
     @Test
     public void testGetBoost() throws Exception {
-
+        assertEquals("boosts are not equal", c.getBoost(), boost);
     }
 
     @Test
     public void testGetCost() throws Exception {
-
+        assertEquals("costs are not equal", c.getCost(), cost);
     }
 }

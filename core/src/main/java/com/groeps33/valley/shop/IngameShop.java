@@ -24,11 +24,11 @@ public class IngameShop {
     }
 
     /**
-     * returns an iterator containing all the consumables the shop has to offer.
-     * @return an iterator containing all the consumables in the shop.
+     * returns a list containing all the consumables the shop has to offer.
+     * @return a list containing all the consumables in the shop.
      */
-    public Iterator<Consumable> getConsumables(){
-        return this.consumables.iterator();
+    public List<Consumable> getConsumables(){
+        return this.consumables;
     }
 
     /**

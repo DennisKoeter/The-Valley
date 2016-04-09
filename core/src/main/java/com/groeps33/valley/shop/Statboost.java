@@ -1,18 +1,16 @@
 package com.groeps33.valley.shop;
 
-import com.groeps33.valley.entity.Character;
-
 /**
  * Created by Dennis on 06/04/16.
  */
 public class Statboost {
     private String name;
-    private Stats stat;
+    private Stat stat;
     private int boost;
     private int cost;
     private int duration;
 
-    public Statboost(String name, Stats stat, int cost, int boost, int duration) {
+    public Statboost(String name, Stat stat, int cost, int boost, int duration) {
         this.name = name;
         this.stat = stat;
         this.cost = cost;
@@ -24,7 +22,7 @@ public class Statboost {
         return name;
     }
 
-    public Stats getStat() {
+    public Stat getStat() {
         return stat;
     }
 
@@ -42,7 +40,7 @@ public class Statboost {
 
     /**
      * reduces the duration of the statboost
-     * @param amount the amount by which the duration will be reduced
+     * @param amount the amount by which the duration will be reduced, can be negative for increase
      */
     public void reduceDuration(int amount){
         this.duration -= amount;
