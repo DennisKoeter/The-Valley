@@ -55,6 +55,6 @@ public class IngameShopTest {
 
     @Test
     public void testBuyConsumable() throws Exception {
-        //TODO
+        //Todo
     }
 }

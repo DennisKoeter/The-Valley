@@ -1,6 +1,8 @@
 package com.groeps33.valley.lobby;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import com.groeps33.valley.entity.Character;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Edwin
@@ -12,6 +14,7 @@ public class Lobby {
     int playerAmount;
     String password;
     Character creator;
+    List<Character> characters;
 
     public int getId() {
         return id;
@@ -33,16 +36,31 @@ public class Lobby {
         return creator;
     }
 
+    public List<Character> getCharacters(){ return this.characters; }
+
+    /**
+     * creates a new lobby
+     * @param id the lobby id
+     * @param name the name of the lobby
+     * @param playerAmount the amount of players allowed
+     * @param password the password, if none is set it will be an empty string like: ""
+     * @param creator the creator of the lobby
+     */
     public Lobby(int id, String name, int playerAmount, String password, Character creator) {
         this.id = id;
         this.name = name;
         this.playerAmount = playerAmount;
-        this.password = password;
+        if(password == null) password = "";
+        else this.password = password;
         this.creator = creator;
+        this.characters = new ArrayList<Character>();
     }
 
     public boolean addCharacter(Character chr, String passwd) {
-        //todo: add a character to the lobby, returning true if it's succeeded, false if it didn't. Check for the password integrity
-        throw new NotImplementedException();
+        if(this.password == passwd) {
+            characters.add(chr);
+            return true;
+        }
+        return false;
     }
 }

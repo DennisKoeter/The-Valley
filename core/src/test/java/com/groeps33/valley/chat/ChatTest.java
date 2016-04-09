@@ -1,5 +1,6 @@
 package com.groeps33.valley.chat;
 
+import com.groeps33.valley.entity.Character;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,10 +9,12 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+
 /**
  * Created by Dennis on 09/04/16.
  */
 public class ChatTest {
+    Character sender;
     ChatMessage m1;
     ChatMessage m2;
     ChatMessage m3;
@@ -21,13 +24,13 @@ public class ChatTest {
 
     @Before
     public void setUp() throws Exception {
-        //Todo add proper character instead of null
-        m1 = new ChatMessage("message one", null);
-        m2 = new ChatMessage("message two", null);
-        m3 = new ChatMessage("message three", null);
+        sender = new Character(1, 1, "sender", 10, 10, 10, 10);
+        m1 = new ChatMessage("message one", sender);
+        m2 = new ChatMessage("message two", sender);
+        m3 = new ChatMessage("message three", sender);
 
         chat = new Chat();
-        chat.sendMessage("message one", null);
+        chat.sendMessage("message one", sender);
 
         messages = new ArrayList<ChatMessage>();
         messages.add(m2);
@@ -56,8 +59,7 @@ public class ChatTest {
 
     @Test
     public void testSendMessage() throws Exception {
-        //Todo add proper character instead of null
-        chat.sendMessage("message two", null);
+        chat.sendMessage("message two", sender);
         expected.add(m2);
         assertEquals("lists are not equal", chat.getMessages(), expected);
     }

@@ -56,6 +56,6 @@ public class DoubloonShopTest {
 
     @Test
     public void testBuyStatboost() throws Exception {
-        //TODO
+        //Todo
     }
 }
