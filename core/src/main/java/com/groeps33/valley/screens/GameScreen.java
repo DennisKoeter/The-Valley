@@ -2,16 +2,12 @@ package com.groeps33.valley.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Vector3;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.renderer.OrthogonalTiledMapRendererWithSprites;
 
@@ -43,7 +39,8 @@ public class GameScreen extends TheValleyScreen {
        // playerSprite = new Sprite(playerTexture);
         tiledMapRenderer = new OrthogonalTiledMapRendererWithSprites(tiledMap);
        // tiledMapRenderer.addSprite(playerSprite);
-        tiledMapRenderer.addCharacter(character);
+        tiledMapRenderer.addEntity(character);
+        /*
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
@@ -73,6 +70,7 @@ public class GameScreen extends TheValleyScreen {
             }
 
         });
+        */
 
     }
 
@@ -82,7 +80,7 @@ public class GameScreen extends TheValleyScreen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
-        character.update(Gdx.graphics.getDeltaTime());
+        character.update(delta);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 

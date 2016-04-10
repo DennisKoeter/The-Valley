@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.groeps33.valley.shop.Consumable;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by Bram on 6-4-2016.
  */
-public class Character extends Entity  {
+public class Character extends Entity {
 
     private Consumable consumable;
     private int bonusAttackSpeed;
@@ -37,27 +38,30 @@ public class Character extends Entity  {
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
         this.statboosts = new ArrayList<Statboost>();
-        previousDirection=4;
+        previousDirection = 4;
         //Wanneer meerdere karakters gebruikt worden kan
         // in de consructor een andere spritesheet geladen worden.
         spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
-        frames = TextureRegion.split(spriteSheet,spriteSheet.getWidth()/3,spriteSheet.getHeight()/4);
-        animation = new Animation(0.10f,frames[0][0]);
-        frameTime=0;
+        frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
+        animation = new Animation(0.10f, frames[0][0]);
+        frameTime = 0;
         currentFrame = animation.getKeyFrame(frameTime);
     }
-    public int getGold(){
+
+    public int getGold() {
         return this.gold;
     }
-    public void reduceGold(int amount){
+
+    public void reduceGold(int amount) {
         this.gold -= amount;
     }
+
     public boolean useConsumable() {
-        if(this.consumable == null) return false;
+        if (this.consumable == null) return false;
         Stat stat = consumable.getStat();
         int boostValue = consumable.getBoost();
 
-        switch (stat){
+        switch (stat) {
             case DEFENCE:
                 this.bonusDefence += boostValue;
                 break;
@@ -82,83 +86,76 @@ public class Character extends Entity  {
         this.consumable = null;
         return true;
     }
-    public void addStatboost(Statboost statboost){
+
+    public void addStatboost(Statboost statboost) {
         this.statboosts.add(statboost);
     }
-    public void removeStatboost(Statboost statboost){
+
+    public void removeStatboost(Statboost statboost) {
         this.statboosts.remove(statboost);
     }
+
     public void setConsumable(Consumable consumable) {
         this.consumable = consumable;
     }
 
     @Override
     public void update(float deltaTime) {
-
-
-
-        if(Gdx.input.isKeyPressed(Input.Keys.S))
-        {
-            if (previousDirection!=0) {
-                previousDirection=0;
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            if (previousDirection != 0) {
+                previousDirection = 0;
                 frameTime = 0f;
-                animation = new Animation(0.10f,frames[0]);
+                animation = new Animation(0.10f, frames[0]);
             }
-            frameTime+=deltaTime;
-            move(0,-moveSpeed);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.A))
-        {
-            if (previousDirection!=1) {
-                previousDirection=1;
+            frameTime += deltaTime;
+            move(0, -moveSpeed);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (previousDirection != 1) {
+                previousDirection = 1;
                 frameTime = 0f;
-                animation = new Animation(0.10f,frames[1]);
+                animation = new Animation(0.10f, frames[1]);
             }
-            frameTime+=deltaTime;
-            move(-moveSpeed,0);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.D))
-        {
-            if (previousDirection!=2) {
-                previousDirection=2;
+            frameTime += deltaTime;
+            move(-moveSpeed, 0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            if (previousDirection != 2) {
+                previousDirection = 2;
                 frameTime = 0f;
-                animation = new Animation(0.10f,frames[2]);
+                animation = new Animation(0.10f, frames[2]);
             }
-            frameTime+=deltaTime;
-            move(moveSpeed,0);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.W))
-        {
-            if (previousDirection!=3) {
-                previousDirection=3;
+            frameTime += deltaTime;
+            move(moveSpeed, 0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            if (previousDirection != 3) {
+                previousDirection = 3;
                 frameTime = 0f;
-                animation = new Animation(0.10f,frames[3]);
+                animation = new Animation(0.10f, frames[3]);
             }
-            frameTime+=deltaTime;
-            move(0,moveSpeed);
+            frameTime += deltaTime;
+            move(0, moveSpeed);
         }
 
         currentFrame = animation.getKeyFrame(frameTime, true);
 
-        if(currentFrame.isFlipY())
-            currentFrame.flip(false,true);
-
-
+        if (currentFrame.isFlipY())
+            currentFrame.flip(false, true);
     }
 
-    public Vector2 getLocation()
-    {
+    @Override
+    public void draw(Batch batch) {
+        batch.draw(currentFrame, location.x, location.y);
+    }
+
+    public Vector2 getLocation() {
         return location;
     }
 
-    public TextureRegion getCurrentFrame()
-    {
+    public TextureRegion getCurrentFrame() {
         return currentFrame;
     }
 
-    public void move(float x, float y)
-    {
-        location.add(x,y);
+    public void move(float x, float y) {
+        location.add(x, y);
     }
 
     public void setPosition(float x, float y) {

@@ -1,5 +1,7 @@
 package com.groeps33.valley.entity;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+
 /**
  * Created by Bram on 6-4-2016.
  */
@@ -11,6 +13,11 @@ public class Monster extends Entity {
 
     @Override
     public void update(float deltaTime) {
+
+    }
+
+    @Override
+    public void draw(Batch batch) {
 
     }
 }
