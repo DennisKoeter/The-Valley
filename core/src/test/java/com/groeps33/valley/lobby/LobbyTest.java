@@ -17,10 +17,10 @@ public class LobbyTest {
     Character player1;
     Character player2;
     List<Character> expected;
-    int id;
-    String name;
-    int playerAmount;
-    String password;
+    int id = 1;
+    String name = "lobby";
+    int playerAmount = 4;
+    String password = "hunter2";
     Lobby lobby;
 
     @Before
@@ -29,16 +29,11 @@ public class LobbyTest {
         player1 = new Character(1, 1, "player1", 10, 10, 10, 10);
         player2 = new Character(1, 1, "player2", 10, 10, 10, 10);
 
-        expected = new ArrayList<Character>();
+        expected = new ArrayList<>();
         expected.add(player1);
 
-        id = 1;
-        name = "lobby";
-        playerAmount = 4;
-        password = "hunter2";
-
         lobby = new Lobby(id, name, playerAmount, password, creator);
-        lobby.addCharacter(player1, "hunter2");
+        lobby.addCharacter(player1, password);
     }
 
     @Test
