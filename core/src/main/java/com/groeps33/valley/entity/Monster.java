@@ -39,15 +39,15 @@ public class Monster extends Entity {
         int closestIdx = -1;
         double dist = Double.MAX_VALUE;
         if (path != null && path.size > 2) {
-            for (int i = 0; i < path.size; i+=2) {
-                double temp = Calculations.distance(path.get(i), path.get(i+1), getGridX(), getGridY());
+            for (int i = 0; i < path.size; i += 2) {
+                double temp = Calculations.distance(path.get(i), path.get(i + 1), getGridX(), getGridY());
                 if (temp < dist) {
                     dist = temp;
                     closestIdx = i;
                 }
             }
-            System.out.println(closestIdx);
-            if (closestIdx != path.size -2) {
+
+            if (closestIdx != path.size - 2) {
                 int nextX = path.get(closestIdx + 2) * 32;
                 int nextY = path.get(closestIdx + 3) * 32;
                 double angle = Math.atan2(nextY - location.y, nextX - location.x);
