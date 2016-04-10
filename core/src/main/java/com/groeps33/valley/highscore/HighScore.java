@@ -30,6 +30,14 @@ public class HighScore {
     }
 
     /**
+     * Returns an integer displaying the size of all characters in this highscore board
+     * @return size of highscore board
+     */
+    public int getAmountOfPlayers() {
+        return characterList.size();
+    }
+
+    /**
      * Clears the current board
      */
     public void clearBoard() {
