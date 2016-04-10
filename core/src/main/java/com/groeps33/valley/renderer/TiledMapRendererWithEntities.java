@@ -12,9 +12,10 @@ import java.util.List;
 
 public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
     private List<Entity> entities;
-    private int drawSpritesAfterLayer = 1;
-    public TiledMapRendererWithEntities(TiledMap map) {
+    private int drawEntitiesAfterLayer = 2;
+    public TiledMapRendererWithEntities(TiledMap map, int drawEntitiesAfterLayer) {
         super(map);
+        this.drawEntitiesAfterLayer = drawEntitiesAfterLayer;
         entities = new ArrayList<Entity>();
     }
 
@@ -31,7 +32,7 @@ public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
                 if (layer instanceof TiledMapTileLayer) {
                     renderTileLayer((TiledMapTileLayer) layer);
                     currentLayer++;
-                    if (currentLayer == drawSpritesAfterLayer) {
+                    if (currentLayer == drawEntitiesAfterLayer) {
                         for (Entity entity : entities)
                             entity.draw(this.getBatch());
                         /*

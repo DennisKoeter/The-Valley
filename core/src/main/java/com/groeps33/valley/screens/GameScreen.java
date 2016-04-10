@@ -37,13 +37,13 @@ public class GameScreen extends TheValleyScreen {
 
     @Override
     public void show() {
-        character = new Character(0,0,null,0,0,0,5);
+        character = new Character(85,3000,null,0,0,0,5);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        tiledMap = new TmxMapLoader().load("Map 1.tmx");
-        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap);
+        tiledMap = new TmxMapLoader().load("Map 2.tmx");
+        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 2);
         tiledMapRenderer.addEntity(character);
-        MapLayer collisionObjectLayer = tiledMap.getLayers().get("Collision");
+        MapLayer collisionObjectLayer = tiledMap.getLayers().get("objects");
         objects = collisionObjectLayer.getObjects();
     }
 
@@ -55,6 +55,7 @@ public class GameScreen extends TheValleyScreen {
         camera.position.set(character.getLocation().x, character.getLocation().y, 0);
         camera.update();
         character.update(delta);
+        System.out.println(character.getLocation());
         checkCollisionWithMap(character);
 
         tiledMapRenderer.setView(camera);
