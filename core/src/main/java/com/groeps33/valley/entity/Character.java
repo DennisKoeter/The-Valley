@@ -43,7 +43,7 @@ public class Character extends Entity {
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
         this.statboosts = new ArrayList<Statboost>();
-        direction = Direction.NORTH;
+        direction = Direction.SOUTH;
         //Wanneer meerdere karakters gebruikt worden kan
         // in de consructor een andere spritesheet geladen worden.
         spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
@@ -51,7 +51,6 @@ public class Character extends Entity {
         animation = new Animation(0.10f, frames[0][0]);
         frameTime = 0;
         currentFrame = animation.getKeyFrame(frameTime);
-        this.moveSpeed = 200;
     }
 
     public int getGold() {

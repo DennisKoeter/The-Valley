@@ -2,10 +2,12 @@ package com.groeps33.valley.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -13,8 +15,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.IntArray;
+import com.groeps33.valley.ai.Astar;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.entity.Entity;
+import com.groeps33.valley.entity.Monster;
 import com.groeps33.valley.renderer.TiledMapRendererWithEntities;
 
 /**
@@ -29,6 +34,7 @@ public class GameScreen extends TheValleyScreen {
     private Sprite playerSprite;
     private Character character;
     private MapObjects objects;
+    private Monster monster;
 //    private SpriteBatch spriteBash;
 
     public GameScreen(Game game) {
@@ -37,15 +43,27 @@ public class GameScreen extends TheValleyScreen {
 
     @Override
     public void show() {
-        character = new Character(85,3000,null,0,0,0,5);
+        character = new Character(85, 3000, null, 0, 0, 0, 200);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("Map 2.tmx");
         tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 2);
         tiledMapRenderer.addEntity(character);
+
+        monster = new Monster(200, 2800, null, -1, -1, -1, 100);
+        tiledMapRenderer.addEntity(monster);
+
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("objects");
         objects = collisionObjectLayer.getObjects();
     }
+
+    int lastGirdX;
+    int lastGridY;
+    int lastMonsterGridX;
+    int lastMonsterGridY;
+
+    IntArray path;
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     @Override
     public void render(float delta) {
@@ -55,10 +73,59 @@ public class GameScreen extends TheValleyScreen {
         camera.position.set(character.getLocation().x, character.getLocation().y, 0);
         camera.update();
         character.update(delta);
-        checkCollisionWithMap(character);
+        generatePathForMonster();
+        monster.update(delta);
 
+        checkCollisionWithMap(character);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+
+        //render pad voor demo
+        if (path != null) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            for (int i = 2; i < path.size; i += 2) {
+                Color color = Color.DARK_GRAY;
+                color.a = 0.5f;
+                shapeRenderer.setColor(color);
+                shapeRenderer.rect(path.get(i) * 32, path.get(i + 1) * 32, 32, 32);
+            }
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
+
+
+    }
+
+    private void generatePathForMonster() {
+        int gridX = (int) (character.getLocation().x / 32);
+        int gridy = (int) (character.getLocation().y / 32);
+        final int monsterGridX = (int) (monster.getLocation().x / 32);
+        final int monsterGridY = (int) (monster.getLocation().y / 32);
+        if (lastGirdX != gridX || lastGridY != gridy) {
+            path = new Astar(200, 200) {
+                @Override
+                public boolean isValid(int gridX, int gridY) {
+                    if (gridX == monsterGridX && gridY == monsterGridY)
+                        return true;
+
+                    Rectangle tile = new Rectangle(gridX * 32, gridY * 32, 32, 32);
+                    for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+                        Rectangle rectangle = rectangleObject.getRectangle();
+                        if (Intersector.overlaps(rectangle, tile)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }.getPath(gridX, gridy, monsterGridX, monsterGridY);
+            lastGridY = gridy;
+            lastGirdX = gridX;
+            monster.setPath(path);
+        }
     }
 
     public boolean checkCollisionWithMap(Entity entity) {

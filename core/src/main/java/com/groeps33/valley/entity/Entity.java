@@ -58,4 +58,15 @@ public abstract class Entity {
         this.location.set(x, y);
     }
 
+    public int getGridX() {
+        return Math.round(location.x / 32f);
+    }
+
+    public int getGridY() {
+        return Math.round(location.y / 32f);
+    }
+
+    public Vector2 getGridLocation() {
+        return new Vector2(getGridX(), getGridY());
+    }
 }
