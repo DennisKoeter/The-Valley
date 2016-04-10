@@ -50,7 +50,7 @@ public class GameScreen extends TheValleyScreen {
         tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 2);
         tiledMapRenderer.addEntity(character);
 
-        monster = new Monster(200, 2800, null, -1, -1, -1, 100);
+        monster = new Monster(400, 2800, null, -1, -1, -1, 100);
         tiledMapRenderer.addEntity(monster);
 
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("objects");
@@ -97,15 +97,22 @@ public class GameScreen extends TheValleyScreen {
             Gdx.gl.glDisable(GL20.GL_BLEND);
         }
 
+        checkCollisionWithMonster();
+    }
 
+    private void checkCollisionWithMonster() {
+        if (Intersector.overlaps(character.getBounds(), monster.getBounds())) {
+            character.setLocation(85, 3000);
+            monster.setLocation(400, 2800);
+        }
     }
 
     private void generatePathForMonster() {
         int gridX = (int) (character.getLocation().x / 32);
-        int gridy = (int) (character.getLocation().y / 32);
+        int gridY = (int) (character.getLocation().y / 32);
         final int monsterGridX = (int) (monster.getLocation().x / 32);
         final int monsterGridY = (int) (monster.getLocation().y / 32);
-        if (lastGirdX != gridX || lastGridY != gridy) {
+        if (lastGirdX != gridX || lastGridY != gridY) {
             path = new Astar(200, 200) {
                 @Override
                 public boolean isValid(int gridX, int gridY) {
@@ -121,9 +128,15 @@ public class GameScreen extends TheValleyScreen {
                     }
                     return true;
                 }
-            }.getPath(gridX, gridy, monsterGridX, monsterGridY);
-            lastGridY = gridy;
+            }.getPath(gridX, gridY, monsterGridX, monsterGridY);
+            lastGridY = gridY;
             lastGirdX = gridX;
+
+            for (int i = 0; i < path.size; i++) {
+                path.set(i, path.get(i) * 32);
+            }
+            path.add((int) character.getLocation().x);
+            path.add((int) character.getLocation().y);
             monster.setPath(path);
         }
     }

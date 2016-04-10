@@ -40,7 +40,7 @@ public class Monster extends Entity {
         double dist = Double.MAX_VALUE;
         if (path != null && path.size > 2) {
             for (int i = 0; i < path.size; i += 2) {
-                double temp = Calculations.distance(path.get(i), path.get(i + 1), getGridX(), getGridY());
+                double temp = Calculations.distance(path.get(i), path.get(i + 1), (int) location.x, (int) location.y);
                 if (temp < dist) {
                     dist = temp;
                     closestIdx = i;
@@ -48,10 +48,19 @@ public class Monster extends Entity {
             }
 
             if (closestIdx != path.size - 2) {
-                int nextX = path.get(closestIdx + 2) * 32;
-                int nextY = path.get(closestIdx + 3) * 32;
+                int nextX = path.get(closestIdx + 2);
+                int nextY = path.get(closestIdx + 3);
                 double angle = Math.atan2(nextY - location.y, nextX - location.x);
                 move(moveSpeed * (float) Math.cos(angle) * deltaTime, moveSpeed * (float) Math.sin(angle) * deltaTime);
+            } else {
+                int nextX = path.get(closestIdx);
+                int nextY = path.get(closestIdx + 1);
+                if (Calculations.distance(nextX, nextY, (int)location.x, (int)location.y) < 3) {
+                    path = null;
+                } else {
+                    double angle = Math.atan2(nextY - location.y, nextX - location.x);
+                    move(moveSpeed * (float) Math.cos(angle) * deltaTime, moveSpeed * (float) Math.sin(angle) * deltaTime);
+                }
             }
         }
 
