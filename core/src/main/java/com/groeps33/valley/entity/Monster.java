@@ -24,7 +24,6 @@ public class Monster extends Entity {
 
     @Override
     public Rectangle getBounds() {
-
         return null;
     }
 }

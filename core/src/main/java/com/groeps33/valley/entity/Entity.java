@@ -41,4 +41,21 @@ public abstract class Entity {
     public void onCollisionWithObject(MapObject object) {
 
     }
+
+    public void move(float x, float y) {
+        location.add(x, y);
+    }
+
+    public Vector2 getLocation() {
+        return location;
+    }
+
+    public void setLocation(Vector2 location) {
+        setLocation(location.x, location.y);
+    }
+
+    public void setLocation(float x, float y) {
+        this.location.set(x, y);
+    }
+
 }

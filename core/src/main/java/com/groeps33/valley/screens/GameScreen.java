@@ -55,7 +55,6 @@ public class GameScreen extends TheValleyScreen {
         camera.position.set(character.getLocation().x, character.getLocation().y, 0);
         camera.update();
         character.update(delta);
-        System.out.println(character.getLocation());
         checkCollisionWithMap(character);
 
         tiledMapRenderer.setView(camera);

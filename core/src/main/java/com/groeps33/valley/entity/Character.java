@@ -20,7 +20,7 @@ import java.util.List;
  * Created by Bram on 6-4-2016.
  */
 public class Character extends Entity {
-    enum Direction {NORTH, EAST, SOUTH, WEST}
+    enum Direction {SOUTH, WEST, EAST, NORTH}
 
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
@@ -38,12 +38,12 @@ public class Character extends Entity {
     private TextureRegion currentFrame;
     TextureRegion[][] frames;
     float frameTime;
-    Direction previousDirection;
+    Direction direction;
 
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
         this.statboosts = new ArrayList<Statboost>();
-        previousDirection = Direction.NORTH;
+        direction = Direction.NORTH;
         //Wanneer meerdere karakters gebruikt worden kan
         // in de consructor een andere spritesheet geladen worden.
         spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
@@ -105,51 +105,57 @@ public class Character extends Entity {
         this.consumable = consumable;
     }
 
+
+    public void setDirection(Direction direction) {
+        if (this.direction != direction) {
+            this.direction = direction;
+            frameTime = 0f;
+            animation = new Animation(0.10f, frames[direction.ordinal()]);
+        }
+    }
+
     @Override
     public void update(float deltaTime) {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (previousDirection != Direction.SOUTH) {
-                previousDirection = Direction.SOUTH;
-                frameTime = 0f;
-                animation = new Animation(0.10f, frames[0]);
-            }
-            frameTime += deltaTime;
-            move(0, -moveSpeed * deltaTime);
+            setDirection(Direction.SOUTH);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (previousDirection != Direction.WEST) {
-                previousDirection = Direction.WEST;
-                frameTime = 0f;
-                animation = new Animation(0.10f, frames[1]);
-            }
-            frameTime += deltaTime;
-            move(-moveSpeed * deltaTime, 0);
+            setDirection(Direction.WEST);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (previousDirection != Direction.EAST) {
-                previousDirection = Direction.EAST;
-                frameTime = 0f;
-                animation = new Animation(0.10f, frames[2]);
-            }
-            frameTime += deltaTime;
-            move(moveSpeed * deltaTime, 0);
+            setDirection(Direction.EAST);
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if (previousDirection != Direction.NORTH) {
-                previousDirection = Direction.NORTH;
-                frameTime = 0f;
-                animation = new Animation(0.10f, frames[3]);
-            }
-            frameTime += deltaTime;
-            move(0, moveSpeed * deltaTime);
+            setDirection(Direction.NORTH);
+        } else {
+            return;
         }
 
+        frameTime += deltaTime;
         currentFrame = animation.getKeyFrame(frameTime, true);
 
         if (currentFrame.isFlipY())
             currentFrame.flip(false, true);
+
+        move();
+    }
+
+    public void move() {
+        switch (direction) {
+            case NORTH:
+                move(0, moveSpeed * Gdx.graphics.getDeltaTime());
+                break;
+            case SOUTH:
+                move(0, -moveSpeed * Gdx.graphics.getDeltaTime());
+                break;
+            case EAST:
+                move(moveSpeed * Gdx.graphics.getDeltaTime(), 0);
+                break;
+            case WEST:
+                move(-moveSpeed * Gdx.graphics.getDeltaTime(), 0);
+        }
     }
 
     @Override
     public void onCollisionWithObject(MapObject object) {
-        switch (previousDirection) {
+        switch (direction) {
             case NORTH:
                 move(0, -moveSpeed * Gdx.graphics.getDeltaTime());
                 break;
@@ -180,13 +186,5 @@ public class Character extends Entity {
 
     public TextureRegion getCurrentFrame() {
         return currentFrame;
-    }
-
-    public void move(float x, float y) {
-        location.add(x, y);
-    }
-
-    public void setPosition(float x, float y) {
-        location.set(x, y);
     }
 }
