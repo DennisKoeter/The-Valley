@@ -22,6 +22,10 @@ public class LobbyManager {
         return lobby;
     }
 
+    /**
+     * Gets all lobbies this manager has references to
+     * @return a list of lobbies
+     */
     public List<Lobby> getLobbies(){ return this.lobbies; }
 
     /**
