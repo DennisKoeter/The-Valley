@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.groeps33.valley.shop.Consumable;
 import com.groeps33.valley.shop.Statboost;
@@ -18,7 +20,10 @@ import java.util.List;
  * Created by Bram on 6-4-2016.
  */
 public class Character extends Entity {
+    enum Direction {NORTH, EAST, SOUTH, WEST}
 
+    private static final int WIDTH = 32;
+    private static final int HEIGHT = 32;
     private Consumable consumable;
     private int bonusAttackSpeed;
     private int bonusMoveSpeed;
@@ -33,12 +38,12 @@ public class Character extends Entity {
     private TextureRegion currentFrame;
     TextureRegion[][] frames;
     float frameTime;
-    int previousDirection;
+    Direction previousDirection;
 
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
         this.statboosts = new ArrayList<Statboost>();
-        previousDirection = 4;
+        previousDirection = Direction.NORTH;
         //Wanneer meerdere karakters gebruikt worden kan
         // in de consructor een andere spritesheet geladen worden.
         spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
@@ -46,6 +51,7 @@ public class Character extends Entity {
         animation = new Animation(0.10f, frames[0][0]);
         frameTime = 0;
         currentFrame = animation.getKeyFrame(frameTime);
+        this.moveSpeed = 200;
     }
 
     public int getGold() {
@@ -102,37 +108,37 @@ public class Character extends Entity {
     @Override
     public void update(float deltaTime) {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (previousDirection != 0) {
-                previousDirection = 0;
+            if (previousDirection != Direction.SOUTH) {
+                previousDirection = Direction.SOUTH;
                 frameTime = 0f;
                 animation = new Animation(0.10f, frames[0]);
             }
             frameTime += deltaTime;
-            move(0, -moveSpeed);
+            move(0, -moveSpeed * deltaTime);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (previousDirection != 1) {
-                previousDirection = 1;
+            if (previousDirection != Direction.WEST) {
+                previousDirection = Direction.WEST;
                 frameTime = 0f;
                 animation = new Animation(0.10f, frames[1]);
             }
             frameTime += deltaTime;
-            move(-moveSpeed, 0);
+            move(-moveSpeed * deltaTime, 0);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (previousDirection != 2) {
-                previousDirection = 2;
+            if (previousDirection != Direction.EAST) {
+                previousDirection = Direction.EAST;
                 frameTime = 0f;
                 animation = new Animation(0.10f, frames[2]);
             }
             frameTime += deltaTime;
-            move(moveSpeed, 0);
+            move(moveSpeed * deltaTime, 0);
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if (previousDirection != 3) {
-                previousDirection = 3;
+            if (previousDirection != Direction.NORTH) {
+                previousDirection = Direction.NORTH;
                 frameTime = 0f;
                 animation = new Animation(0.10f, frames[3]);
             }
             frameTime += deltaTime;
-            move(0, moveSpeed);
+            move(0, moveSpeed * deltaTime);
         }
 
         currentFrame = animation.getKeyFrame(frameTime, true);
@@ -142,8 +148,30 @@ public class Character extends Entity {
     }
 
     @Override
+    public void onCollisionWithObject(MapObject object) {
+        switch (previousDirection) {
+            case NORTH:
+                move(0, -moveSpeed * Gdx.graphics.getDeltaTime());
+                break;
+            case SOUTH:
+                move(0, moveSpeed * Gdx.graphics.getDeltaTime());
+                break;
+            case EAST:
+                move(-moveSpeed * Gdx.graphics.getDeltaTime(), 0);
+                break;
+            case WEST:
+                move(moveSpeed * Gdx.graphics.getDeltaTime(), 0);
+        }
+    }
+
+    @Override
     public void draw(Batch batch) {
         batch.draw(currentFrame, location.x, location.y);
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle(location.x, location.y, WIDTH, HEIGHT);
     }
 
     public Vector2 getLocation() {
