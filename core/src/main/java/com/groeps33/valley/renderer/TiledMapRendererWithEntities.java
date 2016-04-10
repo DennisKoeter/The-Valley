@@ -10,10 +10,10 @@ import com.groeps33.valley.entity.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrthogonalTiledMapRendererWithSprites extends OrthogonalTiledMapRenderer {
+public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
     private List<Entity> entities;
     private int drawSpritesAfterLayer = 1;
-    public OrthogonalTiledMapRendererWithSprites(TiledMap map) {
+    public TiledMapRendererWithEntities(TiledMap map) {
         super(map);
         entities = new ArrayList<Entity>();
     }
