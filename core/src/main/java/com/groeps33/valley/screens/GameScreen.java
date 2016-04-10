@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.groeps33.valley.entity.Character;
-import com.groeps33.valley.renderer.OrthogonalTiledMapRendererWithSprites;
+import com.groeps33.valley.renderer.TiledMapRendererWithEntities;
 
 /**
  * Created by Bram on 6-4-2016.
@@ -18,7 +18,7 @@ public class GameScreen extends TheValleyScreen {
 
     private TiledMap tiledMap;
     private OrthographicCamera camera;
-    private OrthogonalTiledMapRendererWithSprites tiledMapRenderer;
+    private TiledMapRendererWithEntities tiledMapRenderer;
     private Texture playerTexture;
     private Sprite playerSprite;
     private Character character;
@@ -37,7 +37,7 @@ public class GameScreen extends TheValleyScreen {
 //        spriteBash = new SpriteBatch();
      //  playerTexture = new Texture(character.getCurrentFrame()));
        // playerSprite = new Sprite(playerTexture);
-        tiledMapRenderer = new OrthogonalTiledMapRendererWithSprites(tiledMap);
+        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap);
        // tiledMapRenderer.addSprite(playerSprite);
         tiledMapRenderer.addEntity(character);
         /*
@@ -79,26 +79,11 @@ public class GameScreen extends TheValleyScreen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.position.set(character.getLocation().x, character.getLocation().y, 0);
         camera.update();
         character.update(delta);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-
-//        character.update(Gdx.graphics.getDeltaTime());
-//
-//        spriteBash.begin();
-//        spriteBash.draw(character.getCurrentFrame(),character.getLocation().x,character.getLocation().y);
-//        spriteBash.end();
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//            playerSprite.setPosition(playerSprite.getX(), playerSprite.getY() + 1);
-//        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//            playerSprite.setPosition(playerSprite.getX(), playerSprite.getY() - 1);
-//        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//            playerSprite.setPosition(playerSprite.getX() - 1, playerSprite.getY());
-//        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//            playerSprite.setPosition(playerSprite.getX() + 1, playerSprite.getY());
-//        }
     }
 
     @Override
