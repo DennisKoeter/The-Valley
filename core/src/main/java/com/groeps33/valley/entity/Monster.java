@@ -51,7 +51,8 @@ public class Monster extends Entity {
                 int nextX = path.get(closestIdx + 2);
                 int nextY = path.get(closestIdx + 3);
                 double angle = Math.atan2(nextY - location.y, nextX - location.x);
-                move(moveSpeed * (float) Math.cos(angle) * deltaTime, moveSpeed * (float) Math.sin(angle) * deltaTime);
+                velocity.set(moveSpeed * (float) Math.cos(angle) * deltaTime, moveSpeed * (float) Math.sin(angle) * deltaTime);
+                move();
             } else {
                 int nextX = path.get(closestIdx);
                 int nextY = path.get(closestIdx + 1);
@@ -59,7 +60,8 @@ public class Monster extends Entity {
                     path = null;
                 } else {
                     double angle = Math.atan2(nextY - location.y, nextX - location.x);
-                    move(moveSpeed * (float) Math.cos(angle) * deltaTime, moveSpeed * (float) Math.sin(angle) * deltaTime);
+                    velocity.set(moveSpeed * (float) Math.cos(angle) * deltaTime, moveSpeed * (float) Math.sin(angle) * deltaTime);
+                    move();
                 }
             }
         }

@@ -115,28 +115,50 @@ public class Character extends Entity {
 
     @Override
     public void update(float deltaTime) {
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            setDirection(Direction.SOUTH);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            setDirection(Direction.WEST);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            setDirection(Direction.EAST);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            setDirection(Direction.NORTH);
-        } else {
-            return;
+
+        velocity.set(0,0);
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            velocity.x = deltaTime * -moveSpeed;
         }
 
-        frameTime += deltaTime;
-        currentFrame = animation.getKeyFrame(frameTime, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            velocity.x = deltaTime * moveSpeed;
+        }
 
-        if (currentFrame.isFlipY())
-            currentFrame.flip(false, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            velocity.y = deltaTime * moveSpeed;
+        }
 
-        move();
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            velocity.y = deltaTime * -moveSpeed;
+        }
+
+        if (velocity.y != 0) {
+            if (velocity.y > 0) {
+                setDirection(Direction.NORTH);
+            } else {
+                setDirection(Direction.SOUTH);
+            }
+        } else if (velocity.x > 0) {
+            setDirection(Direction.EAST);
+        } else {
+            setDirection(Direction.WEST);
+        }
+
+        if (velocity.x != 0 || velocity.y != 0) {
+            frameTime += deltaTime;
+            currentFrame = animation.getKeyFrame(frameTime, true);
+
+            if (currentFrame.isFlipY())
+                currentFrame.flip(false, true);
+
+            move();
+        }
     }
 
+    /*
     private void move() {
+        /*
         switch (direction) {
             case NORTH:
                 move(0, moveSpeed * Gdx.graphics.getDeltaTime());
@@ -151,22 +173,28 @@ public class Character extends Entity {
                 move(-moveSpeed * Gdx.graphics.getDeltaTime(), 0);
         }
     }
+
+        */
 
     @Override
     public void onCollisionWithObject(MapObject object) {
+        /*
         switch (direction) {
             case NORTH:
-                move(0, -moveSpeed * Gdx.graphics.getDeltaTime());
+                velocity.set(0, -moveSpeed * Gdx.graphics.getDeltaTime());
                 break;
             case SOUTH:
-                move(0, moveSpeed * Gdx.graphics.getDeltaTime());
+                velocity.set(0, moveSpeed * Gdx.graphics.getDeltaTime());
                 break;
             case EAST:
-                move(-moveSpeed * Gdx.graphics.getDeltaTime(), 0);
+                velocity.set(-moveSpeed * Gdx.graphics.getDeltaTime(), 0);
                 break;
             case WEST:
-                move(moveSpeed * Gdx.graphics.getDeltaTime(), 0);
+                velocity.set(moveSpeed * Gdx.graphics.getDeltaTime(), 0);
         }
+        */
+        velocity.set(-velocity.x, -velocity.y);
+        move();
     }
 
     @Override

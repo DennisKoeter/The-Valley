@@ -10,15 +10,15 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Entity {
 
-    private String name;
-    int currentHp;
-    private int maxHp;
-    private int defence;
-    private int attackDamage;
+    protected String name;
+    protected int currentHp;
+    protected int maxHp;
+    protected int defence;
+    protected int attackDamage;
     protected int attackSpeed;
-    int moveSpeed;
-    Vector2 location;
-    private Vector2 velocity;
+    protected int moveSpeed;
+    protected Vector2 location;
+    protected Vector2 velocity;
 
     Entity(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         this.name = name;
@@ -42,8 +42,8 @@ public abstract class Entity {
 
     }
 
-    void move(float x, float y) {
-        location.add(x, y);
+    void move() {
+        location.add(velocity);
     }
 
     public Vector2 getLocation() {
