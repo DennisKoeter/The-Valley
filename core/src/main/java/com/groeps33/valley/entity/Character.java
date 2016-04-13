@@ -211,7 +211,7 @@ public class Character extends Entity {
         return location;
     }
 
-    public TextureRegion getCurrentFrame() {
-        return currentFrame;
+    public Animation getCharacterAnimator() {
+        return animation = new Animation(0.10f , frames[0]);
     }
 }
