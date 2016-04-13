@@ -13,15 +13,15 @@ import static org.junit.Assert.*;
  * Created by Dennis on 09/04/16.
  */
 public class LobbyTest {
-    Character creator;
-    Character player1;
-    Character player2;
-    List<Character> expected;
-    int id = 1;
-    String name = "lobby";
-    int playerAmount = 4;
-    String password = "hunter2";
-    Lobby lobby;
+    private Character creator;
+    private Character player1;
+    private Character player2;
+    private List<Character> expected;
+    private int id = 1;
+    private String name = "lobby";
+    private int playerAmount = 4;
+    private String password = "hunter2";
+    private Lobby lobby;
 
     @Before
     public void setUp() throws Exception {

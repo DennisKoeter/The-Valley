@@ -12,10 +12,10 @@ import static org.junit.Assert.*;
  * Created by Dennis on 09/04/16.
  */
 public class IngameShopTest {
-    Consumable c1;
-    Consumable c2;
-    IngameShop shop;
-    List<Consumable> expected;
+    private Consumable c1;
+    private Consumable c2;
+    private IngameShop shop;
+    private List<Consumable> expected;
 
     @Before
     public void setUp() throws Exception {

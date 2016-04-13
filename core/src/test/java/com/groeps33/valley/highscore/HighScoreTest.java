@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class HighScoreTest {
 
-    HighScore highscore;
+    private HighScore highscore;
     int maxPlayers = 5;
 
     @Before

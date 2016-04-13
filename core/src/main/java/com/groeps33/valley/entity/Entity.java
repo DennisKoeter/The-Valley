@@ -10,17 +10,17 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Entity {
 
-    protected String name;
-    protected int currentHp;
-    protected int maxHp;
-    protected int defence;
-    protected int attackDamage;
+    private String name;
+    int currentHp;
+    private int maxHp;
+    private int defence;
+    private int attackDamage;
     protected int attackSpeed;
-    protected int moveSpeed;
-    protected Vector2 location;
-    protected Vector2 velocity;
+    int moveSpeed;
+    Vector2 location;
+    private Vector2 velocity;
 
-    public Entity(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
+    Entity(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         this.name = name;
         this.maxHp = maxHp;
         this.defence = defence;
@@ -42,7 +42,7 @@ public abstract class Entity {
 
     }
 
-    public void move(float x, float y) {
+    void move(float x, float y) {
         location.add(x, y);
     }
 
@@ -58,11 +58,11 @@ public abstract class Entity {
         this.location.set(x, y);
     }
 
-    public int getGridX() {
+    private int getGridX() {
         return Math.round(location.x / 32f);
     }
 
-    public int getGridY() {
+    private int getGridY() {
         return Math.round(location.y / 32f);
     }
 

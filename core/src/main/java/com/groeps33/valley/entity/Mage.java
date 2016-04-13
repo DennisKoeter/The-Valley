@@ -4,7 +4,7 @@ package com.groeps33.valley.entity;
  * @author Edwin
  *         Created on 4/6/2016
  */
-public class Mage extends Character{
+class Mage extends Character{
 
     private int fireBallDmg;
 

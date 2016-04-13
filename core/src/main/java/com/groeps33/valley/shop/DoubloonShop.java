@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * Created by Dennis on 06/04/16.
  */
-public class DoubloonShop {
-    List<Statboost> statboosts;
+class DoubloonShop {
+    private List<Statboost> statboosts;
 
     public DoubloonShop(){
         this.statboosts = new ArrayList<Statboost>();

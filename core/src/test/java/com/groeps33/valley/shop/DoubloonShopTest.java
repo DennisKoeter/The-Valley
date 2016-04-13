@@ -13,10 +13,10 @@ import static org.junit.Assert.*;
  * Created by Dennis on 09/04/16.
  */
 public class DoubloonShopTest {
-    Statboost s1;
-    Statboost s2;
-    DoubloonShop shop;
-    List<Statboost> expected;
+    private Statboost s1;
+    private Statboost s2;
+    private DoubloonShop shop;
+    private List<Statboost> expected;
 
     @Before
     public void setUp() throws Exception {

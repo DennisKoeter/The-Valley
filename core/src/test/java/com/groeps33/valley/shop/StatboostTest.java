@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
  */
 public class StatboostTest {
     private Statboost statboost;
-    String name = "health boost";
-    Stat stat = Stat.MAX_HP;
-    int cost = 100;
-    int boost = 10;
-    int duration = 5;
+    private String name = "health boost";
+    private Stat stat = Stat.MAX_HP;
+    private int cost = 100;
+    private int boost = 10;
+    private int duration = 5;
 
     @Before
     public void setUp() throws Exception {

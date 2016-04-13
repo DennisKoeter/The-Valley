@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Edwin
  *         Created on 4/6/2016
  */
-public class ChatMessage {
+class ChatMessage {
     private String textMessage;
     private LocalDateTime sendTime;
     private Character sender;

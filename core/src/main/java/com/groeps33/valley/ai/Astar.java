@@ -7,7 +7,7 @@ public class Astar {
     private final int width, height;
     private final BinaryHeap<PathNode> open;
     private final PathNode[] nodes;
-    int runID;
+    private int runID;
     private final IntArray path = new IntArray();
     private int targetX, targetY;
     private int startX;

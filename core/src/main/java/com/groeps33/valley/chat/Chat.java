@@ -8,7 +8,7 @@ import java.util.List;
  * @author Edwin
  *         Created on 4/6/2016
  */
-public class Chat {
+class Chat {
     private List<ChatMessage> messages;
 
     public List<ChatMessage> getMessages() {

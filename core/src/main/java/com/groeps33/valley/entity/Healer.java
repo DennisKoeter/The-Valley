@@ -4,7 +4,7 @@ package com.groeps33.valley.entity;
  * @author Edwin
  *         Created on 4/6/2016
  */
-public class Healer extends Character{
+class Healer extends Character{
 
     private int healAmount;
 

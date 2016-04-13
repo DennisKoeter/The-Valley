@@ -9,8 +9,8 @@ import java.util.List;
  * @author Edwin
  * Created on 4/6/2016
  */
-public class LobbyManager {
-    List<Lobby> lobbies;
+class LobbyManager {
+    private List<Lobby> lobbies;
 
     /**
      * Creates a new lobby and puts it in this class' list

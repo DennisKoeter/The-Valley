@@ -14,13 +14,13 @@ import static org.junit.Assert.*;
  * Created by Dennis on 09/04/16.
  */
 public class ChatTest {
-    Character sender;
-    ChatMessage m1;
-    ChatMessage m2;
-    ChatMessage m3;
-    Chat chat;
-    List<ChatMessage> messages;
-    List<ChatMessage> expected;
+    private Character sender;
+    private ChatMessage m1;
+    private ChatMessage m2;
+    private ChatMessage m3;
+    private Chat chat;
+    private List<ChatMessage> messages;
+    private List<ChatMessage> expected;
 
     @Before
     public void setUp() throws Exception {
@@ -35,7 +35,7 @@ public class ChatTest {
         messages = new ArrayList<ChatMessage>();
         messages.add(m2);
 
-        expected = new ArrayList<ChatMessage>();
+        expected = new ArrayList<>();
         expected.add(m1);
     }
 

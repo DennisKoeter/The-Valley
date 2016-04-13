@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * Created by Bram on 6-4-2016.
  */
-public class IntroScreen extends TheValleyScreen {
+class IntroScreen extends TheValleyScreen {
 
     private final SpriteBatch spriteBatch;
     private final Texture splashTexture;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
  * @author Edwin
  *         Created on 4/6/2016
  */
-public class Projectile {
+class Projectile {
     private Vector2 location;
     private Vector2 velocity;
     private int damage;

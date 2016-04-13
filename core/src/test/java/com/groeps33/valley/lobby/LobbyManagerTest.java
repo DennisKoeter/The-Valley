@@ -13,9 +13,9 @@ import static org.junit.Assert.*;
  * Created by Dennis on 09/04/16.
  */
 public class LobbyManagerTest {
-    Character creator;
-    LobbyManager lobbyManager;
-    List<Lobby> expected;
+    private Character creator;
+    private LobbyManager lobbyManager;
+    private List<Lobby> expected;
 
     @Before
     public void setUp() throws Exception {

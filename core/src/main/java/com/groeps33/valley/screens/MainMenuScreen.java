@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 /**
  * Created by Bram on 6-4-2016.
  */
-public class MainMenuScreen extends TheValleyScreen {
+class MainMenuScreen extends TheValleyScreen {
 
     protected MainMenuScreen(Game game) {
         super(game);

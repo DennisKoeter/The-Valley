@@ -8,7 +8,7 @@ import com.groeps33.valley.entity.Character;
 /**
  * Created by Robin on 6-4-2016.
  */
-public class IngameShop {
+class IngameShop {
     private List<Consumable> consumables;
 
     public IngameShop(){

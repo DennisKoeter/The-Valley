@@ -36,9 +36,9 @@ public class Character extends Entity {
     private Animation animation;
     private Texture spriteSheet;
     private TextureRegion currentFrame;
-    TextureRegion[][] frames;
-    float frameTime;
-    Direction direction;
+    private TextureRegion[][] frames;
+    private float frameTime;
+    private Direction direction;
 
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
@@ -105,7 +105,7 @@ public class Character extends Entity {
     }
 
 
-    public void setDirection(Direction direction) {
+    private void setDirection(Direction direction) {
         if (this.direction != direction) {
             this.direction = direction;
             frameTime = 0f;
@@ -136,7 +136,7 @@ public class Character extends Entity {
         move();
     }
 
-    public void move() {
+    private void move() {
         switch (direction) {
             case NORTH:
                 move(0, moveSpeed * Gdx.graphics.getDeltaTime());

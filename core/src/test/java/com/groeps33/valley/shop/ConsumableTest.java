@@ -9,11 +9,11 @@ import static org.junit.Assert.*;
  * Created by Dennis on 09/04/16.
  */
 public class ConsumableTest {
-    Consumable c;
-    String name = "health potion";
-    Stat stat = Stat.MAX_HP;
-    int boost = 10;
-    int cost = 100;
+    private Consumable c;
+    private String name = "health potion";
+    private Stat stat = Stat.MAX_HP;
+    private int boost = 10;
+    private int cost = 100;
 
     @Before
     public void setUp() throws Exception {

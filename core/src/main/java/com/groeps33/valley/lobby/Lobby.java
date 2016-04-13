@@ -9,12 +9,12 @@ import java.util.ArrayList;
  * Created on 4/6/2016
  */
 public class Lobby {
-    int id;
-    String name;
-    int playerAmount;
-    String password;
-    Character creator;
-    List<Character> characters;
+    private int id;
+    private String name;
+    private int playerAmount;
+    private String password;
+    private Character creator;
+    private List<Character> characters;
 
     public int getId() {
         return id;

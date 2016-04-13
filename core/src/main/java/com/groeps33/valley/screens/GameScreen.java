@@ -57,13 +57,13 @@ public class GameScreen extends TheValleyScreen {
         objects = collisionObjectLayer.getObjects();
     }
 
-    int lastGirdX;
-    int lastGridY;
+    private int lastGirdX;
+    private int lastGridY;
     int lastMonsterGridX;
     int lastMonsterGridY;
 
-    IntArray path;
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private IntArray path;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     @Override
     public void render(float delta) {
@@ -141,7 +141,7 @@ public class GameScreen extends TheValleyScreen {
         }
     }
 
-    public boolean checkCollisionWithMap(Entity entity) {
+    private boolean checkCollisionWithMap(Entity entity) {
         for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
             Rectangle rectangle = rectangleObject.getRectangle();
             if (Intersector.overlaps(rectangle, entity.getBounds())) {

@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * Created by Dennis on 09/04/16.
  */
 public class ChatMessageTest {
-    Character sender;
+    private Character sender;
 
     @Before
     public void setUp() throws Exception {
