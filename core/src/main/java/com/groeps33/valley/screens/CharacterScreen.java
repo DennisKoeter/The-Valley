@@ -5,10 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.groeps33.valley.entity.Character;
 
@@ -40,6 +42,19 @@ public class CharacterScreen extends TheValleyScreen {
         iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/warrior.png"))));
         iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/mage.png"))));
 
+        Gdx.input.setInputProcessor(stage);
+        iButton1.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new GameScreen(game));
+            }
+        });
+        iButton2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new GameScreen(game));
+            }
+        });
 
         rootTable.add(iButton1);
         rootTable.pad(20);
