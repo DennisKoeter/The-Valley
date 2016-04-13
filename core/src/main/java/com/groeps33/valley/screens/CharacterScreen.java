@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -18,6 +19,7 @@ public class CharacterScreen extends TheValleyScreen {
 
     private final SpriteBatch spriteBatch;
     private final Texture splashTexture;
+    Stage stage;
 
     private Character ch1;
     private Character ch2;
@@ -25,26 +27,26 @@ public class CharacterScreen extends TheValleyScreen {
 
     ImageButton iButton1;
     ImageButton iButton2;
-    ImageButton iButton3;
 
     Table rootTable;
 
     CharacterScreen(Game game) {
         super(game);
-
+        stage = new Stage();
         spriteBatch = new SpriteBatch();
         splashTexture = new Texture("menus/front(login).png");
-//        rootTable = new Table();
-//        ch1 = new Character(85, 3000, null, 0, 0, 0, 200);
-//        TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(ch1.getCharacterAnimator().getKeyFrame(10f,true));
-//
-//
-//        iButton1 = new ImageButton()
-//        iButton1.setBackground(textureRegionDrawable);
-//        rootTable.add(iButton1);
-//        rootTable.add(iButton2);
-//        rootTable.add(iButton3);
+        rootTable = new Table();
 
+        iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/warrior.png"))));
+        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/mage.png"))));
+
+
+        rootTable.add(iButton1);
+        rootTable.pad(20);
+        rootTable.add(iButton2);
+        stage.addActor(rootTable);
+        rootTable.setFillParent(true);
+        rootTable.center();
     }
 
     @Override
@@ -57,6 +59,7 @@ public class CharacterScreen extends TheValleyScreen {
         spriteBatch.begin();
         spriteBatch.draw(splashTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         spriteBatch.end();
+        stage.draw();
 
     }
 
