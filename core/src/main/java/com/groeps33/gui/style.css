@@ -33,6 +33,7 @@
 .container {
     -fx-padding: 15000%;
     /*-fx-background-color: greenyellow;*/
+    -fx-spacing: 25px;
 }
 
 /*Button info*/
