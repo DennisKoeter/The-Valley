@@ -35,7 +35,7 @@ public class ChatTest {
         messages = new ArrayList<ChatMessage>();
         messages.add(m2);
 
-        expected = new ArrayList<>();
+        expected = new ArrayList();
         expected.add(m1);
     }
 

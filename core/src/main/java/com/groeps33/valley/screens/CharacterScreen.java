@@ -32,7 +32,7 @@ public class CharacterScreen extends TheValleyScreen {
 
     Table rootTable;
 
-    CharacterScreen(Game game) {
+    CharacterScreen(final Game game) {
         super(game);
         stage = new Stage();
         spriteBatch = new SpriteBatch();

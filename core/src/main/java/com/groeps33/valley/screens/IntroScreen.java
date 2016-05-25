@@ -30,7 +30,7 @@ public class IntroScreen extends TheValleyScreen {
     private Table rootTable;
 
 
-    public IntroScreen(Game game) {
+    public IntroScreen(final Game game) {
         super(game);
         rootTable = new Table();
         rootTable.setFillParent(true);
