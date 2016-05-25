@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="body" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.menu.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="body" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.menu.Controller">
    <children>
       <HBox layoutX="460.0" layoutY="404.0" prefHeight="515.0" prefWidth="991.0" styleClass="container">
          <children>
@@ -50,4 +51,8 @@
    <cursor>
       <Cursor fx:constant="HAND" />
    </cursor>
+   <stylesheets>
+      <URL value="@../style.css" />
+      <URL value="@style.css" />
+   </stylesheets>
 </AnchorPane>
