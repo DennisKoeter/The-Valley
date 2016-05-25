@@ -12,6 +12,6 @@ import java.io.IOException;
 public class Controller {
     @FXML
     private void back() throws IOException {
-        ValleyFX.changeScene("start");
+        ValleyFX.changeScene(getClass().getResource("start.start.fxml"));
     }
 }
