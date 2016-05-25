@@ -2,7 +2,6 @@ package com.groeps33.gui.highscores;
 
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 

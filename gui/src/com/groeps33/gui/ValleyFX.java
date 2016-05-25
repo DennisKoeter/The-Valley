@@ -1,4 +1,4 @@
-package com.groeps33.valley.gui;/**
+package com.groeps33.gui;/**
  * Created by Dennis on 25/05/16.
  */
 
@@ -18,7 +18,7 @@ public class ValleyFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        System.out.print(getClass().getResource("login.fxml"));
+        System.out.print(getClass().getResource("login/login.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
 //        Scene scene = new Scene(root);
 //        //stage = primaryStage;

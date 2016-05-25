@@ -1,4 +1,4 @@
-package com.groeps33.valley.desktop;
+package com.groeps33.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;

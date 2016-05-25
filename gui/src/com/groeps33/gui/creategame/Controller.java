@@ -1,4 +1,4 @@
-package com.groeps33.gui.create;
+package com.groeps33.gui.creategame;
 
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
