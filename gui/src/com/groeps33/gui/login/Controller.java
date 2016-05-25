@@ -21,12 +21,18 @@ public class Controller {
     private void login() throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        if(checkLogin(username, password)) ValleyFX.changeScene(getClass().getResource("../main/main.fxml"));
+        if(checkLogin(username, password)) ValleyFX.changeScene(getClass().getResource("../menu/menu.fxml"));
     }
 
     @FXML
     private void register() throws IOException {
         ValleyFX.changeScene(getClass().getResource("../register/register.fxml"));
+    }
+
+    @FXML
+    private void forgot() throws IOException {
+        //TODO implement password forgotten functionality
+        ValleyFX.changeScene(getClass().getResource("../forgotten/forgotten.fxml"));
     }
 
     private boolean checkLogin(String username, String password){

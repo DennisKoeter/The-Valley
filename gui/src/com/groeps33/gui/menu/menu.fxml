@@ -15,28 +15,28 @@
             <VBox minWidth="149.0" prefHeight="515.0" prefWidth="149.0" styleClass="side" />
             <VBox prefHeight="515.0" prefWidth="433.0" styleClass="middle">
                <children>
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Create Game" />
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Join Game">
+                  <Button mnemonicParsing="false" onAction="#createGame" styleClass="btn_confirm" text="Create Game" />
+                  <Button mnemonicParsing="false" onAction="#joinGame" styleClass="btn_confirm" text="Join Game">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Settings">
+                  <Button mnemonicParsing="false" onAction="#settings" styleClass="btn_confirm" text="Settings">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Highscores">
+                  <Button mnemonicParsing="false" onAction="#highscores" styleClass="btn_confirm" text="Highscores">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Doubloon Shop">
+                  <Button mnemonicParsing="false" onAction="#doubloonShop" styleClass="btn_confirm" text="Doubloon Shop">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Log Out">
+                  <Button mnemonicParsing="false" onAction="#logOut" styleClass="btn_confirm" text="Log Out">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
