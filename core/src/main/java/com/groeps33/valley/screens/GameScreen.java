@@ -135,6 +135,7 @@ public class GameScreen extends TheValleyScreen {
             for (int i = 0; i < path.size; i++) {
                 path.set(i, path.get(i) * 32);
             }
+
             path.add((int) character.getLocation().x);
             path.add((int) character.getLocation().y);
             monster.setPath(path);
