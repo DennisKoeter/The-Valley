@@ -1,6 +1,7 @@
-package com.groeps33.gui.highscores;
+package com.groeps33.gui.create;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -8,7 +9,16 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Controller {
     @FXML
-    private void back(){
+    TextField name;
+
+    @FXML
+    TextField maxPlayers;
+
+    @FXML
+    TextField password;
+
+    @FXML
+    private void confirm(){
         throw new NotImplementedException();
     }
 }

@@ -1,4 +1,4 @@
-package com.groeps33.gui.highscores;
+package com.groeps33.gui.games;
 
 import javafx.fxml.FXML;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -9,6 +9,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Controller {
     @FXML
     private void back(){
+        throw new NotImplementedException();
+    }
+
+    @FXML
+    private void confirm(){
         throw new NotImplementedException();
     }
 }
