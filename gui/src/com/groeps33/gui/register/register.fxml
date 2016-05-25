@@ -8,7 +8,6 @@
       <VBox alignment="CENTER" layoutX="500.0" layoutY="300.0" prefHeight="680.0" prefWidth="920.0" styleClass="container">
          <children>
             <Button mnemonicParsing="false" styleClass="main_button" text="Button" />
-            <Button mnemonicParsing="false" styleClass="main_button" text="Button" />
          </children></VBox>
    </children>
 </AnchorPane>

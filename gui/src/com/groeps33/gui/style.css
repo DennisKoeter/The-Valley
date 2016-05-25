@@ -73,7 +73,7 @@
 }
 
 .button {
-    -fx-text-fill: -white;
+    -fx-text-fill: white;
 }
 
 /*.body .label {*/

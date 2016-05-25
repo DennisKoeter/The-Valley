@@ -24,6 +24,6 @@ public class Controller {
 
     @FXML
     private void register() throws IOException {
-        ValleyFX.changeScene(getClass().getResource("register.register.fxml"));
+        ValleyFX.changeScene(getClass().getResource("../register/register.fxml"));
     }
 }
