@@ -32,7 +32,7 @@ public class Controller {
     }
 
     @FXML
-    private void doubloonStore(){
+    private void doubloonShop(){
         throw new NotImplementedException();
     }
 

@@ -28,7 +28,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Hyperlink text="I forgot my password" />
+                  <Hyperlink onAction="#forgot" text="I forgot my password" />
                </children>
             </VBox>
             <VBox prefHeight="515.0" prefWidth="124.0" styleClass="side" />
