@@ -1,11 +1,8 @@
-package com.groeps33.gui;/**
+package com.groeps33.valley.gui;/**
  * Created by Dennis on 25/05/16.
  */
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
