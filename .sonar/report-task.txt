@@ -1,0 +1,5 @@
+projectKey=groep_s33e_source_coude_The-Valley
+serverUrl=http://localhost:9000
+dashboardUrl=http://localhost:9000/dashboard/index/groep_s33e_source_coude_The-Valley
+ceTaskId=AVSUqyi4QvE2NHmCwAOM
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AVSUqyi4QvE2NHmCwAOM
