@@ -1,4 +1,4 @@
-package com.groeps33.gui.shop;
+package com.groeps33.gui.doubloonshop;
 
 /**
  * Created by Dennis on 25/05/16.
