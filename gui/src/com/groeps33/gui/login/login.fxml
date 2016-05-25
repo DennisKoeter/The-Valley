@@ -20,8 +20,8 @@
             </VBox>
             <VBox prefHeight="515.0" prefWidth="433.0" styleClass="middle">
                <children>
-                  <TextField />
-                  <TextField />
+                  <TextField fx:id="usernameField" />
+                  <TextField fx:id="passwordField" />
                   <Button mnemonicParsing="false" onAction="#login" styleClass="btn_confirm" text="Login" />
                   <Button mnemonicParsing="false" onAction="#register" styleClass="btn_confirm" text="Register">
                      <cursor>
