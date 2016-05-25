@@ -59,7 +59,6 @@ public class IntroScreen extends TheValleyScreen {
         });
         rootTable.add(button);
         stage.addActor(rootTable);
-
     }
 
     @Override
