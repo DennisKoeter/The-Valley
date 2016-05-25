@@ -23,7 +23,11 @@
 .body {
     /*-fx-font-family: 'Bubblegum';*/
     -fx-background-image: url("images/start.png");
+}
 
+.title_label {
+    -fx-font-size: 20;
+    -fx-alignment: center;
 }
 
 /*.body .label {*/
