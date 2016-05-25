@@ -1,4 +1,4 @@
-package com.groeps33.gui.games;
+package com.groeps33.gui.lobbybrowser;
 
 import javafx.fxml.FXML;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
