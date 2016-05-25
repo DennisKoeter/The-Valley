@@ -22,8 +22,8 @@
                <children>
                   <TextField />
                   <TextField />
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Login" />
-                  <Button mnemonicParsing="false" styleClass="btn_confirm" text="Register">
+                  <Button mnemonicParsing="false" onAction="#login" styleClass="btn_confirm" text="Login" />
+                  <Button mnemonicParsing="false" onAction="#register" styleClass="btn_confirm" text="Register">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
