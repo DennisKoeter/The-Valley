@@ -24,7 +24,7 @@
 
 .body {
     /*-fx-font-family: 'Bubblegum';*/
-    -fx-background-image: url("../images/start.png");
+    -fx-background-image: url("../images/menu.png");
 }
 
 /*.title_label {*/
@@ -43,7 +43,7 @@
 /*.main_button {*/
     /*-fx-effect: dropshadow( gaussian, rgba(0, 0, 0, .50), 10, 0, 0, 7.5);*/
 
-    /*-fx-background-image: url("images/start.png");*/
+    /*-fx-background-image: url("images/menu.png");*/
     /*-fx-background-repeat: repeat-x;*/
 
     /*-fx-start-margin: 10000px;*/

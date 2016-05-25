@@ -1,4 +1,4 @@
-package com.groeps33.gui.start;
+package com.groeps33.gui.menu;
 
 import javafx.fxml.FXML;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
