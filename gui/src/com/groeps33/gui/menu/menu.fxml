@@ -16,7 +16,10 @@
             <VBox minWidth="149.0" prefHeight="515.0" prefWidth="149.0" styleClass="side" />
             <VBox prefHeight="515.0" prefWidth="433.0" styleClass="middle">
                <children>
-                  <Button mnemonicParsing="false" onAction="#createGame" styleClass="btn_confirm" text="Create Game" />
+                  <Button mnemonicParsing="false" onAction="#createGame" styleClass="btn_confirm" text="Create Game">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Button mnemonicParsing="false" onAction="#joinGame" styleClass="btn_confirm" text="Join Game">
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -49,7 +52,7 @@
       </HBox>
    </children>
    <cursor>
-      <Cursor fx:constant="HAND" />
+      <Cursor fx:constant="DEFAULT" />
    </cursor>
    <stylesheets>
       <URL value="@../style.css" />

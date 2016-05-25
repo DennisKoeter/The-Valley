@@ -1,6 +1,5 @@
 package com.groeps33.gui.lobbybrowser;
 
-import com.sun.tools.corba.se.idl.constExpr.Not;
 import javafx.fxml.FXML;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

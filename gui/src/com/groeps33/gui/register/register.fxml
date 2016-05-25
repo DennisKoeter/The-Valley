@@ -25,7 +25,10 @@
                   <TextField fx:id="usernameField" />
                   <TextField fx:id="emailField" />
                   <TextField fx:id="passwordField" />
-                  <Button mnemonicParsing="false" onAction="#confirm" styleClass="btn_confirm" text="Confirm" />
+                  <Button mnemonicParsing="false" onAction="#confirm" styleClass="btn_confirm" text="Confirm">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </VBox>
             <VBox prefHeight="515.0" prefWidth="124.0" styleClass="side" />
@@ -33,7 +36,7 @@
       </HBox>
    </children>
    <cursor>
-      <Cursor fx:constant="HAND" />
+      <Cursor fx:constant="DEFAULT" />
    </cursor>
    <stylesheets>
       <URL value="@style.css" />
