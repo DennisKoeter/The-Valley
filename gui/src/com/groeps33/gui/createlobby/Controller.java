@@ -1,4 +1,4 @@
-package com.groeps33.gui.creategame;
+package com.groeps33.gui.createlobby;
 
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
@@ -12,21 +12,29 @@ import java.io.IOException;
  */
 public class Controller {
     @FXML
-    TextField name;
+    TextField nameField;
 
     @FXML
-    TextField maxPlayers;
+    TextField maxPlayersField;
 
     @FXML
-    TextField password;
+    TextField passwordField;
 
     @FXML
     private void confirm(){
-        throw new NotImplementedException();
+        String name = nameField.getText();
+        int maxPlayers = Integer.parseInt(maxPlayersField.getText());
+        String password = passwordField.getText();
+
+        createLobby(name, maxPlayers, password);
     }
 
     @FXML
     private void back() throws IOException {
         ValleyFX.changeScene(getClass().getResource("../menu/menu.fxml"));
+    }
+
+    private void createLobby(String name, int maxPlayers, String password){
+        //TODO implement lobby creation
     }
 }
