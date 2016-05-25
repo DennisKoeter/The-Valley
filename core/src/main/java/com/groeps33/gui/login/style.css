@@ -1,3 +1,5 @@
+/*.body .label {*/
+
 /*@font-face {*/
 /*src: url('YakuzaFont.ttf');*/
 /*}*/
@@ -22,61 +24,51 @@
 
 .body {
     /*-fx-font-family: 'Bubblegum';*/
-    -fx-background-image: url("images/menu.png");
+    -fx-background-image: url("../images/menu.png");
 }
 
-.container {
-    -fx-background-color: indianred;
-}
+/*.title_label {*/
+    /*-fx-font-size: 20;*/
+    /*-fx-alignment: center;*/
+/*}*/
 
-.action-box {
-    -fx-background-color: greenyellow;
-    -fx-padding: 15000%;
-    /*-fx-background-color: greenyellow;*/
-    -fx-spacing: 25px;
-}
+/*.container {*/
+    /*-fx-padding: 15000%;*/
+    /*!*-fx-background-color: greenyellow;*!*/
+    /*-fx-spacing: 25px;*/
+/*}*/
 
-.info-box {
-    -fx-padding: 7500%;
-    /*-fx-background-color: greenyellow;*/
-    -fx-spacing: 10px;
-    -fx-background-color: cornflowerblue;
-}
+/*!*Button info*!*/
 
-.info-box .label {
-    -fx-min-width: 150px;
-    -fx-font-size: 25pt;
-}
+/*.main_button {*/
+    /*-fx-effect: dropshadow( gaussian, rgba(0, 0, 0, .50), 10, 0, 0, 7.5);*/
 
-/*Button info*/
+    /*-fx-background-image: url("images/menu.png");*/
+    /*-fx-background-repeat: repeat-x;*/
 
-.main_button {
-    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, .50), 10, 0, 0, 7.5);
+    /*-fx-start-margin: 10000px;*/
+    /*-fx-background-insets: 50px;*/
+    /*-fx-padding: 25px;*/
+    /*-fx-font-size: 18pt;*/
+    /*!*-fx-pref-width: 475px;*!*/
+    /*-fx-pref-width: 500000%;*/
+/*}*/
 
-    -fx-background-image: url("images/menu.png");
-    -fx-background-repeat: repeat-x;
+/*.main_button Text {*/
+    /*-fx-background-color: red;*/
+/*}*/
 
-    -fx-start-margin: 10000px;
-    -fx-background-insets: 50px;
-    -fx-padding: 25px;
-    -fx-font-size: 18pt;
-    /*-fx-pref-width: 475px;*/
-    -fx-min-width: 250px;
-}
+/*.main_button LabeledText {*/
+    /*-fx-effect: dropshadow( gaussian, rgba(0, 0, 0, .50), 7.5, 0, 0, 2.5);*/
+/*}*/
 
-.main_button LabeledText {
-    -fx-effect: dropshadow( gaussian, rgba(0, 0, 0, .50), 7.5, 0, 0, 2.5);
-}
+/*.decision_button {*/
 
-.decision_button {
+/*}*/
 
-}
-
-.button {
-    -fx-text-fill: -white;
-}
-
-/*.body .label {*/
+/*.button {*/
+    /*-fx-text-fill: -white;*/
+/*}*/
 /*-fx-effect: dropshadow( gaussian, rgba(0, 0, 0, 0.25), 7.5, 0, 0, 0);*/
 /*}*/
 /*.body .button LabeledText {*/
