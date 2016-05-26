@@ -1,5 +1,6 @@
 package com.groeps33.gui.menu;
 
+import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
 import sun.java2d.pipe.ValidatePipe;
@@ -23,12 +24,12 @@ public class Controller {
 
     @FXML
     private void settings() throws IOException {
-        ValleyFX.changeScene(getClass().getResource("../settings/createlobby.fxml"));
+        ValleyFX.changeScene(getClass().getResource(Constants.SETTINGS_PATH));
     }
 
     @FXML
     private void highscores() throws IOException {
-        ValleyFX.changeScene(getClass().getResource("../highscores/highscores.fxml"));
+        ValleyFX.changeScene(getClass().getResource(Constants.HIGHSCORES_PATH));
     }
 
     @FXML
@@ -38,7 +39,7 @@ public class Controller {
 
     @FXML
     private void logOut() throws IOException {
-        if(checkLogout()) ValleyFX.changeScene(getClass().getResource("../login/login.fxml"));
+        if(checkLogout()) ValleyFX.changeScene(getClass().getResource(Constants.LOGIN_PATH));
     }
 
     private boolean checkLogout() {
