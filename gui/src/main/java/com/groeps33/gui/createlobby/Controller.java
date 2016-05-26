@@ -1,11 +1,14 @@
 package com.groeps33.gui.createlobby;
 
+import com.groep33.client.ClientImpl;
+import com.groep33.client.LobbyImpl;
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 /**
  * Created by Dennis on 25/05/16.
@@ -35,6 +38,10 @@ public class Controller {
     }
 
     private void createLobby(String name, int maxPlayers, String password){
-        //TODO implement lobby creation
+        try {
+            ValleyFX.getGlobalServer().registerLobby(new LobbyImpl(new ClientImpl("henk"), name));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }
