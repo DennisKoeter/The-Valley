@@ -1,3 +1,7 @@
 .body {
     -fx-background-image: url("../images/settings.png");
 }
+
+.check-box {
+    -fx-background-color: red;
+}
