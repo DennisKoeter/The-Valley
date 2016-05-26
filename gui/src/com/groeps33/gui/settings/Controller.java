@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Dennis on 25/05/16.
@@ -15,6 +17,16 @@ public class Controller {
 
     @FXML
     CheckBox audioMusicCheckbox;
+
+    @FXML
+    private void initialize(){
+        HashMap settings = ValleyFX.getSettings();
+        boolean audioFX = (boolean)settings.get("audioFX");
+        boolean audioMusic = (boolean)settings.get("audioMusic");
+
+        audioFxCheckbox.setSelected(audioFX);
+        audioMusicCheckbox.setSelected(audioMusic);
+    }
 
     @FXML
     private void back() throws IOException {
