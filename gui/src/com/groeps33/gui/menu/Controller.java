@@ -23,7 +23,7 @@ public class Controller {
 
     @FXML
     private void settings() throws IOException {
-        ValleyFX.changeScene(getClass().getResource("../settings/settings.fxml"));
+        ValleyFX.changeScene(getClass().getResource("../settings/createlobby.fxml"));
     }
 
     @FXML
