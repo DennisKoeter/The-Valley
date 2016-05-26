@@ -15,12 +15,18 @@ public class ValleyFX extends Application {
     private static Parent root;
     private static Stage stage;
 
+    // settings variables
+    private static boolean audioFX;
+    private static boolean audioMusic;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        audioFX = true;
+        audioMusic = true;
         Parent root = FXMLLoader.load(getClass().getResource("login/login.fxml"));
         Scene scene = new Scene(root);
         stage = primaryStage;
@@ -34,5 +40,10 @@ public class ValleyFX extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void saveSettings(boolean audioFxSetting, boolean audioMusicSetting) {
+        audioFX = audioFxSetting;
+        audioMusic = audioMusicSetting;
     }
 }
