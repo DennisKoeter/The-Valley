@@ -6,7 +6,6 @@ import javafx.scene.control.CheckBox;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Dennis on 25/05/16.
