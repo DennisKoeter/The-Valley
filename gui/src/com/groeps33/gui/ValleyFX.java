@@ -2,7 +2,6 @@ package com.groeps33.gui;/**
  * Created by Dennis on 25/05/16.
  */
 
-import com.groep33.server.*;
 import com.groep33.shared.GlobalServer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,15 +14,11 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ValleyFX extends Application {
     private static Parent root;
