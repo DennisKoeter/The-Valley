@@ -20,6 +20,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,7 @@ public class ValleyFX extends Application {
         String musicString = new File("MainMusic.mp3").toURI().toString();
         Media musicMedia = new Media(musicString);
         player = new MediaPlayer(musicMedia);
+        player.setOnEndOfMedia(() -> player.seek(javafx.util.Duration.ZERO));
         player.play();
         audioFX = true;
         audioMusic = true;
