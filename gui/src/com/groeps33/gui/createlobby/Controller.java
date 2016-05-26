@@ -39,15 +39,12 @@ public class Controller {
     }
 
     private void createLobby(String name, int maxPlayers, String password){
-<<<<<<< HEAD:gui/src/com/groeps33/gui/createlobby/Controller.java
         Lobby lobby = new Lobby(name, maxPlayers, password);
         //TODO save lobby in global server
-=======
         try {
             ValleyFX.getGlobalServer().registerLobby(new LobbyImpl(new ClientImpl("henk"), name));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
->>>>>>> 9f9adca4b66360536bc7b98e2ab38136d7d51ed6:gui/src/main/java/com/groeps33/gui/createlobby/Controller.java
     }
 }
