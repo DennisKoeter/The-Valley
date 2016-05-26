@@ -33,6 +33,7 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
 
     @Override
     public void registerClient(Client client) throws RemoteException {
+        System.out.println("Registered client");
         clientList.add(client);
     }
 

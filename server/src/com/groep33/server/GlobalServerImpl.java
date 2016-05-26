@@ -25,7 +25,9 @@ public class GlobalServerImpl extends UnicastRemoteObject implements GlobalServe
 
     @Override
     public void registerLobby(Lobby lobby) throws RemoteException {
+        System.out.println("registered lobby");
         lobbyList.add(lobby);
+        System.out.println(lobby.getLobbyName());
     }
 
     @Override

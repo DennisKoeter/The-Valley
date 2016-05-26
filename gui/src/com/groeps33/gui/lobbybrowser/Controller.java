@@ -1,10 +1,15 @@
 package com.groeps33.gui.lobbybrowser;
 
+import com.groep33.shared.Lobby;
 import com.groeps33.gui.ValleyFX;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * Created by Dennis on 25/05/16.
@@ -12,8 +17,13 @@ import java.io.IOException;
 public class Controller {
 
     @FXML
+    ListView<Lobby> lobbiesListView;
+
+
+    @FXML
     protected void initialize() {
         System.out.println("initialise");
+        getLobbies();
     }
 
     @FXML
@@ -27,6 +37,10 @@ public class Controller {
     }
 
     private void getLobbies(){
-        throw new NotImplementedException();
+        try {
+            lobbiesListView.itemsProperty().setValue(FXCollections.observableArrayList( ValleyFX.getGlobalServer().getLobbies()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }

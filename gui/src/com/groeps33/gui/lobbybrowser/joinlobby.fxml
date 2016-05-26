@@ -13,7 +13,7 @@
    <children>
       <VBox layoutX="610.0" layoutY="411.0" prefHeight="465.0" prefWidth="700.0" styleClass="middle">
          <children>
-            <ListView prefHeight="345.0" prefWidth="650.0" />
+            <ListView fx:id="lobbiesListView" prefHeight="345.0" prefWidth="650.0" />
             <Button mnemonicParsing="false" onAction="#confirm" styleClass="btn_confirm" text="Confirm">
                <cursor>
                   <Cursor fx:constant="HAND" />

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -32,11 +33,11 @@ public class ValleyFX extends Application {
     private static GlobalServer globalServer;
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
-       // try {
-         //   lookupServer();
-      //  } catch (ConnectException e) {
+        try {
+            lookupServer();
+        } catch (ConnectException e) {
             //todo messagebox met melding dat server niet aan staat
-      //  }
+        }
         launch(args);
     }
 
