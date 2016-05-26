@@ -2,6 +2,8 @@ package com.groeps33.gui;/**
  * Created by Dennis on 25/05/16.
  */
 
+import com.groep33.server.*;
+import com.groep33.shared.GlobalServer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +15,11 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.ConnectException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +33,20 @@ public class ValleyFX extends Application {
     private static boolean audioFX;
     private static boolean audioMusic;
 
-    public static void main(String[] args) {
+    private static GlobalServer globalServer;
+
+    public static void main(String[] args) throws RemoteException, NotBoundException {
+       // try {
+         //   lookupServer();
+      //  } catch (ConnectException e) {
+            //todo messagebox met melding dat server niet aan staat
+      //  }
         launch(args);
+    }
+
+    private static void lookupServer() throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry("127.0.0.1", com.groep33.server.Constants.PORT_NUMBER);
+        globalServer = (GlobalServer) registry.lookup(com.groep33.server.Constants.BINDING_NAME);
     }
 
     @Override
@@ -69,5 +88,9 @@ public class ValleyFX extends Application {
         settings.put("audioFX", audioFX);
         settings.put("audioMusic", audioMusic);
         return settings;
+    }
+
+    public static GlobalServer getGlobalServer() {
+        return globalServer;
     }
 }

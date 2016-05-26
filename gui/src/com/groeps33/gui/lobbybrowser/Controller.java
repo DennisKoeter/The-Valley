@@ -8,15 +8,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Controller {
 
-<<<<<<< HEAD:gui/src/main/java/com/groeps33/gui/lobbybrowser/Controller.java
     @FXML
     protected void initialize() {
-        System.out.println("initilaize");
+        System.out.println("initialise");
     }
-=======
-//    @FXML
-//    ListView<>
->>>>>>> b37460c00874906bf75501cc4bb79801003f1327:gui/src/com/groeps33/gui/lobbybrowser/Controller.java
 
     @FXML
     private void back(){
