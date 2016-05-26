@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" styleClass="body" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.login.Controller">
+   <children>
+      <HBox layoutX="460.0" layoutY="404.0" prefHeight="515.0" prefWidth="991.0" styleClass="container">
+         <children>
+            <VBox minWidth="149.0" prefHeight="515.0" prefWidth="149.0" styleClass="side">
+               <children>
+                  <Label text="Username:" />
+                  <Label text="Password:" />
+               </children>
+            </VBox>
+            <VBox prefHeight="515.0" prefWidth="433.0" styleClass="middle">
+               <children>
+                  <TextField fx:id="usernameField" />
+                  <TextField fx:id="passwordField" />
+                  <Button mnemonicParsing="false" onAction="#login" styleClass="btn_confirm" text="Login" />
+                  <Button mnemonicParsing="false" onAction="#register" styleClass="btn_confirm" text="Register">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Hyperlink onAction="#forgot" text="I forgot my password" />
+               </children>
+            </VBox>
+            <VBox prefHeight="515.0" prefWidth="124.0" styleClass="side" />
+         </children>
+      </HBox>
+   </children>
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
+</AnchorPane>

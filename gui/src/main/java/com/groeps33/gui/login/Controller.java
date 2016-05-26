@@ -37,7 +37,7 @@ public class Controller {
     }
 
     private boolean checkLogin(String username, String password){
-        //TODO implement login check
+        //TODO implement com.groeps33.gui.login check
         return true;
     }
 }

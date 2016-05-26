@@ -39,7 +39,11 @@ public class Controller {
 
     @FXML
     private void logOut() throws IOException {
+<<<<<<< HEAD:gui/src/main/java/com/groeps33/gui/menu/Controller.java
+        if(checkLogout()) ValleyFX.changeScene(getClass().getResource("../com.groeps33.gui.login/com.groeps33.gui.login.fxml"));
+=======
         if(checkLogout()) ValleyFX.changeScene(getClass().getResource(Constants.LOGIN_PATH));
+>>>>>>> b37460c00874906bf75501cc4bb79801003f1327:gui/src/com/groeps33/gui/menu/Controller.java
     }
 
     private boolean checkLogout() {
