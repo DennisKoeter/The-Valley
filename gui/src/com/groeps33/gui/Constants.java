@@ -11,5 +11,4 @@ public class Constants {
     public static final String MENU_PATH = "../menu/menu.fxml";
     public static final String REGISTER_PATH = "../register/register.fxml";
     public static final String FORGOTTEN_PATH = "../forgotten/forgotten.fxml";
-
 }
