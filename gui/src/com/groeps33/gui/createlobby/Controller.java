@@ -1,5 +1,6 @@
 package com.groeps33.gui.createlobby;
 
+import com.groeps33.gui.Lobby;
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -35,6 +36,7 @@ public class Controller {
     }
 
     private void createLobby(String name, int maxPlayers, String password){
-        //TODO implement lobby creation
+        Lobby lobby = new Lobby(name, maxPlayers, password);
+        //TODO save lobby in global server
     }
 }

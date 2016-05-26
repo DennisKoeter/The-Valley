@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ValleyFX extends Application {
         String musicString = new File("MainMusic.mp3").toURI().toString();
         Media musicMedia = new Media(musicString);
         player = new MediaPlayer(musicMedia);
+        player.setOnEndOfMedia(() -> player.seek(javafx.util.Duration.ZERO));
         player.play();
         audioFX = true;
         audioMusic = true;
