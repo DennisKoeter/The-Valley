@@ -13,13 +13,13 @@ import java.io.IOException;
  */
 public class Controller {
     @FXML
-    private void createGame(){
-        throw new NotImplementedException();
+    private void createGame() throws IOException {
+        ValleyFX.changeScene(getClass().getResource(Constants.CREATEGAME_PATH));
     }
 
     @FXML
-    private void joinGame(){
-        throw new NotImplementedException();
+    private void joinGame() throws IOException {
+        ValleyFX.changeScene(getClass().getResource(Constants.JOINGAME_PATH));
     }
 
     @FXML
