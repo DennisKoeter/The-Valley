@@ -2,6 +2,9 @@
     -fx-background-image: url("../images/settings.png");
 }
 
+/*Credits to http://stackoverflow.com/questions/12038179/javafx-2-0-how-to-change-the-size-of-the-radio-buttons-circle-with-css
+for the radiobutton css*/
+
 .check-box {
-    -fx-background-color: red;
+    /*-fx-padding: 10px;*/
 }
