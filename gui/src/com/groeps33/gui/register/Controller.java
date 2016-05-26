@@ -29,6 +29,11 @@ public class Controller {
         register(username, email, password);
     }
 
+    @FXML
+    private void back() throws IOException {
+        ValleyFX.changeScene(getClass().getResource("../menu/menu.fxml"));
+    }
+
     private void register(String username, String email, String password) throws IOException {
         //TODO implement registration
         ValleyFX.changeScene(getClass().getResource("../login/login.fxml"));
