@@ -18,10 +18,10 @@ public class Controller {
     CheckBox audioMusicCheckbox;
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         HashMap settings = ValleyFX.getSettings();
-        boolean audioFX = (boolean)settings.get("audioFX");
-        boolean audioMusic = (boolean)settings.get("audioMusic");
+        boolean audioFX = (Boolean) settings.get("audioFX");
+        boolean audioMusic = (Boolean) settings.get("audioMusic");
 
         audioFxCheckbox.setSelected(audioFX);
         audioMusicCheckbox.setSelected(audioMusic);
