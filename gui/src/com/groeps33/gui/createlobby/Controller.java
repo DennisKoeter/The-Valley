@@ -1,11 +1,8 @@
 package com.groeps33.gui.createlobby;
 
-<<<<<<< HEAD:gui/src/com/groeps33/gui/createlobby/Controller.java
 import com.groeps33.gui.Lobby;
-=======
 import com.groep33.client.ClientImpl;
 import com.groep33.client.LobbyImpl;
->>>>>>> 9f9adca4b66360536bc7b98e2ab38136d7d51ed6:gui/src/main/java/com/groeps33/gui/createlobby/Controller.java
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
