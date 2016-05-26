@@ -36,6 +36,6 @@ public class Controller {
 
     private void register(String username, String email, String password) throws IOException {
         //TODO implement registration
-        ValleyFX.changeScene(getClass().getResource("../login/login.fxml"));
+        ValleyFX.changeScene(getClass().getResource("../com.groeps33.gui.login/com.groeps33.gui.login.fxml"));
     }
 }
