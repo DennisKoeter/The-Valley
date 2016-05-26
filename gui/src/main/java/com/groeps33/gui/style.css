@@ -21,8 +21,7 @@
 /*Root view*/
 
 .body {
-    /*-fx-font-family: 'Bubblegum';*/
-    -fx-background-image: url("images/menu.png");
+    /*Background image gets implemented by each individual style css*/
 }
 
 .container {
@@ -46,7 +45,7 @@
 }
 
 .button {
-    -fx-background-image: url("images/menu.png");
+    -fx-background-image: url("images/the-valley.png");
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .50), 10, 0, 0, 2.5);
     -fx-font-size: 20pt;
 }
