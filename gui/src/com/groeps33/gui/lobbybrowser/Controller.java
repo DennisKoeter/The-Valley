@@ -34,6 +34,20 @@ public class Controller {
         System.out.format("%s was selected", lobby);
     }
 
+    private String getId(String lobbyString) {
+        StringBuilder result = new StringBuilder();
+
+        String name = lobbyString.substring(0, 3);
+        result.append(name);
+        System.out.println("First chars of lobby name were " + name);
+
+        String number = lobbyString.substring(3, 6);
+        result.append(number);
+        System.out.println("3 numbers were " + number);
+
+        return result.toString();
+    }
+
     @FXML
     private void back() throws IOException {
         ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH));
@@ -41,7 +55,8 @@ public class Controller {
 
     @FXML
     private void confirm() throws RemoteException {
-        Lobby selectedLobby = ValleyFX.getGlobalServer().getLobbyById(lobbiesListView.getSelectionModel().getSelectedItem().substring(0,1));
+        String id = getId(lobbiesListView.getSelectionModel().getSelectedItem());
+        Lobby selectedLobby = ValleyFX.getGlobalServer().getLobbyById(id);
         selectedLobby.registerClient(ValleyFX.getClient());
     }
 

@@ -90,7 +90,7 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
         String returnString;
         try {
             returnString = this.getLobbyName();
-            for(Client c : this.clientList){
+            for (Client c : this.clientList) {
                 returnString += c.getUsername();
             }
             return returnString;
@@ -101,16 +101,27 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
         return returnString;
     }
 
-    private String generateId(){
-        //Random random = new Random();
-        //String number = String.valueOf(random.nextInt(1000));
-        //String letters = lobbyName.substring(0, 2);
-        //return letters + number;
-        return lobbyName.substring(0,1);
+    private String generateId() {
+        int number = new Random().nextInt(1000);
+
+        String numberString;
+        if (number < 10) {
+            numberString = "00" + number;
+            System.out.println("Random number was 0-9");
+        } else if (number < 100) {
+            numberString = "0" + number;
+            System.out.println("Random number was 10-99");
+        } else {
+            numberString = String.valueOf(number);
+            System.out.println("Random number was 100-999");
+        }
+
+        String letters = lobbyName.substring(0, 3);
+        return letters + numberString;
     }
 
     @Override
-    public String getId(){
+    public String getId() {
         return id;
     }
 }
