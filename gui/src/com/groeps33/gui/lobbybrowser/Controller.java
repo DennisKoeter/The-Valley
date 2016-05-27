@@ -1,8 +1,11 @@
 package com.groeps33.gui.lobbybrowser;
 
 import com.groep33.shared.Lobby;
+import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -22,13 +25,24 @@ public class Controller {
 
     @FXML
     protected void initialize() {
-        System.out.println("initialise");
+        System.out.println("initialize");
         getLobbies();
+
+        lobbiesListView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Lobby> observable, Lobby oldValue, Lobby newValue) -> {
+            if (observable.getValue() == null) {
+                return;
+            }
+            onLobbySelected(newValue);
+        });
+    }
+
+    private void onLobbySelected(Lobby lobby) {
+        System.out.format("%s was selected", lobby);
     }
 
     @FXML
     private void back() throws IOException {
-        ValleyFX.changeScene(getClass().getResource("../menu/menu.fxml"));
+        ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH));
     }
 
     @FXML
@@ -38,7 +52,7 @@ public class Controller {
 
     private void getLobbies(){
         try {
-            lobbiesListView.itemsProperty().setValue(FXCollections.observableArrayList( ValleyFX.getGlobalServer().getLobbies()));
+            lobbiesListView.setItems(FXCollections.observableList(ValleyFX.getGlobalServer().getLobbies()));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

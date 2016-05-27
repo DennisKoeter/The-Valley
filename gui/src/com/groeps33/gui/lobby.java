@@ -6,7 +6,7 @@ import java.rmi.Remote;
  * Created by Dennis on 26/05/16
  * Package: com.groeps33.gui
  */
-public class Lobby implements Remote{
+public class Lobby implements Remote {
     private String name;
     private int maxPlayers;
     private String password;
@@ -27,5 +27,10 @@ public class Lobby implements Remote{
         this.name = name;
         this.maxPlayers = maxPlayers;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s max players", getName(), String.valueOf(getMaxPlayers()));
     }
 }
