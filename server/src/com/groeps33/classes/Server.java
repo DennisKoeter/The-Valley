@@ -1,6 +1,6 @@
-package com.groep33.classes;
+package com.groeps33.classes;
 
-import com.groep33.interfaces.IGlobalServer;
+import com.groeps33.interfaces.ILobbyAdministration;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -9,17 +9,14 @@ import java.rmi.registry.Registry;
 /**
  * Created by Bram on 25-5-2016.
  */
-public class ServerApplication {
-
-    private static final int PORT_NUMBER = 1203;
-    private static final String BINDING_NAME = "Server";
+public class Server {
 
     public static void main(String[] args) throws RemoteException {
         System.out.println("Creating registry at: " + Constants.PORT_NUMBER);
         Registry registry = LocateRegistry.createRegistry(Constants.PORT_NUMBER);
 
         System.out.printf("Binding server to name: '%s'\n", Constants.BINDING_NAME);
-        IGlobalServer server = new GlobalServer();
+        ILobbyAdministration server = new LobbyAdministration();
         registry.rebind(Constants.BINDING_NAME, server);
     }
 }

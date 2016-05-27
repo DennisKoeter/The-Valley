@@ -1,7 +1,5 @@
-package com.groep33.classes;
+package com.groeps33.classes;
 
-import com.groep33.interfaces.IUserAccount;
-import com.mysql.jdbc.*;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import java.sql.*;
@@ -22,23 +20,22 @@ public class Database {
     private static final String PASS = "";
 
     //Constructors
-    public Database() throws Exception {
+    public Database() {
         dataSource = new MysqlDataSource();
         dataSource.setUser(USER);
         dataSource.setPassword(PASS);
         dataSource.setPort(3306);
     }
 
-    public IUserAccount register(String username, String email, String password) {
+    public UserAccount register(String username, String email, String password) {
         try (Connection c = dataSource.getConnection()) {
             try (Statement s = c.createStatement()) {
-                ResultSet result = s.executeQuery(String.format("INSERT INTO `the-valley-db`.`account` (`username`, `password`, `email`) VALUES ('%s', '%s', '%s')", username, email, password));
-                if (result.next()) {
-                    // todo: fix returnen van useraccountg
+                int rowsAffected = s.executeUpdate(String.format("INSERT INTO `the-valley-db`.`account` (`username`, `password`, `email`) VALUES ('%s', '%s', '%s')", username, email, password));
+                if (rowsAffected == 1) {
+                    return new UserAccount(username, email);
+                } else {
+                    System.out.println("weird shit happened");
                 }
-//                INSERT INTO `the-valley-db`.`account` (`username`, `password`, `email`) VALUES ('user', 'pass', 'email');
-
-
             }
         } catch (SQLException e) {
             e.printStackTrace();

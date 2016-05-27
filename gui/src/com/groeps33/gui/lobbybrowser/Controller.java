@@ -51,7 +51,7 @@ public class Controller {
     @FXML
     private void confirm() throws RemoteException {
         String id = getId(lobbiesListView.getSelectionModel().getSelectedItem());
-        Lobby selectedLobby = ValleyFX.getGlobalServer().getLobbyById(id);
+        Lobby selectedLobby = ValleyFX.getLobbyAdministration().getLobbyById(id);
         selectedLobby.registerClient(ValleyFX.getClient());
 
         try {
@@ -64,7 +64,7 @@ public class Controller {
     private void getLobbies() {
 //        System.out.println("Retrieving lobbies now");
         try {
-            List<Lobby> lobbies = ValleyFX.getGlobalServer().getLobbies();
+            List<Lobby> lobbies = ValleyFX.getLobbyAdministration().getLobbies();
             List<String> lobbyNames = new ArrayList<>();
             for (Lobby l : lobbies) {
                 lobbyNames.add(String.format("%s, %s, %s clients", l.getId(), l.getLobbyName(), l.getRegisteredClients().size()));

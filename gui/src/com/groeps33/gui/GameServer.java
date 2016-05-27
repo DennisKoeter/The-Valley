@@ -1,7 +1,7 @@
 package com.groeps33.gui;
 
-import com.groep33.interfaces.IGameClient;
-import com.groep33.interfaces.IGameServer;
+import com.groeps33.interfaces.IGameClient;
+import com.groeps33.interfaces.IGameServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -1,6 +1,6 @@
 package com.groeps33.gui.createlobby;
-import com.groep33.interfaces.ILobby;
-import com.groeps33.gui.Client;
+import com.groeps33.interfaces.ILobby;
+import com.groeps33.gui.UserAccount;
 import com.groeps33.gui.Lobby;
 import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
@@ -41,8 +41,8 @@ public class Controller {
     private ILobby createLobby(String name, int maxPlayers, String password){
         //TODO save lobby in global server
         try {
-            ILobby lobby = new Lobby(new Client("robin"), name);
-            ValleyFX.getGlobalServer().registerLobby(lobby);
+            ILobby lobby = new Lobby(new UserAccount("robin"), name);
+            ValleyFX.getLobbyAdministration().registerLobby(lobby);
             return lobby;
         } catch (RemoteException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.groep33.interfaces;
+package com.groeps33.interfaces;
 
 import java.rmi.RemoteException;
 import java.util.List;

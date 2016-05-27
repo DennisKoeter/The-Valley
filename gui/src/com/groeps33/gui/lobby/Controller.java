@@ -1,7 +1,7 @@
 package com.groeps33.gui.lobby;
 
-import com.groep33.interfaces.IClient;
-import com.groep33.interfaces.ILobby;
+import com.groeps33.interfaces.IClient;
+import com.groeps33.interfaces.ILobby;
 import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
 import javafx.collections.FXCollections;

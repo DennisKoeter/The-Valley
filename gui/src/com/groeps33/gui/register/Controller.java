@@ -1,9 +1,9 @@
 package com.groeps33.gui.register;
 
+import com.groeps33.gui.UserAccount;
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 
@@ -35,7 +35,8 @@ public class Controller {
     }
 
     private void register(String username, String email, String password) throws IOException {
-        //TODO implement registration
+        UserAccount userAccount = (UserAccount) ValleyFX.getLobbyAdministration().register(username, email, password);
+        ValleyFX.setUserAccount(userAccount);
         ValleyFX.changeScene(getClass().getResource("../com.groeps33.gui.login/com.groeps33.gui.login.fxml"));
     }
 }

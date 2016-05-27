@@ -1,11 +1,7 @@
 package com.groeps33.gui;/**
  * Created by Dennis on 25/05/16.
  */
-
-import com.groep33.interfaces.IClient;
-import com.groep33.interfaces.IGlobalServer;
-import com.groep33.interfaces.ILobby;
-import com.groeps33.gui.lobby.Controller;
+import com.groeps33.gui.interfaces.ILobbyAdministration;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,13 +24,13 @@ public class ValleyFX extends Application {
     private static Parent root;
     private static Stage stage;
     private static MediaPlayer player;
-    private static IClient client;
+    private static UserAccount userAccount;
 
     // settings variables
     private static boolean audioFX;
     private static boolean audioMusic;
 
-    private static IGlobalServer globalServer;
+    private static ILobbyAdministration lobbyAdministration;
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
         try {
@@ -46,8 +42,8 @@ public class ValleyFX extends Application {
     }
 
     private static void lookupServer() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry("127.0.0.1", com.groep33.classes.Constants.PORT_NUMBER);
-        globalServer = (IGlobalServer) registry.lookup(com.groep33.classes.Constants.BINDING_NAME);
+        Registry registry = LocateRegistry.getRegistry("127.0.0.1", Constants.PORT_NUMBER);
+        lobbyAdministration = (ILobbyAdministration) registry.lookup(Constants.BINDING_NAME);
     }
 
     @Override
@@ -73,21 +69,21 @@ public class ValleyFX extends Application {
         stage.show();
     }
 
-    public static void changeScene(URL location, ILobby lobby) throws IOException {
+//    public static void changeScene(URL location, ILobby lobby) throws IOException {
 //        root = FXMLLoader.load(location);
 //        Controller controller = root.<Controller>getController();
 //        Scene scene = new Scene(root);
 //        stage.setScene(scene);
 //        stage.show();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(location);
-        root = fxmlLoader.load();
-        Controller controller = fxmlLoader.getController();
-        controller.setLobby(lobby);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+//        FXMLLoader fxmlLoader = new FXMLLoader(location);
+//        root = fxmlLoader.load();
+//        Controller controller = fxmlLoader.getController();
+//        controller.setLobby(lobby);
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
 
     public static void saveSettings(boolean audioFxSetting, boolean audioMusicSetting) {
         audioFX = audioFxSetting;
@@ -106,17 +102,11 @@ public class ValleyFX extends Application {
         return settings;
     }
 
-    public static void login(String username, String password) throws RemoteException {
-        if (globalServer.checkLoginDetails(username, password)) {
-            client = new Client(username);
-        }
+    public static ILobbyAdministration getLobbyAdministration() {
+        return lobbyAdministration;
     }
 
-    public static IClient getClient() {
-        return client;
-    }
-
-    public static IGlobalServer getGlobalServer() {
-        return globalServer;
+    public static void setUserAccount(UserAccount userAccount) {
+        ValleyFX.userAccount = userAccount;
     }
 }
