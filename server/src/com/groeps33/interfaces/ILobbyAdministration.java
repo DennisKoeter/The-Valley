@@ -1,4 +1,4 @@
-package com.groeps33.gui.interfaces;
+package com.groeps33.interfaces;
 
 import com.groeps33.classes.UserAccount;
 

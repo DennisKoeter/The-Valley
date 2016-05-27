@@ -42,13 +42,12 @@ public class ValleyFX extends Application {
     }
 
     private static void lookupServer() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(Constants.IP, Constants.PORT_NUMBER);
+        Registry registry = LocateRegistry.getRegistry("127.0.0.1", Constants.PORT_NUMBER);
         lobbyAdministration = (ILobbyAdministration) registry.lookup(Constants.BINDING_NAME);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-
         String musicString = new File("MainMusic.mp3").toURI().toString();
         Media musicMedia = new Media(musicString);
         player = new MediaPlayer(musicMedia);

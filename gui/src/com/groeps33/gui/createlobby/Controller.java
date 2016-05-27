@@ -1,8 +1,8 @@
 package com.groeps33.gui.createlobby;
-//import com.groeps33.interfaces.ILobby;
-//import com.groeps33.gui.UserAccount;
-//import com.groeps33.gui.Lobby;
-//import com.groeps33.gui.Constants;
+import com.groeps33.interfaces.ILobby;
+import com.groeps33.gui.UserAccount;
+import com.groeps33.gui.Lobby;
+import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -29,8 +29,8 @@ public class Controller {
         int maxPlayers = Integer.parseInt(maxPlayersField.getText());
         String password = passwordField.getText();
 
-//        ILobby createdLobby = createLobby(name, maxPlayers, password);
-//        ValleyFX.changeScene(getClass().getResource(Constants.LOBBY_PATH), createdLobby);
+        ILobby createdLobby = createLobby(name, maxPlayers, password);
+        ValleyFX.changeScene(getClass().getResource(Constants.LOBBY_PATH), createdLobby);
     }
 
     @FXML
@@ -38,16 +38,16 @@ public class Controller {
         ValleyFX.changeScene(getClass().getResource("../menu/menu.fxml"));
     }
 
-//    private ILobby createLobby(String name, int maxPlayers, String password){
-//        //TODO save lobby in global server
-//        try {
-//            ILobby lobby = new Lobby(new UserAccount("robin"), name);
-//            ValleyFX.getLobbyAdministration().registerLobby(lobby);
-//            return lobby;
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//            System.out.println("Error occurred in createLobby");
-//            return null;
-//        }
-//    }
+    private ILobby createLobby(String name, int maxPlayers, String password){
+        //TODO save lobby in global server
+        try {
+            ILobby lobby = new Lobby(new UserAccount("robin"), name);
+            ValleyFX.getLobbyAdministration().registerLobby(lobby);
+            return lobby;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            System.out.println("Error occurred in createLobby");
+            return null;
+        }
+    }
 }

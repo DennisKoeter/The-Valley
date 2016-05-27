@@ -25,9 +25,9 @@ public class Controller {
         getLobbies();
     }
 
-//    private void onLobbySelected(Lobby lobby) {
-//        System.out.format("%s was selected", lobby);
-//    }
+    private void onLobbySelected(Lobby lobby) {
+        System.out.format("%s was selected", lobby);
+    }
 
     private String getId(String lobbyString) {
         StringBuilder result = new StringBuilder();
@@ -51,30 +51,30 @@ public class Controller {
     @FXML
     private void confirm() throws RemoteException {
         String id = getId(lobbiesListView.getSelectionModel().getSelectedItem());
-//        Lobby selectedLobby = ValleyFX.getLobbyAdministration().getLobbyById(id);
-//        selectedLobby.registerClient(ValleyFX.getClient());
-//
-//        try {
-//            ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH), selectedLobby);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        Lobby selectedLobby = ValleyFX.getLobbyAdministration().getLobbyById(id);
+        selectedLobby.registerClient(ValleyFX.getClient());
+
+        try {
+            ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH), selectedLobby);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getLobbies() {
 //        System.out.println("Retrieving lobbies now");
-//        try {
-//            List<Lobby> lobbies = ValleyFX.getLobbyAdministration().getLobbies();
-//            List<String> lobbyNames = new ArrayList<>();
-//            for (Lobby l : lobbies) {
-//                lobbyNames.add(String.format("%s, %s, %s clients", l.getId(), l.getLobbyName(), l.getRegisteredClients().size()));
-//            }
+        try {
+            List<Lobby> lobbies = ValleyFX.getLobbyAdministration().getLobbies();
+            List<String> lobbyNames = new ArrayList<>();
+            for (Lobby l : lobbies) {
+                lobbyNames.add(String.format("%s, %s, %s clients", l.getId(), l.getLobbyName(), l.getRegisteredClients().size()));
+            }
 
-//            ObservableList<String> lobbiesObservable = FXCollections.observableList(lobbyNames);
+            ObservableList<String> lobbiesObservable = FXCollections.observableList(lobbyNames);
 
-//            lobbiesListView.setItems(lobbiesObservable);
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//        }
+            lobbiesListView.setItems(lobbiesObservable);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }

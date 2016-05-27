@@ -1,5 +1,7 @@
 package com.groeps33.gui.lobby;
 
+import com.groeps33.interfaces.IClient;
+import com.groeps33.interfaces.ILobby;
 import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
 import javafx.collections.FXCollections;
@@ -17,41 +19,41 @@ import java.util.List;
  */
 public class Controller {
 
-//    @FXML
-//    ListView<String> clientsListView;
-//
-//    private ILobby thisLobby;
-//
-//    @FXML
-//    private void initialize(){
-//        try {
-//            getClients(thisLobby);
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void setLobby(ILobby l) {
-//        thisLobby = l;
-//    }
-//
-//    private void getClients(ILobby l) throws RemoteException{
-//        List<String> clientNames = new ArrayList();
-//        for(IClient c : l.getRegisteredClients()){
-//            clientNames.add(c.getUsername());
-//        }
-//        ObservableList<String> clientNamesObservable = FXCollections.observableList(clientNames);
-//        clientsListView.setItems(clientNamesObservable);
-//    }
-//
-//
-//    @FXML
-//    private void back() throws IOException {
-//        ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH));
-//    }
-//
-//    @FXML
-//    private void confirm() throws RemoteException {
-//
-//    }
+    @FXML
+    ListView<String> clientsListView;
+
+    private ILobby thisLobby;
+
+    @FXML
+    private void initialize(){
+        try {
+            getClients(thisLobby);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setLobby(ILobby l) {
+        thisLobby = l;
+    }
+
+    private void getClients(ILobby l) throws RemoteException{
+        List<String> clientNames = new ArrayList();
+        for(IClient c : l.getRegisteredClients()){
+            clientNames.add(c.getUsername());
+        }
+        ObservableList<String> clientNamesObservable = FXCollections.observableList(clientNames);
+        clientsListView.setItems(clientNamesObservable);
+    }
+
+
+    @FXML
+    private void back() throws IOException {
+        ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH));
+    }
+
+    @FXML
+    private void confirm() throws RemoteException {
+
+    }
 }
