@@ -1,8 +1,8 @@
-package com.groep33.client;
+package com.groeps33.gui;
 
-import com.groep33.shared.IChatMessage;
-import com.groep33.shared.IClient;
-import com.groep33.shared.IGameServer;
+import com.groep33.interfaces.IChatMessage;
+import com.groep33.interfaces.IClient;
+import com.groep33.interfaces.IGameServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,7 +13,7 @@ import java.util.*;
  *
  * @author Bram Hoendervangers
  */
-public class Lobby extends UnicastRemoteObject implements com.groep33.shared.Lobby {
+public class Lobby extends UnicastRemoteObject implements com.groep33.interfaces.Lobby {
 
     private final List<IClient> clientList;
     private final IClient creator;

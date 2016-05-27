@@ -2,10 +2,9 @@ package com.groeps33.gui;/**
  * Created by Dennis on 25/05/16.
  */
 
-import com.groep33.client.Client;
-import com.groep33.shared.IClient;
-import com.groep33.shared.IGlobalServer;
-import com.groep33.shared.Lobby;
+import com.groep33.interfaces.IClient;
+import com.groep33.interfaces.IGlobalServer;
+import com.groep33.interfaces.Lobby;
 import com.groeps33.gui.lobby.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -47,8 +46,8 @@ public class ValleyFX extends Application {
     }
 
     private static void lookupServer() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry("127.0.0.1", com.groep33.server.Constants.PORT_NUMBER);
-        globalServer = (IGlobalServer) registry.lookup(com.groep33.server.Constants.BINDING_NAME);
+        Registry registry = LocateRegistry.getRegistry("127.0.0.1", com.groep33.classes.Constants.PORT_NUMBER);
+        globalServer = (IGlobalServer) registry.lookup(com.groep33.classes.Constants.BINDING_NAME);
     }
 
     @Override

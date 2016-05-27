@@ -1,7 +1,7 @@
-package com.groep33.server;
+package com.groep33.classes;
 
-import com.groep33.shared.IGlobalServer;
-import com.groep33.shared.Lobby;
+import com.groep33.interfaces.IGlobalServer;
+import com.groep33.interfaces.Lobby;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

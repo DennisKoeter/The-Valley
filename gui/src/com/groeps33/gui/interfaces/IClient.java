@@ -1,4 +1,4 @@
-package com.groep33.shared;
+package com.groeps33.gui.interfaces;
 
 import java.rmi.RemoteException;
 

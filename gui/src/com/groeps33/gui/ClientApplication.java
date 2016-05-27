@@ -1,7 +1,7 @@
-package com.groep33.client;
+package com.groeps33.gui;
 
-import com.groep33.server.Constants;
-import com.groep33.shared.IGlobalServer;
+import com.groep33.classes.Constants;
+import com.groep33.interfaces.IGlobalServer;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

@@ -1,4 +1,4 @@
-package com.groep33.server;
+package com.groep33.classes;
 
 /**
  * Created by Bram on 25-5-2016.

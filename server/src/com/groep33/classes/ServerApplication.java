@@ -1,6 +1,6 @@
-package com.groep33.server;
+package com.groep33.classes;
 
-import com.groep33.shared.IGlobalServer;
+import com.groep33.interfaces.IGlobalServer;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
