@@ -2,6 +2,8 @@ package com.groeps33.gui;/**
  * Created by Dennis on 25/05/16.
  */
 
+import com.groep33.client.ClientImpl;
+import com.groep33.shared.Client;
 import com.groep33.shared.GlobalServer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +27,7 @@ public class ValleyFX extends Application {
     private static Parent root;
     private static Stage stage;
     private static MediaPlayer player;
+    private static Client client;
 
     // settings variables
     private static boolean audioFX;
@@ -86,6 +89,16 @@ public class ValleyFX extends Application {
         settings.put("audioFX", audioFX);
         settings.put("audioMusic", audioMusic);
         return settings;
+    }
+
+    public static void login(String username, String password) throws RemoteException {
+        if(globalServer.checkLoginDetails(username, password)){
+            client = new ClientImpl(username);
+        }
+    }
+
+    public static Client getClient(){
+        return client;
     }
 
     public static GlobalServer getGlobalServer() {

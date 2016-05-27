@@ -1,5 +1,6 @@
 package com.groeps33.gui.lobbybrowser;
 
+import com.groep33.client.LobbyImpl;
 import com.groep33.shared.Lobby;
 import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
@@ -46,8 +47,9 @@ public class Controller {
     }
 
     @FXML
-    private void confirm(){
-        throw new NotImplementedException();
+    private void confirm() throws RemoteException {
+        Lobby selectedLobby = lobbiesListView.getSelectionModel().getSelectedItem();
+        selectedLobby.registerClient(ValleyFX.getClient());
     }
 
     private void getLobbies(){
