@@ -13,6 +13,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
 public class Controller {
 
     @FXML
-    ListView<Lobby> lobbiesListView;
+    ListView<LobbyImpl> lobbiesListView;
 
 
     @FXML
@@ -52,9 +53,17 @@ public class Controller {
         selectedLobby.registerClient(ValleyFX.getClient());
     }
 
-    private void getLobbies(){
+    private void getLobbies() {
         try {
-            lobbiesListView.setItems(FXCollections.observableList(ValleyFX.getGlobalServer().getLobbies()));
+            List<Lobby> lobbies = ValleyFX.getGlobalServer().getLobbies();
+            List<LobbyImpl> lobbiesImpl = new ArrayList<>();
+            for (Lobby l : lobbies) {
+                lobbiesImpl.add((LobbyImpl) l);
+            }
+
+            ObservableList<LobbyImpl> lobbiesObservable = FXCollections.observableList(lobbiesImpl);
+
+            lobbiesListView.setItems(lobbiesObservable);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
