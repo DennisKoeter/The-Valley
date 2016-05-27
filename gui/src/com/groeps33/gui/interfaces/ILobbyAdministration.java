@@ -1,6 +1,6 @@
 package com.groeps33.gui.interfaces;
 
-import com.groeps33.classes.UserAccount;
+import com.groeps33.gui.UserAccount;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
