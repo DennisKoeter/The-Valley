@@ -66,7 +66,6 @@ public class ValleyFX extends Application {
     }
 
     public static void changeScene(URL location) throws IOException {
-        System.out.println(location.toString());
         root = FXMLLoader.load(location);
         Scene scene = new Scene(root);
         stage.setScene(scene);
