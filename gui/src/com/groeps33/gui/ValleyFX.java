@@ -48,6 +48,7 @@ public class ValleyFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
         String musicString = new File("MainMusic.mp3").toURI().toString();
         Media musicMedia = new Media(musicString);
         player = new MediaPlayer(musicMedia);
