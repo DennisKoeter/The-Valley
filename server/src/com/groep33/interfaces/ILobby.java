@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Bram on 25-5-2016.
  */
-public interface Lobby extends Remote {
+public interface ILobby extends Remote {
 
     void registerClient(IClient client) throws RemoteException;
 

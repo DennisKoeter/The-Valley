@@ -1,7 +1,7 @@
 package com.groeps33.gui.lobby;
 
 import com.groep33.interfaces.IClient;
-import com.groep33.interfaces.Lobby;
+import com.groep33.interfaces.ILobby;
 import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
 import javafx.collections.FXCollections;
@@ -22,7 +22,7 @@ public class Controller {
     @FXML
     ListView<String> clientsListView;
 
-    private Lobby thisLobby;
+    private ILobby thisLobby;
 
     @FXML
     private void initialize(){
@@ -33,11 +33,11 @@ public class Controller {
         }
     }
 
-    public void setLobby(Lobby l) {
+    public void setLobby(ILobby l) {
         thisLobby = l;
     }
 
-    private void getClients(Lobby l) throws RemoteException{
+    private void getClients(ILobby l) throws RemoteException{
         List<String> clientNames = new ArrayList();
         for(IClient c : l.getRegisteredClients()){
             clientNames.add(c.getUsername());

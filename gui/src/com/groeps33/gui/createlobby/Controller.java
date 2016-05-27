@@ -1,4 +1,5 @@
 package com.groeps33.gui.createlobby;
+import com.groep33.interfaces.ILobby;
 import com.groeps33.gui.Client;
 import com.groeps33.gui.Lobby;
 import com.groeps33.gui.Constants;
@@ -28,7 +29,7 @@ public class Controller {
         int maxPlayers = Integer.parseInt(maxPlayersField.getText());
         String password = passwordField.getText();
 
-        com.groep33.interfaces.Lobby createdLobby = createLobby(name, maxPlayers, password);
+        ILobby createdLobby = createLobby(name, maxPlayers, password);
         ValleyFX.changeScene(getClass().getResource(Constants.LOBBY_PATH), createdLobby);
     }
 
@@ -37,10 +38,10 @@ public class Controller {
         ValleyFX.changeScene(getClass().getResource("../menu/menu.fxml"));
     }
 
-    private com.groep33.interfaces.Lobby createLobby(String name, int maxPlayers, String password){
+    private ILobby createLobby(String name, int maxPlayers, String password){
         //TODO save lobby in global server
         try {
-            com.groep33.interfaces.Lobby lobby = new Lobby(new Client("robin"), name);
+            ILobby lobby = new Lobby(new Client("robin"), name);
             ValleyFX.getGlobalServer().registerLobby(lobby);
             return lobby;
         } catch (RemoteException e) {

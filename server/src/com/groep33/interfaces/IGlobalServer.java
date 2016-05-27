@@ -8,13 +8,13 @@ import java.util.List;
  * Created by Bram on 25-5-2016.
  */
 public interface IGlobalServer extends Remote {
-    void registerLobby(Lobby lobby) throws RemoteException;
+    void registerLobby(ILobby lobby) throws RemoteException;
 
-    void removeLobby(Lobby lobby) throws RemoteException;
+    void removeLobby(ILobby lobby) throws RemoteException;
 
-    List<Lobby> getLobbies() throws RemoteException;
+    List<ILobby> getLobbies() throws RemoteException;
 
-    Lobby getLobbyById(String id) throws RemoteException;
+    ILobby getLobbyById(String id) throws RemoteException;
 
     boolean checkLoginDetails(String username, String password) throws RemoteException;
 }

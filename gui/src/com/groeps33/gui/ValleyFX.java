@@ -4,7 +4,7 @@ package com.groeps33.gui;/**
 
 import com.groep33.interfaces.IClient;
 import com.groep33.interfaces.IGlobalServer;
-import com.groep33.interfaces.Lobby;
+import com.groep33.interfaces.ILobby;
 import com.groeps33.gui.lobby.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -73,7 +73,7 @@ public class ValleyFX extends Application {
         stage.show();
     }
 
-    public static void changeScene(URL location, Lobby lobby) throws IOException {
+    public static void changeScene(URL location, ILobby lobby) throws IOException {
 //        root = FXMLLoader.load(location);
 //        Controller controller = root.<Controller>getController();
 //        Scene scene = new Scene(root);
