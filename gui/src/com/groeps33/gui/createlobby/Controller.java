@@ -1,6 +1,7 @@
 package com.groeps33.gui.createlobby;
 import com.groep33.client.ClientImpl;
 import com.groep33.client.LobbyImpl;
+import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -22,12 +23,13 @@ public class Controller {
     TextField passwordField;
 
     @FXML
-    private void confirm(){
+    private void confirm() throws IOException {
         String name = nameField.getText();
         int maxPlayers = Integer.parseInt(maxPlayersField.getText());
         String password = passwordField.getText();
 
         createLobby(name, maxPlayers, password);
+        ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH));
     }
 
     @FXML
