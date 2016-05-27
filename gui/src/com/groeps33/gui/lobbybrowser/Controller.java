@@ -26,7 +26,6 @@ public class Controller {
 
     @FXML
     protected void initialize() {
-        System.out.println("initialize");
         getLobbies();
 
         lobbiesListView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Lobby> observable, Lobby oldValue, Lobby newValue) -> {
