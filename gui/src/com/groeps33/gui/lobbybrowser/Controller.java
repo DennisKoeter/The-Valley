@@ -57,9 +57,16 @@ public class Controller {
         String id = getId(lobbiesListView.getSelectionModel().getSelectedItem());
         Lobby selectedLobby = ValleyFX.getGlobalServer().getLobbyById(id);
         selectedLobby.registerClient(ValleyFX.getClient());
+
+        try {
+            ValleyFX.changeScene(getClass().getResource(Constants.MENU_PATH), selectedLobby);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getLobbies() {
+//        System.out.println("Retrieving lobbies now");
         try {
             List<Lobby> lobbies = ValleyFX.getGlobalServer().getLobbies();
             List<String> lobbyNames = new ArrayList<>();

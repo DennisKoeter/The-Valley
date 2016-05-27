@@ -5,6 +5,8 @@ package com.groeps33.gui;/**
 import com.groep33.client.ClientImpl;
 import com.groep33.shared.Client;
 import com.groep33.shared.GlobalServer;
+import com.groep33.shared.Lobby;
+import com.groeps33.gui.lobby.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -72,13 +74,28 @@ public class ValleyFX extends Application {
         stage.show();
     }
 
+    public static void changeScene(URL location, Lobby lobby) throws IOException {
+//        root = FXMLLoader.load(location);
+//        Controller controller = root.<Controller>getController();
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setLobby(lobby);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static void saveSettings(boolean audioFxSetting, boolean audioMusicSetting) {
         audioFX = audioFxSetting;
         audioMusic = audioMusicSetting;
-        if(!audioMusic && player != null && player.getStatus() == MediaPlayer.Status.PLAYING){
+        if (!audioMusic && player != null && player.getStatus() == MediaPlayer.Status.PLAYING) {
             player.stop();
-        }
-        else if(audioMusic && player != null && player.getStatus() == MediaPlayer.Status.STOPPED){
+        } else if (audioMusic && player != null && player.getStatus() == MediaPlayer.Status.STOPPED) {
             player.play();
         }
     }
@@ -91,12 +108,12 @@ public class ValleyFX extends Application {
     }
 
     public static void login(String username, String password) throws RemoteException {
-        if(globalServer.checkLoginDetails(username, password)){
+        if (globalServer.checkLoginDetails(username, password)) {
             client = new ClientImpl(username);
         }
     }
 
-    public static Client getClient(){
+    public static Client getClient() {
         return client;
     }
 

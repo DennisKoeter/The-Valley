@@ -13,4 +13,5 @@ public class Constants {
     public static final String FORGOTTEN_PATH = "../forgotten/forgotten.fxml";
     public static final String CREATEGAME_PATH = "../createlobby/createlobby.fxml";
     public static final String JOINGAME_PATH = "../lobbybrowser/joinlobby.fxml";
+    public static final String LOBBY_PATH = "../lobby/start_game.fxml";
 }

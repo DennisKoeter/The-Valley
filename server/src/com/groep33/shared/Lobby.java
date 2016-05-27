@@ -13,7 +13,7 @@ public interface Lobby extends Remote {
 
     void removeClient(Client client) throws RemoteException;
 
-    void broadcastMessage(ChatMessage message, Client sender) throws RemoteException;
+    void broadcastMessage(IChatMessage message, Client sender) throws RemoteException;
 
     void broadcastReady(boolean ready, Client sender) throws RemoteException;
 

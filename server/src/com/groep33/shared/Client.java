@@ -1,7 +1,5 @@
 package com.groep33.shared;
 
-import com.groep33.client.LobbyImpl;
-
 import java.rmi.RemoteException;
 
 /**
@@ -12,7 +10,7 @@ import java.rmi.RemoteException;
  */
 public interface Client {
 
-    void receiveMessage(ChatMessage message, Client sender) throws RemoteException;
+    void receiveMessage(IChatMessage message, Client sender) throws RemoteException;
 
   //  IPlayer getLocalPlayer() throws RemoteException;
 

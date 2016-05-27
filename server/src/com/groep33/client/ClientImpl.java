@@ -1,9 +1,8 @@
 package com.groep33.client;
 
-import com.groep33.shared.ChatMessage;
+import com.groep33.shared.IChatMessage;
 import com.groep33.shared.Client;
 import com.groep33.shared.GameServer;
-import com.groep33.shared.Lobby;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -29,7 +28,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void receiveMessage(ChatMessage message, Client sender) throws RemoteException {
+    public void receiveMessage(IChatMessage message, Client sender) throws RemoteException {
 
     }
 
