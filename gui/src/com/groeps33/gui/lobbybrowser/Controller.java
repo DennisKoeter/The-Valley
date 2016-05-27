@@ -22,19 +22,12 @@ import java.util.List;
 public class Controller {
 
     @FXML
-    ListView<LobbyImpl> lobbiesListView;
+    ListView<String> lobbiesListView;
 
 
     @FXML
     protected void initialize() {
         getLobbies();
-
-        lobbiesListView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Lobby> observable, Lobby oldValue, Lobby newValue) -> {
-            if (observable.getValue() == null) {
-                return;
-            }
-            onLobbySelected(newValue);
-        });
     }
 
     private void onLobbySelected(Lobby lobby) {
@@ -48,19 +41,19 @@ public class Controller {
 
     @FXML
     private void confirm() throws RemoteException {
-        Lobby selectedLobby = lobbiesListView.getSelectionModel().getSelectedItem();
-        selectedLobby.registerClient(ValleyFX.getClient());
+        //Lobby selectedLobby = lobbiesListView.getSelectionModel().getSelectedItem();
+        //selectedLobby.registerClient(ValleyFX.getClient());
     }
 
     private void getLobbies() {
         try {
             List<Lobby> lobbies = ValleyFX.getGlobalServer().getLobbies();
-            List<LobbyImpl> lobbiesImpl = new ArrayList<>();
+            List<String> lobbyNames = new ArrayList<>();
             for (Lobby l : lobbies) {
-                lobbiesImpl.add((LobbyImpl) l);
+                lobbyNames.add(String.format("%s, %s clients", l.getLobbyName(), l.getRegisteredClients().size()));
             }
 
-            ObservableList<LobbyImpl> lobbiesObservable = FXCollections.observableList(lobbiesImpl);
+            ObservableList<String> lobbiesObservable = FXCollections.observableList(lobbyNames);
 
             lobbiesListView.setItems(lobbiesObservable);
         } catch (RemoteException e) {
