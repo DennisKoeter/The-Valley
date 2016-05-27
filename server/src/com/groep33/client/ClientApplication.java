@@ -1,8 +1,7 @@
 package com.groep33.client;
 
 import com.groep33.server.Constants;
-import com.groep33.server.GlobalServerImpl;
-import com.groep33.shared.GlobalServer;
+import com.groep33.shared.IGlobalServer;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -18,8 +17,8 @@ public class ClientApplication {
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry("127.0.0.1",Constants.PORT_NUMBER);
-        GlobalServer server = (GlobalServer) registry.lookup(Constants.BINDING_NAME);
-        server.registerLobby(new LobbyImpl(new ClientImpl("test"), "lobby"));
+        IGlobalServer server = (IGlobalServer) registry.lookup(Constants.BINDING_NAME);
+        server.registerLobby(new Lobby(new Client("test"), "lobby"));
         server.getLobbies().forEach(lobby -> {
             try {
                 System.out.println(lobby.getLobbyName());

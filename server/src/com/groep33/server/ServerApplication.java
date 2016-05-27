@@ -1,7 +1,6 @@
 package com.groep33.server;
 
-import com.groep33.shared.GlobalServer;
-import com.sun.org.apache.xpath.internal.SourceTree;
+import com.groep33.shared.IGlobalServer;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -20,7 +19,7 @@ public class ServerApplication {
         Registry registry = LocateRegistry.createRegistry(Constants.PORT_NUMBER);
 
         System.out.printf("Binding server to name: '%s'\n", Constants.BINDING_NAME);
-        GlobalServer server = new GlobalServerImpl();
+        IGlobalServer server = new GlobalServer();
         registry.rebind(Constants.BINDING_NAME, server);
     }
 }

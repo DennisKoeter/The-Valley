@@ -1,15 +1,11 @@
 package com.groeps33.gui.lobbybrowser;
 
-import com.groep33.client.LobbyImpl;
-import com.groep33.shared.Lobby;
 import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

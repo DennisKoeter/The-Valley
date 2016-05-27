@@ -2,9 +2,9 @@ package com.groeps33.gui;/**
  * Created by Dennis on 25/05/16.
  */
 
-import com.groep33.client.ClientImpl;
-import com.groep33.shared.Client;
-import com.groep33.shared.GlobalServer;
+import com.groep33.client.Client;
+import com.groep33.shared.IClient;
+import com.groep33.shared.IGlobalServer;
 import com.groep33.shared.Lobby;
 import com.groeps33.gui.lobby.Controller;
 import javafx.application.Application;
@@ -29,13 +29,13 @@ public class ValleyFX extends Application {
     private static Parent root;
     private static Stage stage;
     private static MediaPlayer player;
-    private static Client client;
+    private static IClient client;
 
     // settings variables
     private static boolean audioFX;
     private static boolean audioMusic;
 
-    private static GlobalServer globalServer;
+    private static IGlobalServer globalServer;
 
     public static void main(String[] args) throws RemoteException, NotBoundException {
         try {
@@ -48,7 +48,7 @@ public class ValleyFX extends Application {
 
     private static void lookupServer() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry("127.0.0.1", com.groep33.server.Constants.PORT_NUMBER);
-        globalServer = (GlobalServer) registry.lookup(com.groep33.server.Constants.BINDING_NAME);
+        globalServer = (IGlobalServer) registry.lookup(com.groep33.server.Constants.BINDING_NAME);
     }
 
     @Override
@@ -109,15 +109,15 @@ public class ValleyFX extends Application {
 
     public static void login(String username, String password) throws RemoteException {
         if (globalServer.checkLoginDetails(username, password)) {
-            client = new ClientImpl(username);
+            client = new Client(username);
         }
     }
 
-    public static Client getClient() {
+    public static IClient getClient() {
         return client;
     }
 
-    public static GlobalServer getGlobalServer() {
+    public static IGlobalServer getGlobalServer() {
         return globalServer;
     }
 }

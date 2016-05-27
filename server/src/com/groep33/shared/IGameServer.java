@@ -8,13 +8,13 @@ import java.util.List;
  *
  * @author Bram Hoendervangers
  */
-public interface GameServer {
+public interface IGameServer {
 
-    void registerClient(GameClient client) throws RemoteException;
+    void registerClient(IGameClient client) throws RemoteException;
 
     void start() throws RemoteException;
 
-    List<GameClient> getClients();
+    List<IGameClient> getClients();
 
     //void onPlayerMoved(...)
 

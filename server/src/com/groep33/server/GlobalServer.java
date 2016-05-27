@@ -1,6 +1,6 @@
 package com.groep33.server;
 
-import com.groep33.shared.GlobalServer;
+import com.groep33.shared.IGlobalServer;
 import com.groep33.shared.Lobby;
 
 import java.rmi.RemoteException;
@@ -14,11 +14,11 @@ import java.util.List;
  *
  * @author Bram Hoendervangers
  */
-public class GlobalServerImpl extends UnicastRemoteObject implements GlobalServer {
+public class GlobalServer extends UnicastRemoteObject implements IGlobalServer {
 
     private final List<Lobby> lobbyList;
 
-    protected GlobalServerImpl() throws RemoteException {
+    protected GlobalServer() throws RemoteException {
         this.lobbyList = new ArrayList<>();
     }
 

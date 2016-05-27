@@ -9,17 +9,17 @@ import java.util.List;
  */
 public interface Lobby extends Remote {
 
-    void registerClient(Client client) throws RemoteException;
+    void registerClient(IClient client) throws RemoteException;
 
-    void removeClient(Client client) throws RemoteException;
+    void removeClient(IClient client) throws RemoteException;
 
-    void broadcastMessage(IChatMessage message, Client sender) throws RemoteException;
+    void broadcastMessage(IChatMessage message, IClient sender) throws RemoteException;
 
-    void broadcastReady(boolean ready, Client sender) throws RemoteException;
+    void broadcastReady(boolean ready, IClient sender) throws RemoteException;
 
     String getLobbyName() throws RemoteException;
 
-    List<Client> getRegisteredClients() throws RemoteException;
+    List<IClient> getRegisteredClients() throws RemoteException;
 
     void startGame() throws RemoteException;
 

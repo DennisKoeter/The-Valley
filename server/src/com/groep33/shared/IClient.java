@@ -8,19 +8,19 @@ import java.rmi.RemoteException;
  * Represents the client, before the client is ingame.
  * @author Bram Hoendervangers
  */
-public interface Client {
+public interface IClient {
 
-    void receiveMessage(IChatMessage message, Client sender) throws RemoteException;
+    void receiveMessage(IChatMessage message, IClient sender) throws RemoteException;
 
   //  IPlayer getLocalPlayer() throws RemoteException;
 
-    void receiveNewPlayer(Client player) throws RemoteException;
+    void receiveNewPlayer(IClient player) throws RemoteException;
 
-    void receiveReadyNotification(boolean ready, Client sender) throws RemoteException;
+    void receiveReadyNotification(boolean ready, IClient sender) throws RemoteException;
 
     void setReady(boolean ready) throws RemoteException;
 
-    void createGameClient(GameServer gameServer) throws RemoteException;
+    void createGameClient(IGameServer gameServer) throws RemoteException;
 
     void kick() throws RemoteException;
 

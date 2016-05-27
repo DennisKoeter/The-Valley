@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Bram on 25-5-2016.
  */
-public interface GlobalServer extends Remote {
+public interface IGlobalServer extends Remote {
     void registerLobby(Lobby lobby) throws RemoteException;
 
     void removeLobby(Lobby lobby) throws RemoteException;

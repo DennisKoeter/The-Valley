@@ -1,6 +1,6 @@
 package com.groeps33.gui.lobby;
 
-import com.groep33.shared.Client;
+import com.groep33.shared.IClient;
 import com.groep33.shared.Lobby;
 import com.groeps33.gui.Constants;
 import com.groeps33.gui.ValleyFX;
@@ -12,8 +12,6 @@ import javafx.scene.control.ListView;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,7 +39,7 @@ public class Controller {
 
     private void getClients(Lobby l) throws RemoteException{
         List<String> clientNames = new ArrayList();
-        for(Client c : l.getRegisteredClients()){
+        for(IClient c : l.getRegisteredClients()){
             clientNames.add(c.getUsername());
         }
         ObservableList<String> clientNamesObservable = FXCollections.observableList(clientNames);

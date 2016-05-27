@@ -1,7 +1,7 @@
 package com.groep33.client;
 
-import com.groep33.shared.GameClient;
-import com.groep33.shared.GameServer;
+import com.groep33.shared.IGameClient;
+import com.groep33.shared.IGameServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,15 +13,15 @@ import java.util.List;
  *
  * @author Bram Hoendervangers
  */
-public class GameServerImpl extends UnicastRemoteObject implements GameServer {
+public class GameServer extends UnicastRemoteObject implements IGameServer {
 
-    List<GameClient> clients = new ArrayList<>();
+    List<IGameClient> clients = new ArrayList<>();
 
-    protected GameServerImpl() throws RemoteException {
+    protected GameServer() throws RemoteException {
     }
 
     @Override
-    public void registerClient(GameClient client) throws RemoteException {
+    public void registerClient(IGameClient client) throws RemoteException {
         clients.add(client);
     }
 
@@ -31,7 +31,7 @@ public class GameServerImpl extends UnicastRemoteObject implements GameServer {
     }
 
     @Override
-    public List<GameClient> getClients() {
+    public List<IGameClient> getClients() {
         return null;
     }
 }

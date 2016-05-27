@@ -1,8 +1,8 @@
 package com.groep33.client;
 
 import com.groep33.shared.IChatMessage;
-import com.groep33.shared.Client;
-import com.groep33.shared.GameServer;
+import com.groep33.shared.IClient;
+import com.groep33.shared.IGameServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,13 +12,13 @@ import java.rmi.server.UnicastRemoteObject;
  *
  * @author Bram Hoendervangers
  */
-public class ClientImpl extends UnicastRemoteObject implements Client {
+public class Client extends UnicastRemoteObject implements IClient {
 
     private String username;
     private boolean ready;
-    private LobbyImpl lobby;
+    private Lobby lobby;
 
-    public ClientImpl(String username) throws RemoteException {
+    public Client(String username) throws RemoteException {
         this.username = username;
     }
 
@@ -28,17 +28,17 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void receiveMessage(IChatMessage message, Client sender) throws RemoteException {
+    public void receiveMessage(IChatMessage message, IClient sender) throws RemoteException {
 
     }
 
     @Override
-    public void receiveNewPlayer(Client player) throws RemoteException {
+    public void receiveNewPlayer(IClient player) throws RemoteException {
 
     }
 
     @Override
-    public void receiveReadyNotification(boolean ready, Client sender) throws RemoteException {
+    public void receiveReadyNotification(boolean ready, IClient sender) throws RemoteException {
 
     }
 
@@ -48,7 +48,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void createGameClient(GameServer gameServer) throws RemoteException {
+    public void createGameClient(IGameServer gameServer) throws RemoteException {
 
     }
 
@@ -57,7 +57,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
 
     }
 
-    public void setLobby(LobbyImpl lobby) {
+    public void setLobby(Lobby lobby) {
         this.lobby = lobby;
     }
 }

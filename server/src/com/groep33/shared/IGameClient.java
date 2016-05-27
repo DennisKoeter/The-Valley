@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
  *
  * @author Bram Hoendervangers
  */
-public interface GameClient {
+public interface IGameClient {
 
     //updateLocation(...)
 

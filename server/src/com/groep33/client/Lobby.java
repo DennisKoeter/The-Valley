@@ -1,9 +1,8 @@
 package com.groep33.client;
 
 import com.groep33.shared.IChatMessage;
-import com.groep33.shared.Client;
-import com.groep33.shared.GameServer;
-import com.groep33.shared.Lobby;
+import com.groep33.shared.IClient;
+import com.groep33.shared.IGameServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -14,14 +13,14 @@ import java.util.*;
  *
  * @author Bram Hoendervangers
  */
-public class LobbyImpl extends UnicastRemoteObject implements Lobby {
+public class Lobby extends UnicastRemoteObject implements com.groep33.shared.Lobby {
 
-    private final List<Client> clientList;
-    private final Client creator;
+    private final List<IClient> clientList;
+    private final IClient creator;
     private final String lobbyName;
     private final String id;
 
-    public LobbyImpl(ClientImpl creator, String lobbyName) throws RemoteException {
+    public Lobby(Client creator, String lobbyName) throws RemoteException {
         this.creator = creator;
         creator.setLobby(this);
         this.lobbyName = lobbyName;
@@ -31,19 +30,19 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
     }
 
     @Override
-    public void registerClient(Client client) throws RemoteException {
+    public void registerClient(IClient client) throws RemoteException {
         System.out.println("Registered client");
         clientList.add(client);
     }
 
     @Override
-    public void removeClient(Client client) throws RemoteException {
+    public void removeClient(IClient client) throws RemoteException {
         clientList.remove(client);
     }
 
     @Override
-    public void broadcastMessage(IChatMessage message, Client sender) throws RemoteException {
-        for (Client client : clientList) {
+    public void broadcastMessage(IChatMessage message, IClient sender) throws RemoteException {
+        for (IClient client : clientList) {
             if (!client.equals(sender)) {
                 client.receiveMessage(message, sender);
             }
@@ -51,8 +50,8 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
     }
 
     @Override
-    public void broadcastReady(boolean ready, Client sender) throws RemoteException {
-        for (Client client : clientList) {
+    public void broadcastReady(boolean ready, IClient sender) throws RemoteException {
+        for (IClient client : clientList) {
             if (!client.equals(sender)) {
                 client.receiveReadyNotification(ready, sender);
             }
@@ -65,21 +64,21 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
     }
 
     @Override
-    public List<Client> getRegisteredClients() throws RemoteException {
+    public List<IClient> getRegisteredClients() throws RemoteException {
         return Collections.unmodifiableList(clientList);
     }
 
     @Override
     public void startGame() throws RemoteException {
-        GameServer gameServer = new GameServerImpl();
-        for (Client client : clientList) {
+        IGameServer gameServer = new GameServer();
+        for (IClient client : clientList) {
             client.createGameClient(gameServer);
         }
     }
 
     @Override
     public void hostDisconnected() throws RemoteException {
-        for (Client client : clientList) {
+        for (IClient client : clientList) {
             client.kick();
         }
     }
@@ -89,7 +88,7 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
         String returnString;
         try {
             returnString = this.getLobbyName();
-            for (Client c : this.clientList) {
+            for (IClient c : this.clientList) {
                 returnString += c.getUsername();
             }
             return returnString;
