@@ -24,7 +24,6 @@ public class Controller {
     @FXML
     ListView<String> lobbiesListView;
 
-
     @FXML
     protected void initialize() {
         getLobbies();
