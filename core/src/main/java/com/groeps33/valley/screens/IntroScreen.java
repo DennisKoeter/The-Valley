@@ -38,7 +38,7 @@ public class IntroScreen extends TheValleyScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         spriteBatch = new SpriteBatch();
-        splashTexture = new Texture("menus/front(com.groeps33.gui.login).png");
+        splashTexture = new Texture("menus/front(login).png");
 
         font = new BitmapFont();
         skin = new Skin();
