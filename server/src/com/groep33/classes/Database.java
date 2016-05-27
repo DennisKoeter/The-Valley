@@ -1,6 +1,12 @@
 package com.groep33.classes;
 
+import com.groep33.interfaces.IUserAccount;
+import com.mysql.jdbc.*;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
 
 /**
  * @author Edwin
@@ -9,72 +15,34 @@ import java.sql.*;
 public class Database {
 
     //Fields
-    String url = "jdbc:mysql://localhost:3306/yakuza_db";
-    String user = "root";
-    String pass = "";
+
+    private final MysqlDataSource dataSource;
+
+    private static final String USER = "the-valley-user";
+    private static final String PASS = "";
 
     //Constructors
     public Database() throws Exception {
-        msg("Database intialized.");
-        testSelectQuery();
+        dataSource = new MysqlDataSource();
+        dataSource.setUser(USER);
+        dataSource.setPassword(PASS);
+        dataSource.setPort(3306);
     }
 
-    //Methods
-    public void testSelectQuery() throws Exception {
-        try (Connection c = getConnection()) {
-            try (Statement s = getStatement(c)) {
-                try (ResultSet rs = getResultSet(s, "select * from news_item")) {
-                    while (rs.next()) {
-                        msg(rs.getString("title") + ", " + rs.getString("content"));
-                    }
+    public IUserAccount register(String username, String email, String password) {
+        try (Connection c = dataSource.getConnection()) {
+            try (Statement s = c.createStatement()) {
+                ResultSet result = s.executeQuery(String.format("INSERT INTO `the-valley-db`.`account` (`username`, `password`, `email`) VALUES ('%s', '%s', '%s')", username, email, password));
+                if (result.next()) {
+                    // todo: fix returnen van useraccountg
                 }
+//                INSERT INTO `the-valley-db`.`account` (`username`, `password`, `email`) VALUES ('user', 'pass', 'email');
+
+
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    }
-
-    public void testUpdateQuery() throws Exception {
-        try (Connection c = getConnection()) {
-            try (Statement s = getStatement(c)) {
-                int rowsAffected = s.executeUpdate(
-                        "update employees set email = 'testemail@foo.com' where first_name = 'Edwin' and last_name = 'Van Rooij'");
-                msg("Rows affected: " + rowsAffected);
-            }
-        }
-    }
-
-    public void testDeleteQuery() throws Exception {
-        try (Connection c = getConnection()) {
-            try (Statement s = getStatement(c)) {
-                int rowsAffected = s.executeUpdate(
-                        "delete from employees where first_name = 'Edwin' and last_name = 'Van Rooij'");
-                msg("Rows affected: " + rowsAffected);
-            }
-        }
-    }
-
-    private ResultSet getResultSet(Statement s, String query) throws SQLException {
-        return s.executeQuery(query);
-    }
-
-    private ResultSet getResultSet(PreparedStatement s) throws SQLException {
-        return s.executeQuery();
-    }
-
-    private Statement getStatement(Connection c) throws SQLException {
-        return c.createStatement();
-    }
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, pass);
-    }
-
-    private void displayResultSet(ResultSet rs) throws SQLException {
-        while (rs.next()) {
-            msg(rs.getString("name") + ", " + rs.getString("sex"));
-        }
-    }
-
-    private void msg(String msg) {
-        System.out.println(msg);
+        return null;
     }
 }
