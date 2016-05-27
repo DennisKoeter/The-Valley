@@ -29,8 +29,8 @@ public class Lobby implements Remote {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s, %s max players", getName(), String.valueOf(getMaxPlayers()));
-    }
+//    @Override
+//    public String toString() {
+//        return String.format("%s, %s max players", getName(), String.valueOf(getMaxPlayers()));
+//    }
 }
