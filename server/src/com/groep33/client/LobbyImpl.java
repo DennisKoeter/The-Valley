@@ -102,10 +102,11 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
     }
 
     private String generateId(){
-        Random random = new Random();
-        String number = String.valueOf(random.nextInt(1000));
-        String letters = lobbyName.substring(0, 2);
-        return letters + number;
+        //Random random = new Random();
+        //String number = String.valueOf(random.nextInt(1000));
+        //String letters = lobbyName.substring(0, 2);
+        //return letters + number;
+        return lobbyName.substring(0,1);
     }
 
     @Override

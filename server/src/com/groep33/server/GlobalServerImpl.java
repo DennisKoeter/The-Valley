@@ -45,5 +45,11 @@ public class GlobalServerImpl extends UnicastRemoteObject implements GlobalServe
         return true; //TODO connect with database
     }
 
-
+    @Override
+    public Lobby getLobbyById(String id) throws RemoteException {
+        for(Lobby l : lobbyList){
+            if(l.getId().equals(id)) return l;
+        }
+        return null;
+    }
 }

@@ -41,8 +41,8 @@ public class Controller {
 
     @FXML
     private void confirm() throws RemoteException {
-        //Lobby selectedLobby = lobbiesListView.getSelectionModel().getSelectedItem();
-        //selectedLobby.registerClient(ValleyFX.getClient());
+        Lobby selectedLobby = ValleyFX.getGlobalServer().getLobbyById(lobbiesListView.getSelectionModel().getSelectedItem().substring(0,1));
+        selectedLobby.registerClient(ValleyFX.getClient());
     }
 
     private void getLobbies() {
