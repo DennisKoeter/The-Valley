@@ -84,4 +84,20 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
             client.kick();
         }
     }
+
+    @Override
+    public String toString() {
+        String returnString;
+        try {
+            returnString = this.getLobbyName();
+            for(Client c : this.clientList){
+                returnString += c.getUsername();
+            }
+            return returnString;
+        } catch (RemoteException e) {
+            returnString = "error";
+            e.printStackTrace();
+        }
+        return returnString;
+    }
 }

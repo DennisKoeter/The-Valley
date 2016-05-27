@@ -24,6 +24,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
+    public String getUsername(){
+        return username;
+    }
+
+    @Override
     public void receiveMessage(ChatMessage message, Client sender) throws RemoteException {
 
     }

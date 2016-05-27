@@ -25,4 +25,6 @@ public interface Client {
     void createGameClient(GameServer gameServer) throws RemoteException;
 
     void kick() throws RemoteException;
+
+    String getUsername();
 }
