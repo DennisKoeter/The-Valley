@@ -24,4 +24,6 @@ public interface Lobby extends Remote {
     void startGame() throws RemoteException;
 
     void hostDisconnected() throws RemoteException;
+
+    String getId() throws RemoteException;
 }

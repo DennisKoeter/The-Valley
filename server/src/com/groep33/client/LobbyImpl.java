@@ -8,9 +8,7 @@ import com.groep33.shared.Lobby;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Bram on 25-5-2016.
@@ -22,11 +20,13 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
     private final List<Client> clientList;
     private final Client creator;
     private final String lobbyName;
+    private final String id;
 
     public LobbyImpl(ClientImpl creator, String lobbyName) throws RemoteException {
         this.creator = creator;
         creator.setLobby(this);
         this.lobbyName = lobbyName;
+        this.id = generateId();
         clientList = new ArrayList<>();
         clientList.add(creator);
     }
@@ -99,5 +99,17 @@ public class LobbyImpl extends UnicastRemoteObject implements Lobby {
             e.printStackTrace();
         }
         return returnString;
+    }
+
+    private String generateId(){
+        Random random = new Random();
+        String number = String.valueOf(random.nextInt(1000));
+        String letters = lobbyName.substring(0, 2);
+        return letters + number;
+    }
+
+    @Override
+    public String getId(){
+        return id;
     }
 }

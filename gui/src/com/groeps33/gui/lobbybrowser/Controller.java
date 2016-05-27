@@ -50,7 +50,7 @@ public class Controller {
             List<Lobby> lobbies = ValleyFX.getGlobalServer().getLobbies();
             List<String> lobbyNames = new ArrayList<>();
             for (Lobby l : lobbies) {
-                lobbyNames.add(String.format("%s, %s clients", l.getLobbyName(), l.getRegisteredClients().size()));
+                lobbyNames.add(String.format("%s, %s, %s clients", l.getId(), l.getLobbyName(), l.getRegisteredClients().size()));
             }
 
             ObservableList<String> lobbiesObservable = FXCollections.observableList(lobbyNames);
