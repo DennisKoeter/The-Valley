@@ -5,6 +5,12 @@ package com.groeps33.gui.application;
  *         Created on 5/26/2016
  */
 public class Constants {
+    public static final String MAINMUSIC_NAME = "MainMusic.mp3";
+    public static final String AUDIOFX_KEY = "audioFX";
+    public static final String AUDIOMUSIC_KEY = "audioMusic";
+
+    public static final String RMI_IP = "127.0.0.1";
+
     public static final String SETTINGS_PATH = "../screens/settings/settings.fxml";
     public static final String HIGHSCORES_PATH = "../screens/highscores/highscores.fxml";
     public static final String LOGIN_PATH = "../screens/login/login.fxml";

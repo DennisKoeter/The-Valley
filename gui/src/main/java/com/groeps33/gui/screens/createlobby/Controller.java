@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.net.URL;
 import java.rmi.RemoteException;
 
 /**
@@ -29,7 +30,9 @@ public class Controller {
         String password = passwordField.getText();
 
         ILobby createdLobby = createLobby(name, maxPlayers, password);
-        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH), createdLobby);
+        URL url = ValleyFX.class.getResource(Constants.LOBBY_PATH);
+        System.out.println("URL: " + url);
+        ValleyFX.changeScene((url), createdLobby);
     }
 
     @FXML

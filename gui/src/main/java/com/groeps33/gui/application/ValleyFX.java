@@ -47,17 +47,14 @@ public class ValleyFX extends Application {
     }
 
     private static void lookupServer() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry("127.0.0.1", com.groeps33.server.application.Constants.PORT_NUMBER);
+        Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, com.groeps33.server.application.Constants.PORT_NUMBER);
         lobbyAdministration = (ILobbyAdministration) registry.lookup(com.groeps33.server.application.Constants.BINDING_NAME);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        System.out.println(getClass().getResource("../").toString());
-        URL url = getClass().getResource("../screens/login/login.fxml");
-
-
-        String musicString = new File("MainMusic.mp3").toURI().toString();
+        URL url = getClass().getResource(Constants.LOGIN_PATH);
+        String musicString = new File(Constants.MAINMUSIC_NAME).toURI().toString();
         Media musicMedia = new Media(musicString);
         player = new MediaPlayer(musicMedia);
         player.setOnEndOfMedia(() -> player.seek(javafx.util.Duration.ZERO));
@@ -100,8 +97,8 @@ public class ValleyFX extends Application {
 
     public static HashMap getSettings() {
         HashMap<String, Boolean> settings = new HashMap<>();
-        settings.put("audioFX", audioFX);
-        settings.put("audioMusic", audioMusic);
+        settings.put(Constants.AUDIOFX_KEY, audioFX);
+        settings.put(Constants.AUDIOMUSIC_KEY, audioMusic);
         return settings;
     }
 
