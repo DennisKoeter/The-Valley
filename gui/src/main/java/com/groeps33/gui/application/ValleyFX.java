@@ -24,7 +24,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
 
-public class ValleyFX extends Application {
+public class    ValleyFX extends Application {
     private static Parent root;
     private static Stage stage;
     private static MediaPlayer player;

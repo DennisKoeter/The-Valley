@@ -4,6 +4,7 @@ import com.groeps33.server.application.Database;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,14 +53,21 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
 
     @Override
     public UserAccount login(String username, String password) throws RemoteException {
-        return null;
-        //TODO check login details and return useraccount object
+        try {
+            return database.login(username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public UserAccount register(String username, String email, String password) throws RemoteException {
-        return null;
-        // todo: fix this
-//        return database.register(username, email, password);
+        try {
+            return database.register(username, email, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

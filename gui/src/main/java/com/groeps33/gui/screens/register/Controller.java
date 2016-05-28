@@ -1,10 +1,10 @@
 package com.groeps33.gui.screens.register;
 
  import com.groeps33.gui.application.Constants;
- import com.groeps33.gui.application.ValleyFX;
+import com.groeps33.gui.application.ValleyFX;
+import com.groeps33.server.shared.UserAccount;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import com.groeps33.server.shared.UserAccount;
 
 import java.io.IOException;
 

@@ -31,23 +31,21 @@ public class Database {
         dataSource.setPort(Constants.MYSQL_PORT);
     }
 
-    public UserAccount register(String username, String email, String password) {
+    public UserAccount register(String username, String email, String password) throws SQLException {
         try (Connection c = dataSource.getConnection()) {
             try (Statement s = c.createStatement()) {
-                int rowsAffected = s.executeUpdate(String.format("INSERT INTO `the-valley-db`.`account` (`%s`, `%s`, `%s`) VALUES ('%s', '%s', '%s')", ACCOUNT_USERNAME, ACCOUNT_PASSWORD, ACCOUNT_EMAIL,  username, email, password));
+                int rowsAffected = s.executeUpdate(String.format("INSERT INTO `the-valley-db`.`account` (`%s`, `%s`, `%s`) VALUES ('%s', '%s', '%s')", ACCOUNT_USERNAME, ACCOUNT_EMAIL, ACCOUNT_PASSWORD, username, email, password));
                 if (rowsAffected == 1) {
                     return new UserAccount(username, email);
                 } else {
-                    System.out.println("weird shit happened");
+                    System.out.format("Could not register for username %s, email %s and pass %s", username, email, password);
+                    return null;
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return null;
     }
 
-    public UserAccount login(String username, String password) throws Exception {
+    public UserAccount login(String username, String password) throws SQLException {
         try (Connection c = dataSource.getConnection()) {
             try (Statement s = c.createStatement()) {
                 String query = String.format("SELECT * FROM `the-valley-db`.account WHERE %s = '%s' AND %s = '%s'", ACCOUNT_USERNAME, username, ACCOUNT_PASSWORD, password);
