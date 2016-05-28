@@ -32,7 +32,7 @@ public class Controller {
 
     @FXML
     private void back() throws IOException {
-        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
+        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOGIN_PATH));
     }
 
     private void register(String username, String email, String password) throws IOException {
