@@ -2,12 +2,12 @@ package com.groeps33.gui.screens.lobby;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
+import com.groeps33.server.shared.ILobby;
+import com.groeps33.server.shared.UserAccount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import com.groeps33.server.shared.ILobby;
-import com.groeps33.server.shared.UserAccount;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

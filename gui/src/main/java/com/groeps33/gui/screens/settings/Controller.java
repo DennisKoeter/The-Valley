@@ -1,5 +1,6 @@
 package com.groeps33.gui.screens.settings;
 
+ import com.groeps33.gui.application.Constants;
  import com.groeps33.gui.application.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -32,6 +33,6 @@ public class Controller {
         boolean audioFX = audioFxCheckbox.isSelected();
         boolean audioMusic = audioMusicCheckbox.isSelected();
         ValleyFX.saveSettings(audioFX, audioMusic);
-        ValleyFX.changeScene(ValleyFX.class.getResource("../menu/menu.fxml"));
+        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
     }
 }
