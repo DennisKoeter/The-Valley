@@ -1,5 +1,6 @@
 package com.groeps33.gui.screens.register;
 
+ import com.groeps33.gui.application.Constants;
  import com.groeps33.gui.application.ValleyFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -31,12 +32,12 @@ public class Controller {
 
     @FXML
     private void back() throws IOException {
-        ValleyFX.changeScene(ValleyFX.class.getResource("../menu/menu.fxml"));
+        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
     }
 
     private void register(String username, String email, String password) throws IOException {
         UserAccount userAccount = ValleyFX.getLobbyAdministration().register(username, email, password);
         ValleyFX.setUserAccount(userAccount);
-        ValleyFX.changeScene(ValleyFX.class.getResource("../com.groeps33.gui.login/com.groeps33.gui.login.fxml"));
+        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOGIN_PATH));
     }
 }
