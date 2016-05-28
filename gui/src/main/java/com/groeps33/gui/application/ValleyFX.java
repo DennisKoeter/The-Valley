@@ -76,12 +76,10 @@ public class    ValleyFX extends Application {
     }
 
     public static void changeScene(URL location, ILobby lobby) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(location);
-        root = fxmlLoader.load();
-        Controller controller = fxmlLoader.getController();
-        controller.setLobby(lobby);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        FXMLLoader loader = new FXMLLoader(location);
+        stage.setScene(new Scene(loader.load()));
+        Controller controller = loader.<Controller>getController();
+        controller.init(lobby);
         stage.show();
     }
 
