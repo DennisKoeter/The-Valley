@@ -19,7 +19,7 @@ public interface ILobby extends Remote {
 
     String getLobbyName() throws RemoteException;
 
-    List<UserAccount> getRegisteredClients() throws RemoteException;
+    List<UserAccount> getRegisteredUserAccounts() throws RemoteException;
 
 //    void startGame() throws RemoteException;
 //

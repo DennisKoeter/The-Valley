@@ -45,7 +45,7 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
     @Override
     public ILobby getLobbyById(String id) throws RemoteException {
         for (ILobby l : lobbyList) {
-//            if (l.getId().equals(id)) return l;
+            if (l.getId().equals(id)) return l;
         }
         return null;
     }

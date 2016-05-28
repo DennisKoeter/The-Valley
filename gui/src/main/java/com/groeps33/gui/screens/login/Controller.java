@@ -21,7 +21,9 @@ public class Controller {
     private void login() throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        if(checkLogin(username, password)) ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
+        if(checkLogin(username, password)) {
+            ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
+        }
     }
 
     @FXML

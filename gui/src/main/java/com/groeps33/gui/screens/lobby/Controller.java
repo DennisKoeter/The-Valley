@@ -20,30 +20,31 @@ import java.util.List;
 public class Controller {
 
     @FXML
-    ListView<String> clientsListView;
+    ListView<String> userAccountsListView;
 
     private ILobby thisLobby;
 
-    @FXML
-    private void initialize() {
-        try {
-            getClients(thisLobby);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+    public void init(ILobby l) throws RemoteException {
+        if (l != null) {
+            thisLobby = l;
+            getUserAccounts(thisLobby);
+        } else {
+            System.out.println("Lobby is null in setlobby");
         }
     }
 
-    public void setLobby(ILobby l) {
-        thisLobby = l;
-    }
-
-    private void getClients(ILobby l) throws RemoteException {
-        List<String> clientNames = new ArrayList<>();
-        for (UserAccount c : l.getRegisteredClients()) {
-            clientNames.add(c.getUsername());
+    private void getUserAccounts(ILobby l) throws RemoteException {
+        if (l != null) {
+            List<String> userAccountNames = new ArrayList<>();
+            for (UserAccount c : l.getRegisteredUserAccounts()) {
+                if (c == null) userAccountNames.add("user was null");
+                else userAccountNames.add(c.getUsername());
+            }
+            ObservableList<String> userAccountNamesObservable = FXCollections.observableList(userAccountNames);
+            userAccountsListView.setItems(userAccountNamesObservable);
+        } else {
+            System.out.println("Lobby is null in getuseraccounts");
         }
-        ObservableList<String> clientNamesObservable = FXCollections.observableList(clientNames);
-        clientsListView.setItems(clientNamesObservable);
     }
 
 

@@ -54,9 +54,8 @@ public class Controller {
         String id = getId(lobbiesListView.getSelectionModel().getSelectedItem());
         ILobby selectedLobby = ValleyFX.getLobbyAdministration().getLobbyById(id);
         selectedLobby.registerClient(ValleyFX.getUserAccount());
-
         try {
-            ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH), selectedLobby);
+            ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH), selectedLobby);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,7 +67,7 @@ public class Controller {
             List<ILobby> lobbies = ValleyFX.getLobbyAdministration().getLobbies();
             List<String> lobbyNames = new ArrayList<>();
             for (ILobby l : lobbies) {
-                lobbyNames.add(String.format("%s, %s, %s clients", l.getId(), l.getLobbyName(), l.getRegisteredClients().size()));
+                lobbyNames.add(String.format("%s, %s, %s clients", l.getId(), l.getLobbyName(), l.getRegisteredUserAccounts().size()));
             }
 
             ObservableList<String> lobbiesObservable = FXCollections.observableList(lobbyNames);

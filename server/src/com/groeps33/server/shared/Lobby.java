@@ -60,7 +60,7 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
     }
 
     @Override
-    public List<UserAccount> getRegisteredClients() throws RemoteException {
+    public List<UserAccount> getRegisteredUserAccounts() throws RemoteException {
         return Collections.unmodifiableList(userAccountList);
     }
 
