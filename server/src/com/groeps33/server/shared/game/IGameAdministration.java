@@ -10,6 +10,12 @@ import java.util.List;
  */
 public interface IGameAdministration {
 
+    /**
+     * find a specific game
+     * @param uuid the id of the game
+     * @return the game object
+     * @throws RemoteException
+     */
     IGame getGameById(String uuid) throws RemoteException;
 
     List<IGame> getGames() throws RemoteException;

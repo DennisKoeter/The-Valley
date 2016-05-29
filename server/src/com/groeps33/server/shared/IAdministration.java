@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface IAdministration<T> {
 
+
     void register(T t);
 
     void remove(T t);
