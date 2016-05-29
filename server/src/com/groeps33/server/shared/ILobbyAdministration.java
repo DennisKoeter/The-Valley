@@ -1,5 +1,7 @@
 package com.groeps33.server.shared;
 
+import com.groeps33.server.shared.exceptions.LobbyNameAlreadyExistsException;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
  * Created by Bram on 25-5-2016.
  */
 public interface ILobbyAdministration extends Remote {
-    ILobby registerLobby(UserAccount userAccount, String name, String password, int maximumPlayers) throws RemoteException;
+    ILobby registerLobby(UserAccount userAccount, String name, String password, int maximumPlayers) throws RemoteException, LobbyNameAlreadyExistsException;
 
     void removeLobby(ILobby lobby) throws RemoteException;
 

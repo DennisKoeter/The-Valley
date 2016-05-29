@@ -3,7 +3,9 @@ package com.groeps33.gui.screens.createlobby;
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
 import com.groeps33.server.shared.ILobby;
+import com.groeps33.server.shared.exceptions.LobbyNameAlreadyExistsException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -42,11 +44,12 @@ public class Controller {
     private ILobby createLobby(String name, int maxPlayers, String password){
         //TODO save lobby in global server
         try {
-            return ValleyFX.createLobby(name, maxPlayers, password);
+            return ValleyFX.getLobbyAdministration().registerLobby(ValleyFX.getUserAccount(), name, password, maxPlayers);
         } catch (RemoteException e) {
             e.printStackTrace();
-            System.out.println("Error occurred in createLobby");
-            return null;
+        } catch (LobbyNameAlreadyExistsException e) {
+            ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Name already exists", "There is already a lobby with the name: " + name + "!\nPlease choose a different name.");
         }
+        return null;
     }
 }

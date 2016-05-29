@@ -3,6 +3,7 @@ package com.groeps33.gui.application;/**
  */
 
 import com.groeps33.gui.screens.lobby.Controller;
+import com.groeps33.server.shared.exceptions.LobbyNameAlreadyExistsException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -113,10 +114,6 @@ public class    ValleyFX extends Application {
 
     public static UserAccount getUserAccount(){
         return userAccount;
-    }
-
-    public static ILobby createLobby(String name, int maxPlayers, String password) throws RemoteException {
-        return lobbyAdministration.registerLobby(userAccount, name, password, maxPlayers);
     }
 
     public static void showMessageBox(Alert.AlertType type, String title, String message) {

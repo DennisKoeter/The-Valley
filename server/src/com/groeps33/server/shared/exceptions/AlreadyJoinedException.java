@@ -1,5 +1,8 @@
-package com.groeps33.server.shared;
+package com.groeps33.server.shared.exceptions;
 
+import com.groeps33.server.shared.UserAccount;
+
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
 /**
@@ -7,7 +10,7 @@ import java.rmi.RemoteException;
  *
  * @author Bram Hoendervangers
  */
-public class AlreadyJoinedException extends RemoteException {
+public class AlreadyJoinedException extends Exception {
     public AlreadyJoinedException(UserAccount userAccount) {
         super("Can't register client. Client: " + userAccount.getEmail() + " has already joined this lobby.");
     }

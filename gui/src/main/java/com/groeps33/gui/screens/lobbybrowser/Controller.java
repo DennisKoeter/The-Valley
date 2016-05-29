@@ -2,9 +2,8 @@ package com.groeps33.gui.screens.lobbybrowser;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
-import com.groeps33.server.shared.AlreadyJoinedException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.groeps33.server.shared.exceptions.AlreadyJoinedException;
+import com.groeps33.server.shared.exceptions.UncorrectPasswordException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,12 +14,11 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Dennis on 25/05/16.
@@ -78,14 +76,29 @@ public class Controller {
                 return;
             }
 
-            selectedLobby.registerClient(ValleyFX.getUserAccount());
-            ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH), selectedLobby);
-        } catch (IOException e) {
-            if (e instanceof AlreadyJoinedException) {
-                ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Already joined", "Your account is already in this lobby!");
-            } else {
-                e.printStackTrace();
+            String password = null;
+            if (selectedLobby.hasPassword()) {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("Enter password");
+                dialog.setHeaderText("Lobby " + selectedLobby.getLobbyName() + " has a password.");
+                dialog.setContentText("Please enter the password:");
+
+                Optional<String> result = dialog.showAndWait();
+                if (!result.isPresent()) {
+                    return;
+                }
+
+                password = result.get();
             }
+
+            selectedLobby.registerClient(ValleyFX.getUserAccount(), password);
+            ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH), selectedLobby);
+        } catch (AlreadyJoinedException e) {
+            ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Already joined", "Your account is already in this lobby!");
+        } catch (UncorrectPasswordException e) {
+            ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Password incorrect", "Please enter a correct password!");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

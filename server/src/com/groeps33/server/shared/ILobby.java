@@ -1,5 +1,9 @@
 package com.groeps33.server.shared;
 
+import com.groeps33.server.shared.exceptions.AlreadyJoinedException;
+import com.groeps33.server.shared.exceptions.LobbyFullException;
+import com.groeps33.server.shared.exceptions.UncorrectPasswordException;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -9,7 +13,7 @@ import java.util.List;
  */
 public interface ILobby extends Remote {
 
-    void registerClient(UserAccount userAccount) throws RemoteException;
+    void registerClient(UserAccount userAccount, String password) throws RemoteException, AlreadyJoinedException, UncorrectPasswordException, LobbyFullException;
 
     void removeClient(UserAccount userAccount) throws RemoteException;
 
@@ -32,4 +36,6 @@ public interface ILobby extends Remote {
     int getPlayerCount() throws RemoteException;
 
     boolean isFull() throws RemoteException;
+
+    boolean hasPassword() throws RemoteException;
 }

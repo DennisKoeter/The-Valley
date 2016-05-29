@@ -1,4 +1,4 @@
-package com.groeps33.server.shared;
+package com.groeps33.server.shared.exceptions;
 
 import java.rmi.RemoteException;
 
@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
  *
  * @author Bram Hoendervangers
  */
-public class LobbyFullException extends RemoteException {
+public class LobbyFullException extends Exception {
     public LobbyFullException() {
         super("Can't register new client. Lobby is already full.");
     }

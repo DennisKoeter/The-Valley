@@ -1,17 +1,20 @@
 package com.groeps33.server.shared;
 
+import com.groeps33.server.shared.exceptions.AlreadyJoinedException;
+import com.groeps33.server.shared.exceptions.LobbyFullException;
+import com.groeps33.server.shared.exceptions.UncorrectPasswordException;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Edwin
  *         Created on 5/28/2016
  */
-public class Lobby extends UnicastRemoteObject implements ILobby{
+public class Lobby extends UnicastRemoteObject implements ILobby {
     private final List<UserAccount> userAccountList;
     private final UserAccount creator;
     private final String lobbyName;
@@ -30,7 +33,11 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
     }
 
     @Override
-    public void registerClient(UserAccount userAccount) throws RemoteException {
+    public void registerClient(UserAccount userAccount, String password) throws RemoteException, AlreadyJoinedException, UncorrectPasswordException, LobbyFullException {
+        if (hasPassword() && !this.password.equals(password)) {
+            throw new UncorrectPasswordException(lobbyName, password);
+        }
+
         if (isFull()) {
             throw new LobbyFullException();
         }
@@ -124,5 +131,10 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
     @Override
     public boolean isFull() throws RemoteException {
         return userAccountList.size() >= maximumPlayers;
+    }
+
+    @Override
+    public boolean hasPassword() throws RemoteException {
+        return password != null && !password.isEmpty();
     }
 }
