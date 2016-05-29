@@ -7,12 +7,15 @@ import com.groeps33.server.shared.UserAccount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Dennis on 25/05/16.
@@ -50,6 +53,18 @@ public class Controller {
 
     @FXML
     private void back() throws IOException {
+        if (thisLobby.getPlayerCount() == 1) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Do you want to leave this lobby?");
+            alert.setContentText("This lobby will be deleted if you leave, since you are the only person in it.");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (!result.isPresent() || result.get() != ButtonType.OK) {
+                return;
+            }
+        }
+
         thisLobby.removeClient(ValleyFX.getUserAccount());
         ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
     }
