@@ -37,7 +37,7 @@ public class Controller {
 
     @FXML
     private void back() throws IOException {
-        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH));
+        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
     }
 
     private ILobby createLobby(String name, int maxPlayers, String password){
