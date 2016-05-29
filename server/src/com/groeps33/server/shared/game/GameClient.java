@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
  * @author Bram Hoendervangers
  */
 public class GameClient implements IGameClient {
+
     private final UserAccount userAccount;
 
     public GameClient(UserAccount userAccount) {

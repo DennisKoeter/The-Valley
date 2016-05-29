@@ -5,6 +5,7 @@ import com.groeps33.gui.application.ValleyFX;
 import com.groeps33.server.shared.lobby.ILobbyAdministration;
 import com.groeps33.server.shared.UserAccount;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -23,6 +24,11 @@ public class Controller {
     private void login() throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Fill in user details", "Please fill in a username & password.");
+            return;
+        }
 
         ILobbyAdministration admin = ValleyFX.getLobbyAdministration();
         UserAccount acc = admin.login(username, password);
