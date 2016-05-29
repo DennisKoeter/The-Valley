@@ -7,7 +7,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0"
             prefWidth="1600.0" styleClass="body" stylesheets="@../../application/main-style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.screens.forgotten.Controller">
     <children>
-        <HBox layoutX="460.0" layoutY="404.0" prefHeight="515.0" prefWidth="991.0" styleClass="container">
+        <HBox layoutX="390.0" layoutY="250.0" prefHeight="465.0" prefWidth="500.0"  styleClass="container">
             <children>
                 <VBox minWidth="149.0" prefHeight="515.0" prefWidth="149.0" styleClass="side" />
                 <VBox prefHeight="515.0" prefWidth="433.0" styleClass="middle">
