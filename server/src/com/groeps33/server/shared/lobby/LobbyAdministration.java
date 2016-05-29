@@ -68,7 +68,8 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
     @Override
     public UserAccount login(String username, String password) throws RemoteException {
 //        try {
-        return new UserAccount("Henk", "henk@henk.nl");//database.login(username, password);
+        // todo: uncomment shit
+        return new UserAccount(username, password);//database.login(username, password);
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //            return null;
