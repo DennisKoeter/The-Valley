@@ -31,8 +31,7 @@ public class Controller {
 
         ILobby createdLobby = createLobby(name, maxPlayers, password);
         URL url = ValleyFX.class.getResource(Constants.LOBBY_PATH);
-        System.out.println("URL: " + url);
-        ValleyFX.changeScene((url), createdLobby);
+        ((com.groeps33.gui.screens.lobby.Controller)ValleyFX.changeScene(url)).init(createdLobby);
     }
 
     @FXML

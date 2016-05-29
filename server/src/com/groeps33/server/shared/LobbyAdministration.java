@@ -2,6 +2,7 @@ package com.groeps33.server.shared;
 
 import com.groeps33.server.application.Database;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
@@ -16,18 +17,18 @@ import java.util.List;
  */
 public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAdministration {
 
+    private static LobbyAdministration instance;
     private final List<ILobby> lobbyList;
     private Database database;
 
 
-    public LobbyAdministration() throws RemoteException {
+    private LobbyAdministration() throws RemoteException {
         this.lobbyList = new ArrayList<>();
         database = new Database();
     }
 
     @Override
     public ILobby registerLobby(UserAccount userAccount, String name, String password, int maximumPlayers) throws RemoteException {
-        System.out.println("registered lobby");
         ILobby lobby = new Lobby(userAccount, name, password, maximumPlayers, lobbyList.size());
         lobbyList.add(lobby);
         return lobby;
@@ -66,6 +67,15 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
         try {
             return database.register(username, email, password);
         } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static LobbyAdministration get() {
+        try {
+            return instance == null ? (instance = new LobbyAdministration()) : instance;
+        } catch (RemoteException e) {
             e.printStackTrace();
             return null;
         }

@@ -1,25 +1,23 @@
 package com.groeps33.gui.screens.lobbybrowser;
 
- import com.groeps33.gui.application.Constants;
- import com.groeps33.gui.application.ValleyFX;
- import javafx.beans.value.ChangeListener;
- import javafx.beans.value.ObservableValue;
- import javafx.collections.FXCollections;
+import com.groeps33.gui.application.Constants;
+import com.groeps33.gui.application.ValleyFX;
+import com.groeps33.server.shared.AlreadyJoinedException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
- import javafx.geometry.Insets;
- import javafx.scene.control.Button;
- import javafx.scene.control.ListCell;
- import javafx.scene.control.ListView;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
 import com.groeps33.server.shared.ILobby;
- import javafx.scene.control.SingleSelectionModel;
- import javafx.scene.layout.Background;
- import javafx.scene.layout.BackgroundFill;
- import javafx.scene.layout.CornerRadii;
- import javafx.scene.paint.Color;
- import javafx.util.Callback;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
- import java.io.IOException;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,7 @@ public class Controller {
 
     @FXML
     protected void initialize() {
-        lobbiesListView.setCellFactory(param -> new ListCell<ILobby>(){
+        lobbiesListView.setCellFactory(param -> new ListCell<ILobby>() {
             @Override
             protected void updateItem(ILobby l, boolean empty) {
                 super.updateItem(l, empty);
@@ -72,14 +70,22 @@ public class Controller {
     }
 
     @FXML
-    private void confirm() throws RemoteException {
-        int id = lobbiesListView.getSelectionModel().getSelectedItem().getId();
-        ILobby selectedLobby = ValleyFX.getLobbyAdministration().getLobbyById(id);
-        selectedLobby.registerClient(ValleyFX.getUserAccount());
+    private void confirm() {
         try {
+            ILobby selectedLobby = lobbiesListView.getSelectionModel().getSelectedItem();
+            if (selectedLobby == null) {
+                //TODO melding weergeven dat je eerst een lobby moet selecteren?
+                return;
+            }
+
+            selectedLobby.registerClient(ValleyFX.getUserAccount());
             ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH), selectedLobby);
         } catch (IOException e) {
-            e.printStackTrace();
+            if (e instanceof AlreadyJoinedException) {
+                ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Already joined", "Your account is already in this lobby!");
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 

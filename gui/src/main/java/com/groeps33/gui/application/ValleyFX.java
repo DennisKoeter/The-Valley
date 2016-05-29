@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -68,17 +69,18 @@ public class    ValleyFX extends Application {
         primaryStage.show();
     }
 
-    public static void changeScene(URL location) throws IOException {
-        root = FXMLLoader.load(location);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+    public static Object changeScene(URL location) throws IOException {
+        FXMLLoader loader = new FXMLLoader(location);
+        stage.setScene(new Scene(loader.load()));
+        Object controller = loader.getController();
         stage.show();
+        return controller;
     }
 
     public static void changeScene(URL location, ILobby lobby) throws IOException {
         FXMLLoader loader = new FXMLLoader(location);
         stage.setScene(new Scene(loader.load()));
-        Controller controller = loader.<Controller>getController();
+        Controller controller = loader.getController();
         controller.init(lobby);
         stage.show();
     }
@@ -115,5 +117,12 @@ public class    ValleyFX extends Application {
 
     public static ILobby createLobby(String name, int maxPlayers, String password) throws RemoteException {
         return lobbyAdministration.registerLobby(userAccount, name, password, maxPlayers);
+    }
+
+    public static void showMessageBox(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.showAndWait();
     }
 }

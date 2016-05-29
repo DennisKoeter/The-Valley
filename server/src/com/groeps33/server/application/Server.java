@@ -17,7 +17,6 @@ public class Server {
         Registry registry = LocateRegistry.createRegistry(Constants.PORT_NUMBER);
 
         System.out.printf("Binding server to name: '%s'\n", Constants.BINDING_NAME);
-        ILobbyAdministration server = new LobbyAdministration();
-        registry.rebind(Constants.BINDING_NAME, server);
+        registry.rebind(Constants.BINDING_NAME, LobbyAdministration.get());
     }
 }

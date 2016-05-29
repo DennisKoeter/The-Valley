@@ -44,7 +44,14 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
 
     @Override
     public void removeClient(UserAccount userAccount) throws RemoteException {
+//        if (userAccount.equals(creator)) {
+//            hostDisconnected();
+//        }
         userAccountList.remove(userAccount);
+
+        if (userAccountList.size() == 0) {
+            LobbyAdministration.get().removeLobby(this);
+        }
     }
 
 //    @Override
@@ -80,13 +87,6 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
 //        IGameServer gameServer = new GameServer();
 //        for (IClient client : userAccountList) {
 //            client.createGameClient(gameServer);
-//        }
-//    }
-//
-//    @Override
-//    public void hostDisconnected() throws RemoteException {
-//        for (IClient client : userAccountList) {
-//            client.kick();
 //        }
 //    }
 

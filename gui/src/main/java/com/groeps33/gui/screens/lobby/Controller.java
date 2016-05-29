@@ -50,6 +50,7 @@ public class Controller {
 
     @FXML
     private void back() throws IOException {
+        thisLobby.removeClient(ValleyFX.getUserAccount());
         ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
     }
 
