@@ -1,10 +1,32 @@
 package com.groeps33.valley;
 
 import com.badlogic.gdx.Game;
-import com.groeps33.valley.screens.GameScreen;
+import com.groeps33.server.application.Constants;
+import com.groeps33.server.shared.UserAccount;
+import com.groeps33.server.shared.game.IGameClient;
+import com.groeps33.server.shared.game.IGameServer;
+import com.groeps33.server.shared.game.IGameAdministration;
 import com.groeps33.valley.screens.IntroScreen;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
 public class TheValleyGame extends Game {
+
+	private static IGameAdministration gameAdministration;
+	private IGameClient gameClient;
+	private IGameServer game;
+
+	public TheValleyGame(UserAccount gameClient, String gameUuid) {
+		try {
+			game = getGameAdministration().getGameById(gameUuid);
+			this.gameClient = game.registerClient(gameClient);;
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void create () {
@@ -14,5 +36,29 @@ public class TheValleyGame extends Game {
 	@Override
 	public void render () {
 		super.render();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		try {
+			game.removeClient(gameClient);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static IGameAdministration getGameAdministration() {
+		if (gameAdministration == null) {
+			try {
+				Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, Constants.PORT_NUMBER);
+				gameAdministration = (IGameAdministration) registry.lookup(Constants.GAME_ADMIN_NAME);
+				return gameAdministration;
+			} catch (RemoteException | NotBoundException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return gameAdministration;
 	}
 }

@@ -10,11 +10,11 @@ import java.util.List;
  */
 public interface IGameAdministration {
 
-    IGame getGameById(String uuid) throws RemoteException;
+    IGameServer getGameById(String uuid) throws RemoteException;
 
-    List<IGame> getGames() throws RemoteException;
+    List<IGameServer> getGames() throws RemoteException;
 
-    IGame registerGame() throws RemoteException;
+    IGameServer registerGame() throws RemoteException;
 
-    void removeGame() throws RemoteException;
+    void removeGame(IGameServer game) throws RemoteException;
 }
