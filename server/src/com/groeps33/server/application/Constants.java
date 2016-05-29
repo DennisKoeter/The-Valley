@@ -13,4 +13,5 @@ public class Constants {
     public static final String USER = "the-valley-user";
     public static final String PASS = "";
     public static final int MYSQL_PORT = 3306;
+    public static final String RMI_IP = "127.0.0.1";
 }

@@ -48,7 +48,6 @@ public class Controller {
         updateTask = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("update");
                 Platform.runLater(() -> {
                     try {
                         if (l.getPlayerCount() == 0) {
@@ -59,7 +58,6 @@ public class Controller {
                         getUserAccounts(thisLobby);
                         String gameId = l.getGameUuid();
                         if (gameId != null) {
-                            cancel();
                             ValleyFX.startGame(gameId);
                         }
                     } catch (RemoteException e) {

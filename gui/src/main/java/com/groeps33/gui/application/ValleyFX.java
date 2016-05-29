@@ -126,10 +126,10 @@ public class    ValleyFX extends Application {
         File jarFile = new File("desktop\\build\\libs", "desktop-1.0.jar");
         System.out.println(jarFile.getAbsoluteFile());
         System.out.println(gameId);
-        ProcessBuilder processBuilder = new ProcessBuilder("java -jar \"" + jarFile.getAbsolutePath() + "\"");
+        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarFile.getAbsolutePath(), userAccount.getUsername(), userAccount.getEmail(), gameId);
         try {
             stage.setIconified(true);
-            Process p = processBuilder.start();
+            Process p = processBuilder.start(); //Runtime.getRuntime().exec("java -jar \"" + jarFile.getAbsolutePath() + "\"");//processBuilder.start();
             p.waitFor();
             stage.setIconified(false);
         } catch (IOException | InterruptedException e) {

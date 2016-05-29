@@ -2,7 +2,7 @@ package com.groeps33.server.shared.lobby;
 
 import com.groeps33.server.shared.UserAccount;
 import com.groeps33.server.shared.game.GameAdministration;
-import com.groeps33.server.shared.game.IGame;
+import com.groeps33.server.shared.game.IGameServer;
 import com.groeps33.server.shared.lobby.exceptions.AlreadyJoinedException;
 import com.groeps33.server.shared.lobby.exceptions.InsufficientPermissionsException;
 import com.groeps33.server.shared.lobby.exceptions.LobbyFullException;
@@ -23,7 +23,7 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
     private final String password;
     private final int maximumPlayers;
     private final int id;
-    private IGame startedGame;
+    private IGameServer startedGame;
 
     public Lobby(UserAccount creator, String lobbyName, String password, int maximumPlayers, int id) throws RemoteException {
         this.lobbyName = lobbyName;
@@ -38,10 +38,12 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
             @Override
             public void run() {
                 try {
-                    long currentT = System.currentTimeMillis();
-                    for (Map.Entry<UserAccount, Long> entry : pulseMap.entrySet()) {
-                        if (currentT - entry.getValue() > 3000) {
-                            removeUser(entry.getKey());
+                    if (startedGame == null || !startedGame.isRunning()) {
+                        long currentT = System.currentTimeMillis();
+                        for (Map.Entry<UserAccount, Long> entry : pulseMap.entrySet()) {
+                            if (currentT - entry.getValue() > 3000) {
+                                removeUser(entry.getKey());
+                            }
                         }
                     }
                 } catch (RemoteException e) {
@@ -67,8 +69,9 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
 
     @Override
     public String getGameUuid() throws RemoteException {
-        return startedGame == null ? null : startedGame.getUUID();
+        return startedGame == null || !startedGame.isRunning() ? null : startedGame.getUUID();
     }
+
 
     @Override
     public void registerUser(UserAccount userAccount, String password) throws RemoteException, AlreadyJoinedException, IncorrectPasswordException, LobbyFullException {

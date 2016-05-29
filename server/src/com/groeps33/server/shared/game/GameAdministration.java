@@ -1,7 +1,5 @@
 package com.groeps33.server.shared.game;
 
-import com.groeps33.server.shared.lobby.LobbyAdministration;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
@@ -13,15 +11,15 @@ import java.util.*;
  */
 public class GameAdministration extends UnicastRemoteObject implements IGameAdministration {
     private static GameAdministration instance;
-    private final List<IGame> games;
+    private final List<IGameServer> games;
 
     private GameAdministration() throws RemoteException {
         games = new ArrayList<>();
     }
 
     @Override
-    public IGame getGameById(String uuid) throws RemoteException {
-        for (IGame game : games) {
+    public IGameServer getGameById(String uuid) throws RemoteException {
+        for (IGameServer game : games) {
             if (game.getUUID().equals(uuid)) {
                 return game;
             }
@@ -30,21 +28,21 @@ public class GameAdministration extends UnicastRemoteObject implements IGameAdmi
     }
 
     @Override
-    public List<IGame> getGames() throws RemoteException {
+    public List<IGameServer> getGames() throws RemoteException {
         return Collections.unmodifiableList(games);
     }
 
     @Override
-    public IGame registerGame() throws RemoteException {
+    public IGameServer registerGame() throws RemoteException {
         final String uuid = UUID.randomUUID().toString();
-        IGame game = new Game(uuid);
+        IGameServer game = new GameServer(uuid);
         games.add(game);
         return game;
     }
 
     @Override
-    public void removeGame() throws RemoteException {
-
+    public void removeGame(IGameServer game) throws RemoteException {
+        games.remove(game);
     }
 
 
