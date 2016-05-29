@@ -32,11 +32,11 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
     @Override
     public void registerClient(UserAccount userAccount) throws RemoteException {
         if (isFull()) {
-            throw new RemoteException("Can't register new client. Lobby is already full.");
+            throw new LobbyFullException();
         }
 
         if (userAccountList.contains(userAccount)) {
-            throw new RemoteException("Can't register client. Client: " + userAccount.getEmail() + " has already joined this lobby.");
+            throw new AlreadyJoinedException(userAccount);
         }
 
         userAccountList.add(userAccount);
