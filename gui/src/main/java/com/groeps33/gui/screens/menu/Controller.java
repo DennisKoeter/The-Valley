@@ -38,11 +38,7 @@ public class Controller {
 
     @FXML
     private void logOut() throws IOException {
-        if(checkLogout()) ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOGIN_PATH));
-    }
-
-    private boolean checkLogout() {
-        //TODO implement logout functionality
-        return true;
+        ValleyFX.setUserAccount(null);
+        ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOGIN_PATH));
     }
 }
