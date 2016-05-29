@@ -41,7 +41,7 @@ public class    ValleyFX extends Application {
         try {
             lookupServer();
         } catch (ConnectException e) {
-            //todo messagebox met melding dat server niet aan staat
+            showMessageBox(Alert.AlertType.ERROR, "Couldn't connect to server", "It appears that the server is not online.");
         }
 
         launch(args);
