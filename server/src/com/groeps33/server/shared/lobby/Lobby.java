@@ -1,18 +1,16 @@
 package com.groeps33.server.shared.lobby;
 
 import com.groeps33.server.shared.UserAccount;
-import com.groeps33.server.shared.game.Game;
 import com.groeps33.server.shared.game.GameAdministration;
 import com.groeps33.server.shared.game.IGame;
 import com.groeps33.server.shared.lobby.exceptions.AlreadyJoinedException;
+import com.groeps33.server.shared.lobby.exceptions.InsufficientPermissionsException;
 import com.groeps33.server.shared.lobby.exceptions.LobbyFullException;
-import com.groeps33.server.shared.lobby.exceptions.UncorrectPasswordException;
+import com.groeps33.server.shared.lobby.exceptions.IncorrectPasswordException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Edwin
@@ -20,26 +18,62 @@ import java.util.List;
  */
 public class Lobby extends UnicastRemoteObject implements ILobby {
     private final List<UserAccount> userAccountList;
-    private final UserAccount creator;
+    private final Map<UserAccount, Long> pulseMap;
     private final String lobbyName;
     private final String password;
     private final int maximumPlayers;
     private final int id;
+    private IGame startedGame;
 
     public Lobby(UserAccount creator, String lobbyName, String password, int maximumPlayers, int id) throws RemoteException {
-        this.creator = creator;
         this.lobbyName = lobbyName;
         this.password = password;
         this.maximumPlayers = maximumPlayers;
         this.id = id;
         userAccountList = new ArrayList<>();
         userAccountList.add(creator);
+        pulseMap = new HashMap<>();
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    long currentT = System.currentTimeMillis();
+                    for (Map.Entry<UserAccount, Long> entry : pulseMap.entrySet()) {
+                        if (currentT - entry.getValue() > 3000) {
+                            removeUser(entry.getKey());
+                        }
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 200);
     }
 
     @Override
-    public void registerUser(UserAccount userAccount, String password) throws RemoteException, AlreadyJoinedException, UncorrectPasswordException, LobbyFullException {
+    public UserAccount getHost() {
+        if (userAccountList.isEmpty()) {
+            throw new IllegalStateException("No users in lobby. Lobby cannot be empty.");
+        }
+
+        return userAccountList.get(0);
+    }
+
+    @Override
+    public void pulse(UserAccount userAccount) throws RemoteException {
+        pulseMap.put(userAccount, System.currentTimeMillis());
+    }
+
+    @Override
+    public String getGameUuid() throws RemoteException {
+        return startedGame == null ? null : startedGame.getUUID();
+    }
+
+    @Override
+    public void registerUser(UserAccount userAccount, String password) throws RemoteException, AlreadyJoinedException, IncorrectPasswordException, LobbyFullException {
         if (hasPassword() && !this.password.equals(password)) {
-            throw new UncorrectPasswordException(lobbyName, password);
+            throw new IncorrectPasswordException(lobbyName, password);
         }
 
         if (isFull()) {
@@ -55,7 +89,7 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
 
     @Override
     public void removeUser(UserAccount userAccount) throws RemoteException {
-//        if (userAccount.equals(creator)) {
+//        if (userAccount.equals(host)) {
 //            hostDisconnected();
 //        }
         userAccountList.remove(userAccount);
@@ -94,9 +128,12 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
     }
 
     @Override
-    public void startGame() throws RemoteException {
-        String gameUuid = GameAdministration.get().registerGame();
-        //todo push gameUuid to all clients
+    public void startGame(UserAccount userAccount) throws RemoteException, InsufficientPermissionsException {
+        if (!userAccount.equals(getHost())) {
+            throw new InsufficientPermissionsException("Only the host can start the game.");
+        }
+
+        startedGame = GameAdministration.get().registerGame();
     }
 
     @Override

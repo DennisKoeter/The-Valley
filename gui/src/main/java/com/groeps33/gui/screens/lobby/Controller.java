@@ -4,18 +4,17 @@ import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
 import com.groeps33.server.shared.lobby.ILobby;
 import com.groeps33.server.shared.UserAccount;
+import com.groeps33.server.shared.lobby.exceptions.InsufficientPermissionsException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dennis on 25/05/16.
@@ -23,31 +22,68 @@ import java.util.Optional;
 public class Controller {
 
     @FXML
+    Button startButton;
+
+    @FXML
+    Label lobbyNameLabel;
+
+    @FXML
+    Label playerCountLabel;
+
+    @FXML
     ListView<String> userAccountsListView;
 
     private ILobby thisLobby;
+    private TimerTask updateTask;
 
     public void init(ILobby l) throws RemoteException {
-        if (l != null) {
-            thisLobby = l;
-            getUserAccounts(thisLobby);
-        } else {
-            System.out.println("Lobby is null in setlobby");
-        }
+        thisLobby = l;
+        lobbyNameLabel.setText(thisLobby.getLobbyName());
+        startButton.setDisable(!thisLobby.getHost().equals(ValleyFX.getUserAccount()));
+
+        //disable selection
+        userAccountsListView.setMouseTransparent(true);
+        userAccountsListView.setFocusTraversable(false);
+
+        updateTask = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("update");
+                Platform.runLater(() -> {
+                    try {
+                        if (l.getPlayerCount() == 0) {
+                            cancel();
+                        }
+                        thisLobby.pulse(ValleyFX.getUserAccount());
+                        updatePlayerCounts();
+                        getUserAccounts(thisLobby);
+                        String gameId = l.getGameUuid();
+                        if (gameId != null) {
+                            cancel();
+                            ValleyFX.startGame(gameId);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+            }
+        };
+
+        new Timer().schedule(updateTask, 0, 500);
+    }
+
+    private void updatePlayerCounts() throws RemoteException {
+        playerCountLabel.setText("Players: " + thisLobby.getPlayerCount() + "/" + thisLobby.getMaximumPlayers());
     }
 
     private void getUserAccounts(ILobby l) throws RemoteException {
-        if (l != null) {
-            List<String> userAccountNames = new ArrayList<>();
-            for (UserAccount c : l.getRegisteredUserAccounts()) {
-                if (c == null) userAccountNames.add("user was null");
-                else userAccountNames.add(c.getUsername());
-            }
-            ObservableList<String> userAccountNamesObservable = FXCollections.observableList(userAccountNames);
-            userAccountsListView.setItems(userAccountNamesObservable);
-        } else {
-            System.out.println("Lobby is null in getuseraccounts");
-        }
+        UserAccount host = l.getHost();
+        List<String> userAccountNames;
+        userAccountNames = l.getRegisteredUserAccounts().stream()
+                .map(acc -> (acc.equals(host) ? "Host: " : "Player: ") + acc.getUsername()).collect(Collectors.toList());
+        ObservableList<String> userAccountNamesObservable = FXCollections.observableList(userAccountNames);
+        userAccountsListView.setItems(userAccountNamesObservable);
     }
 
 
@@ -65,12 +101,18 @@ public class Controller {
             }
         }
 
+        updateTask.cancel();
         thisLobby.removeUser(ValleyFX.getUserAccount());
         ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
     }
 
     @FXML
     private void confirm() throws RemoteException {
-
+        try {
+            thisLobby.startGame(ValleyFX.getUserAccount());
+        } catch (InsufficientPermissionsException e) {
+            //should never get here, since the start button will be disabled for non-hosts.
+            ValleyFX.showMessageBox(Alert.AlertType.WARNING, "Insufficient permissions", "Only the host can start a game");
+        }
     }
 }

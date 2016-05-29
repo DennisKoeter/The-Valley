@@ -121,4 +121,20 @@ public class    ValleyFX extends Application {
         alert.setHeaderText(message);
         alert.showAndWait();
     }
+
+    public static void startGame(String gameId) {
+        File jarFile = new File("desktop\\build\\libs", "desktop-1.0.jar");
+        System.out.println(jarFile.getAbsoluteFile());
+        System.out.println(gameId);
+        ProcessBuilder processBuilder = new ProcessBuilder("java -jar \"" + jarFile.getAbsolutePath() + "\"");
+        try {
+            stage.setIconified(true);
+            Process p = processBuilder.start();
+            p.waitFor();
+            stage.setIconified(false);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -36,7 +36,7 @@ public class CharacterScreen extends TheValleyScreen {
         super(game);
         stage = new Stage();
         spriteBatch = new SpriteBatch();
-        splashTexture = new Texture("menus/front(com.groeps33.gui.login).png");
+        splashTexture = new Texture("menus/front(login).png");
         rootTable = new Table();
 
         iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/warrior.png"))));

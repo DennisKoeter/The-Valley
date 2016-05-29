@@ -32,7 +32,6 @@ public class UserAccount implements Serializable {
 
         UserAccount that = (UserAccount) o;
         return getUsername().equals(that.getUsername()) && getEmail().equals(that.getEmail());
-
     }
 
     @Override
