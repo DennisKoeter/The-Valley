@@ -2,7 +2,7 @@ package com.groeps33.gui.screens.lobby;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
-import com.groeps33.server.shared.ILobby;
+import com.groeps33.server.shared.lobby.ILobby;
 import com.groeps33.server.shared.UserAccount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,7 +65,7 @@ public class Controller {
             }
         }
 
-        thisLobby.removeClient(ValleyFX.getUserAccount());
+        thisLobby.removeUser(ValleyFX.getUserAccount());
         ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
     }
 

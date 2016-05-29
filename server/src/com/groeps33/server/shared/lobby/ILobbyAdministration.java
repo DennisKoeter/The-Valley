@@ -1,6 +1,7 @@
-package com.groeps33.server.shared;
+package com.groeps33.server.shared.lobby;
 
-import com.groeps33.server.shared.exceptions.LobbyNameAlreadyExistsException;
+import com.groeps33.server.shared.UserAccount;
+import com.groeps33.server.shared.lobby.exceptions.LobbyNameAlreadyExistsException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

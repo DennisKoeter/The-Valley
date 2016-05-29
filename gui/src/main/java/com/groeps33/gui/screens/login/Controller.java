@@ -2,7 +2,7 @@ package com.groeps33.gui.screens.login;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
-import com.groeps33.server.shared.ILobbyAdministration;
+import com.groeps33.server.shared.lobby.ILobbyAdministration;
 import com.groeps33.server.shared.UserAccount;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

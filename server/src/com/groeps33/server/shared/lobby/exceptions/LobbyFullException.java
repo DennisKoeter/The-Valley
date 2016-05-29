@@ -1,6 +1,4 @@
-package com.groeps33.server.shared.exceptions;
-
-import java.rmi.RemoteException;
+package com.groeps33.server.shared.lobby.exceptions;
 
 /**
  * Created by Bram on 5/29/2016.

@@ -2,15 +2,15 @@ package com.groeps33.gui.screens.lobbybrowser;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
-import com.groeps33.server.shared.exceptions.AlreadyJoinedException;
-import com.groeps33.server.shared.exceptions.LobbyFullException;
-import com.groeps33.server.shared.exceptions.UncorrectPasswordException;
+import com.groeps33.server.shared.lobby.exceptions.AlreadyJoinedException;
+import com.groeps33.server.shared.lobby.exceptions.LobbyFullException;
+import com.groeps33.server.shared.lobby.exceptions.UncorrectPasswordException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import com.groeps33.server.shared.ILobby;
+import com.groeps33.server.shared.lobby.ILobby;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -73,7 +73,7 @@ public class Controller {
         try {
             ILobby selectedLobby = lobbiesListView.getSelectionModel().getSelectedItem();
             if (selectedLobby == null) {
-                //TODO melding weergeven dat je eerst een lobby moet selecteren?
+                ValleyFX.showMessageBox(Alert.AlertType.INFORMATION, "No lobby selected", "Please select a lobby first");
                 return;
             }
 
@@ -92,15 +92,13 @@ public class Controller {
                 password = result.get();
             }
 
-            selectedLobby.registerClient(ValleyFX.getUserAccount(), password);
+            selectedLobby.registerUser(ValleyFX.getUserAccount(), password);
             ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH), selectedLobby);
         } catch (AlreadyJoinedException e) {
             ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Already joined", "Your account is already in this lobby!");
         } catch (UncorrectPasswordException e) {
             ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Password incorrect", "Please enter a correct password!");
-        } catch (LobbyFullException e) {
-            e.printStackTrace(); //Geen eror hier, want de confirmButton wordt gedisabled, dus dit zal nooit het geval zijn
-        } catch (IOException e) {
+        } catch (LobbyFullException | IOException e) {
             e.printStackTrace();
         }
     }

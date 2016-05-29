@@ -2,8 +2,8 @@ package com.groeps33.gui.screens.createlobby;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
-import com.groeps33.server.shared.ILobby;
-import com.groeps33.server.shared.exceptions.LobbyNameAlreadyExistsException;
+import com.groeps33.server.shared.lobby.ILobby;
+import com.groeps33.server.shared.lobby.exceptions.LobbyNameAlreadyExistsException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -33,7 +33,7 @@ public class Controller {
 
         ILobby createdLobby = createLobby(name, maxPlayers, password);
         URL url = ValleyFX.class.getResource(Constants.LOBBY_PATH);
-        ((com.groeps33.gui.screens.lobby.Controller)ValleyFX.changeScene(url)).init(createdLobby);
+        ValleyFX.changeScene(url, createdLobby);
     }
 
     @FXML
@@ -42,7 +42,6 @@ public class Controller {
     }
 
     private ILobby createLobby(String name, int maxPlayers, String password){
-        //TODO save lobby in global server
         try {
             return ValleyFX.getLobbyAdministration().registerLobby(ValleyFX.getUserAccount(), name, password, maxPlayers);
         } catch (RemoteException e) {

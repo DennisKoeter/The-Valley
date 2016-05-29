@@ -1,8 +1,12 @@
-package com.groeps33.server.shared;
+package com.groeps33.server.shared.lobby;
 
-import com.groeps33.server.shared.exceptions.AlreadyJoinedException;
-import com.groeps33.server.shared.exceptions.LobbyFullException;
-import com.groeps33.server.shared.exceptions.UncorrectPasswordException;
+import com.groeps33.server.shared.UserAccount;
+import com.groeps33.server.shared.game.Game;
+import com.groeps33.server.shared.game.GameAdministration;
+import com.groeps33.server.shared.game.IGame;
+import com.groeps33.server.shared.lobby.exceptions.AlreadyJoinedException;
+import com.groeps33.server.shared.lobby.exceptions.LobbyFullException;
+import com.groeps33.server.shared.lobby.exceptions.UncorrectPasswordException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -33,7 +37,7 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
     }
 
     @Override
-    public void registerClient(UserAccount userAccount, String password) throws RemoteException, AlreadyJoinedException, UncorrectPasswordException, LobbyFullException {
+    public void registerUser(UserAccount userAccount, String password) throws RemoteException, AlreadyJoinedException, UncorrectPasswordException, LobbyFullException {
         if (hasPassword() && !this.password.equals(password)) {
             throw new UncorrectPasswordException(lobbyName, password);
         }
@@ -50,7 +54,7 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
     }
 
     @Override
-    public void removeClient(UserAccount userAccount) throws RemoteException {
+    public void removeUser(UserAccount userAccount) throws RemoteException {
 //        if (userAccount.equals(creator)) {
 //            hostDisconnected();
 //        }
@@ -89,13 +93,11 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
         return Collections.unmodifiableList(userAccountList);
     }
 
-//    @Override
-//    public void startGame() throws RemoteException {
-//        IGameServer gameServer = new GameServer();
-//        for (IClient client : userAccountList) {
-//            client.createGameClient(gameServer);
-//        }
-//    }
+    @Override
+    public void startGame() throws RemoteException {
+        String gameUuid = GameAdministration.get().registerGame();
+        //todo push gameUuid to all clients
+    }
 
     @Override
     public String toString() {

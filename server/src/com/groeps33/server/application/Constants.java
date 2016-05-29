@@ -7,7 +7,8 @@ package com.groeps33.server.application;
  */
 public class Constants {
     public static final int PORT_NUMBER = 1099;
-    public static final String BINDING_NAME = "Server";
+    public static final String LOBBY_ADMIN_NAME = "LobbyAdmin";
+    public static final String GAME_ADMIN_NAME = "GameAdmin";
 
     public static final String USER = "the-valley-user";
     public static final String PASS = "";

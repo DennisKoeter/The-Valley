@@ -3,7 +3,6 @@ package com.groeps33.gui.application;/**
  */
 
 import com.groeps33.gui.screens.lobby.Controller;
-import com.groeps33.server.shared.exceptions.LobbyNameAlreadyExistsException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,8 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import com.groeps33.server.shared.ILobby;
-import com.groeps33.server.shared.ILobbyAdministration;
+import com.groeps33.server.shared.lobby.ILobby;
+import com.groeps33.server.shared.lobby.ILobbyAdministration;
 import com.groeps33.server.shared.UserAccount;
 
 import java.io.File;
@@ -50,7 +49,7 @@ public class    ValleyFX extends Application {
 
     private static void lookupServer() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, com.groeps33.server.application.Constants.PORT_NUMBER);
-        lobbyAdministration = (ILobbyAdministration) registry.lookup(com.groeps33.server.application.Constants.BINDING_NAME);
+        lobbyAdministration = (ILobbyAdministration) registry.lookup(com.groeps33.server.application.Constants.LOBBY_ADMIN_NAME);
     }
 
     @Override

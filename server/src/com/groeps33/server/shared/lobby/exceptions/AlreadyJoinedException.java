@@ -1,9 +1,6 @@
-package com.groeps33.server.shared.exceptions;
+package com.groeps33.server.shared.lobby.exceptions;
 
 import com.groeps33.server.shared.UserAccount;
-
-import java.io.Serializable;
-import java.rmi.RemoteException;
 
 /**
  * Created by Bram on 5/29/2016.
