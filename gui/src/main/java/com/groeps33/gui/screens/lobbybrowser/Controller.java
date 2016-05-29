@@ -3,6 +3,7 @@ package com.groeps33.gui.screens.lobbybrowser;
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
 import com.groeps33.server.shared.exceptions.AlreadyJoinedException;
+import com.groeps33.server.shared.exceptions.LobbyFullException;
 import com.groeps33.server.shared.exceptions.UncorrectPasswordException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -97,6 +98,8 @@ public class Controller {
             ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Already joined", "Your account is already in this lobby!");
         } catch (UncorrectPasswordException e) {
             ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Password incorrect", "Please enter a correct password!");
+        } catch (LobbyFullException e) {
+            e.printStackTrace(); //Geen eror hier, want de confirmButton wordt gedisabled, dus dit zal nooit het geval zijn
         } catch (IOException e) {
             e.printStackTrace();
         }
