@@ -2,10 +2,13 @@ package com.groeps33.gui.screens.lobbybrowser;
 
  import com.groeps33.gui.application.Constants;
  import com.groeps33.gui.application.ValleyFX;
-import javafx.collections.FXCollections;
+ import javafx.beans.value.ChangeListener;
+ import javafx.beans.value.ObservableValue;
+ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
  import javafx.geometry.Insets;
+ import javafx.scene.control.Button;
  import javafx.scene.control.ListCell;
  import javafx.scene.control.ListView;
 import com.groeps33.server.shared.ILobby;
@@ -30,9 +33,10 @@ public class Controller {
     ListView<ILobby> lobbiesListView;
 
     @FXML
-    protected void initialize() {
-        //String.format("%d: %s, %d/%d", l.getId(), l.getLobbyName(), l.getRegisteredUserAccounts().size())
+    Button confirmButton;
 
+    @FXML
+    protected void initialize() {
         lobbiesListView.setCellFactory(param -> new ListCell<ILobby>(){
             @Override
             protected void updateItem(ILobby l, boolean empty) {
@@ -50,25 +54,16 @@ public class Controller {
             }
         });
 
+        lobbiesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+
+                confirmButton.setDisable(newValue.isFull());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
+
         getLobbies();
-    }
-
-    private void onLobbySelected(ILobby lobby) {
-        System.out.format("%s was selected", lobby);
-    }
-
-    private String getId(String lobbyString) {
-        StringBuilder result = new StringBuilder();
-
-        String name = lobbyString.substring(0, 3);
-        result.append(name);
-        System.out.println("First chars of lobby name were " + name);
-
-        String number = lobbyString.substring(3, 6);
-        result.append(number);
-        System.out.println("3 numbers were " + number);
-
-        return result.toString();
     }
 
     @FXML
@@ -89,14 +84,9 @@ public class Controller {
     }
 
     private void getLobbies() {
-//        System.out.println("Retrieving lobbies now");
         try {
             List<ILobby> lobbies = ValleyFX.getLobbyAdministration().getLobbies();
-            List<String> lobbyNames = new ArrayList<>();
-
-
             ObservableList<ILobby> lobbiesObservable = FXCollections.observableList(lobbies);
-
             lobbiesListView.setItems(lobbiesObservable);
         } catch (RemoteException e) {
             e.printStackTrace();
