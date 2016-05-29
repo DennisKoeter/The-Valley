@@ -25,5 +25,11 @@ public interface ILobby extends Remote {
 //
 //    void hostDisconnected() throws RemoteException;
 
-    String getId() throws RemoteException;
+    int getId() throws RemoteException;
+
+    int getMaximumPlayers() throws RemoteException;
+
+    int getPlayerCount() throws RemoteException;
+
+    boolean isFull() throws RemoteException;
 }

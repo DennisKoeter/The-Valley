@@ -8,13 +8,13 @@ import java.util.List;
  * Created by Bram on 25-5-2016.
  */
 public interface ILobbyAdministration extends Remote {
-    ILobby registerLobby(UserAccount host, String name) throws RemoteException;
+    ILobby registerLobby(UserAccount userAccount, String name, String password, int maximumPlayers) throws RemoteException;
 
     void removeLobby(ILobby lobby) throws RemoteException;
 
     List<ILobby> getLobbies() throws RemoteException;
 
-    ILobby getLobbyById(String id) throws RemoteException;
+    ILobby getLobbyById(int id) throws RemoteException;
 
     UserAccount login(String username, String password) throws RemoteException;
 

@@ -114,6 +114,6 @@ public class    ValleyFX extends Application {
     }
 
     public static ILobby createLobby(String name, int maxPlayers, String password) throws RemoteException {
-        return lobbyAdministration.registerLobby(userAccount, name);
+        return lobbyAdministration.registerLobby(userAccount, name, password, maxPlayers);
     }
 }

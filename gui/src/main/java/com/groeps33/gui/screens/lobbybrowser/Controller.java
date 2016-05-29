@@ -5,10 +5,18 @@ package com.groeps33.gui.screens.lobbybrowser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+ import javafx.geometry.Insets;
+ import javafx.scene.control.ListCell;
+ import javafx.scene.control.ListView;
 import com.groeps33.server.shared.ILobby;
+ import javafx.scene.control.SingleSelectionModel;
+ import javafx.scene.layout.Background;
+ import javafx.scene.layout.BackgroundFill;
+ import javafx.scene.layout.CornerRadii;
+ import javafx.scene.paint.Color;
+ import javafx.util.Callback;
 
-import java.io.IOException;
+ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +27,29 @@ import java.util.List;
 public class Controller {
 
     @FXML
-    ListView<String> lobbiesListView;
+    ListView<ILobby> lobbiesListView;
 
     @FXML
     protected void initialize() {
+        //String.format("%d: %s, %d/%d", l.getId(), l.getLobbyName(), l.getRegisteredUserAccounts().size())
+
+        lobbiesListView.setCellFactory(param -> new ListCell<ILobby>(){
+            @Override
+            protected void updateItem(ILobby l, boolean empty) {
+                super.updateItem(l, empty);
+                if (l != null) {
+                    try {
+                        setText(String.format("%d: %s, %d/%d players", l.getId(), l.getLobbyName(), l.getPlayerCount(), l.getMaximumPlayers()));
+                        if (l.isFull()) {
+                            setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
         getLobbies();
     }
 
@@ -51,7 +78,7 @@ public class Controller {
 
     @FXML
     private void confirm() throws RemoteException {
-        String id = getId(lobbiesListView.getSelectionModel().getSelectedItem());
+        int id = lobbiesListView.getSelectionModel().getSelectedItem().getId();
         ILobby selectedLobby = ValleyFX.getLobbyAdministration().getLobbyById(id);
         selectedLobby.registerClient(ValleyFX.getUserAccount());
         try {
@@ -66,11 +93,9 @@ public class Controller {
         try {
             List<ILobby> lobbies = ValleyFX.getLobbyAdministration().getLobbies();
             List<String> lobbyNames = new ArrayList<>();
-            for (ILobby l : lobbies) {
-                lobbyNames.add(String.format("%s, %s, %s clients", l.getId(), l.getLobbyName(), l.getRegisteredUserAccounts().size()));
-            }
 
-            ObservableList<String> lobbiesObservable = FXCollections.observableList(lobbyNames);
+
+            ObservableList<ILobby> lobbiesObservable = FXCollections.observableList(lobbies);
 
             lobbiesListView.setItems(lobbiesObservable);
         } catch (RemoteException e) {

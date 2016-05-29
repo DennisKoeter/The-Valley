@@ -15,12 +15,16 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
     private final List<UserAccount> userAccountList;
     private final UserAccount creator;
     private final String lobbyName;
-    private final String id;
+    private final String password;
+    private final int maximumPlayers;
+    private final int id;
 
-    public Lobby(UserAccount creator, String lobbyName) throws RemoteException {
+    public Lobby(UserAccount creator, String lobbyName, String password, int maximumPlayers, int id) throws RemoteException {
         this.creator = creator;
         this.lobbyName = lobbyName;
-        this.id = generateId();
+        this.password = password;
+        this.maximumPlayers = maximumPlayers;
+        this.id = id;
         userAccountList = new ArrayList<>();
         userAccountList.add(creator);
     }
@@ -95,27 +99,23 @@ public class Lobby extends UnicastRemoteObject implements ILobby{
         return returnString;
     }
 
-    private String generateId() {
-        int number = new Random().nextInt(1000);
-
-        String numberString;
-        if (number < 10) {
-            numberString = "00" + number;
-            System.out.println("Random number was 0-9");
-        } else if (number < 100) {
-            numberString = "0" + number;
-            System.out.println("Random number was 10-99");
-        } else {
-            numberString = String.valueOf(number);
-            System.out.println("Random number was 100-999");
-        }
-
-        String letters = lobbyName.substring(0, 3);
-        return letters + numberString;
+    @Override
+    public int getId() throws RemoteException {
+        return id;
     }
 
     @Override
-    public String getId() throws RemoteException {
-        return id;
+    public int getMaximumPlayers() {
+        return maximumPlayers;
+    }
+
+    @Override
+    public int getPlayerCount() {
+        return userAccountList.size();
+    }
+
+    @Override
+    public boolean isFull() throws RemoteException {
+        return userAccountList.size() >= maximumPlayers;
     }
 }

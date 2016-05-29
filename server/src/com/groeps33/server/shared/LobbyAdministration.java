@@ -26,9 +26,9 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
     }
 
     @Override
-    public ILobby registerLobby(UserAccount userAccount, String name) throws RemoteException {
+    public ILobby registerLobby(UserAccount userAccount, String name, String password, int maximumPlayers) throws RemoteException {
         System.out.println("registered lobby");
-        ILobby lobby = new Lobby(userAccount, name);
+        ILobby lobby = new Lobby(userAccount, name, password, maximumPlayers, lobbyList.size());
         lobbyList.add(lobby);
         return lobby;
     }
@@ -44,21 +44,21 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
     }
 
     @Override
-    public ILobby getLobbyById(String id) throws RemoteException {
+    public ILobby getLobbyById(int id) throws RemoteException {
         for (ILobby l : lobbyList) {
-            if (l.getId().equals(id)) return l;
+            if (l.getId() == id) return l;
         }
         return null;
     }
 
     @Override
     public UserAccount login(String username, String password) throws RemoteException {
-        try {
-            return database.login(username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+//        try {
+            return new UserAccount("Henk", "henk@henk.nl");//database.login(username, password);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
     }
 
     @Override
