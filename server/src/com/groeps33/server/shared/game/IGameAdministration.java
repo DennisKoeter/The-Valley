@@ -14,7 +14,7 @@ public interface IGameAdministration {
 
     List<IGame> getGames() throws RemoteException;
 
-    String registerGame() throws RemoteException;
+    IGame registerGame() throws RemoteException;
 
     void removeGame() throws RemoteException;
 }

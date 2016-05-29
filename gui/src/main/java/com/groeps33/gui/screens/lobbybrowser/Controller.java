@@ -4,7 +4,7 @@ import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
 import com.groeps33.server.shared.lobby.exceptions.AlreadyJoinedException;
 import com.groeps33.server.shared.lobby.exceptions.LobbyFullException;
-import com.groeps33.server.shared.lobby.exceptions.UncorrectPasswordException;
+import com.groeps33.server.shared.lobby.exceptions.IncorrectPasswordException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -96,7 +96,7 @@ public class Controller {
             ValleyFX.changeScene(ValleyFX.class.getResource(Constants.LOBBY_PATH), selectedLobby);
         } catch (AlreadyJoinedException e) {
             ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Already joined", "Your account is already in this lobby!");
-        } catch (UncorrectPasswordException e) {
+        } catch (IncorrectPasswordException e) {
             ValleyFX.showMessageBox(Alert.AlertType.ERROR, "Password incorrect", "Please enter a correct password!");
         } catch (LobbyFullException | IOException e) {
             e.printStackTrace();

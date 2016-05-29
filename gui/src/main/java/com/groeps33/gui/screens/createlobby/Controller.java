@@ -32,6 +32,7 @@ public class Controller {
         String password = passwordField.getText();
 
         ILobby createdLobby = createLobby(name, maxPlayers, password);
+        if (createdLobby == null) return;
         URL url = ValleyFX.class.getResource(Constants.LOBBY_PATH);
         ValleyFX.changeScene(url, createdLobby);
     }

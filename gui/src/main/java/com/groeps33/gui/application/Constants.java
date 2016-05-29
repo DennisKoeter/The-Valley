@@ -9,7 +9,7 @@ public class Constants {
     public static final String AUDIOFX_KEY = "audioFX";
     public static final String AUDIOMUSIC_KEY = "audioMusic";
 
-    public static final String RMI_IP = "84.31.161.83";//"127.0.0.1";
+    public static final String RMI_IP = "127.0.0.1";
 
     public static final String SETTINGS_PATH = "../screens/settings/settings.fxml";
     public static final String HIGHSCORES_PATH = "../screens/highscores/highscores.fxml";

@@ -35,10 +35,11 @@ public class GameAdministration extends UnicastRemoteObject implements IGameAdmi
     }
 
     @Override
-    public String registerGame() throws RemoteException {
+    public IGame registerGame() throws RemoteException {
         final String uuid = UUID.randomUUID().toString();
-        games.add(new Game(uuid));
-        return uuid;
+        IGame game = new Game(uuid);
+        games.add(game);
+        return game;
     }
 
     @Override
