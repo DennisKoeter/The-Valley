@@ -11,7 +11,6 @@ import java.util.List;
 public interface IGameAdministration {
 
     IGameServer getGameById(String uuid) throws RemoteException;
-
     List<IGameServer> getGames() throws RemoteException;
 
     IGameServer registerGame() throws RemoteException;
