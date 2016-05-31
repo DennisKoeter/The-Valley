@@ -50,7 +50,6 @@ project(":core") {
 
 
     dependencies {
-        compile project(":server")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"

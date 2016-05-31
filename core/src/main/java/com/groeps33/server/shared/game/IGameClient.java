@@ -10,6 +10,6 @@ import java.rmi.RemoteException;
  *
  * @author Bram Hoendervangers
  */
-public interface IGameClient extends Remote {
+public interface IGameClient extends Remote{
     UserAccount getUserAccount() throws RemoteException;
 }

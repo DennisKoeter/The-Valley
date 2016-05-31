@@ -2,7 +2,10 @@ package com.groeps33.server.shared.game;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Bram on 5/29/2016.

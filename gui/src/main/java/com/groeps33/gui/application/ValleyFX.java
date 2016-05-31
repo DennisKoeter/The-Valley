@@ -15,8 +15,10 @@ import com.groeps33.server.shared.lobby.ILobby;
 import com.groeps33.server.shared.lobby.ILobbyAdministration;
 import com.groeps33.server.shared.UserAccount;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
@@ -25,7 +27,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
 
-public class    ValleyFX extends Application {
+public class ValleyFX extends Application {
     private static Parent root;
     private static Stage stage;
     private static MediaPlayer player;
@@ -104,14 +106,14 @@ public class    ValleyFX extends Application {
 
     public static ILobbyAdministration getLobbyAdministration() {
         return lobbyAdministration;
-     }
+    }
 
     public static void setUserAccount(UserAccount userAccount) {
-       ValleyFX.userAccount = userAccount;
+        ValleyFX.userAccount = userAccount;
     }
 
 
-    public static UserAccount getUserAccount(){
+    public static UserAccount getUserAccount() {
         return userAccount;
     }
 
@@ -126,10 +128,17 @@ public class    ValleyFX extends Application {
         File jarFile = new File("desktop\\build\\libs", "desktop-1.0.jar");
         System.out.println(jarFile.getAbsoluteFile());
         System.out.println(gameId);
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarFile.getAbsolutePath(), userAccount.getUsername(), userAccount.getEmail(), gameId);
+        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarFile.getAbsolutePath(), gameId, userAccount.getUsername(), userAccount.getEmail());
         try {
             stage.setIconified(true);
             Process p = processBuilder.start(); //Runtime.getRuntime().exec("java -jar \"" + jarFile.getAbsolutePath() + "\"");//processBuilder.start();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            String line;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+
             p.waitFor();
             stage.setIconified(false);
         } catch (IOException | InterruptedException e) {
