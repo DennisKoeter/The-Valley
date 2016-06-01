@@ -12,17 +12,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  prefHeight="711.0" prefWidth="1280.0" styleClass="body" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.screens.lobby.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1280.0" styleClass="body" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.screens.lobby.Controller">
    <children>
-      <VBox layoutX="390.0" layoutY="250.0" prefHeight="465.0" prefWidth="500.0" styleClass="middle">
+      <VBox layoutX="390.0" layoutY="195.0" prefHeight="520.0" prefWidth="500.0" styleClass="middle">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label fx:id="lobbyNameLabel" prefHeight="39.0" prefWidth="417.0" text="Label" />
-                  <Label fx:id="playerCountLabel" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="228.0" text="Label" />
+                  <Label fx:id="playerCountLabel" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="186.0" text="Label" />
                </children>
             </HBox>
             <ListView fx:id="userAccountsListView" prefHeight="345.0" prefWidth="650.0" />
+            <ListView fx:id="messageList" prefHeight="302.0" prefWidth="450.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="txtMessageBox" onAction="#sendMessage" prefHeight="67.0" prefWidth="322.0" />
+                  <Button fx:id="btnSendMessage" mnemonicParsing="false" onAction="#sendMessage" prefHeight="36.0" prefWidth="141.0" style="-fx-font-size: 15;" text="Send" />
+               </children>
+            </HBox>
             <Button fx:id="startButton" mnemonicParsing="false" onAction="#confirm" styleClass="btn_confirm" text="Start!">
                <cursor>
                   <Cursor fx:constant="HAND" />

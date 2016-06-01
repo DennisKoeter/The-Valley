@@ -54,4 +54,8 @@ public interface ILobby extends Remote {
      * @throws RemoteException
      */
     IGameServer getGameServer() throws RemoteException;
+
+    List<Message> getMessages() throws RemoteException;
+
+    void registerMessage(UserAccount userAccount, String message) throws RemoteException;
 }

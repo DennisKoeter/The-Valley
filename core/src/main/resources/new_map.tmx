@@ -23,10 +23,10 @@
   <image source="bridge.jpg" width="225" height="225"/>
  </tileset>
  <tileset firstgid="4005" name="trees big" tilewidth="32" tileheight="32" tilecount="64" columns="8">
-  <image source="tileset/tileset/tree2-final.png" width="256" height="256"/>
+  <image source="tileset/tree2-final.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="4069" name="background" tilewidth="32" tileheight="32" tilecount="72" columns="12">
-  <image source="tileset/tileset/grass-tiles-2-small.png" width="384" height="192"/>
+  <image source="tileset/grass-tiles-2-small.png" width="384" height="192"/>
  </tileset>
  <tileset firstgid="4141" name="spawn" tilewidth="32" tileheight="32" tilecount="49" columns="7">
   <image source="spawn.jpg" width="225" height="225"/>
