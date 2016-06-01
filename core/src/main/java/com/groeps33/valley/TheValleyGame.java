@@ -9,8 +9,6 @@ import com.groeps33.server.shared.game.IGameAdministration;
 import com.groeps33.valley.screens.IntroScreen;
 
 import javax.swing.*;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,20 +17,29 @@ import java.rmi.registry.Registry;
 public class TheValleyGame extends Game {
 
     private static IGameAdministration gameAdministration;
-    private IGameClient gameClient;
-    private IGameServer game;
+    private final UserAccount userAccount;
+    private IGameServer gameServer;
 
-    public TheValleyGame(UserAccount gameClient, String gameUuid) {
+    public TheValleyGame(UserAccount userAccount, String gameUuid) {
+        this.userAccount = userAccount;
         try {
-            game = getGameAdministration().getGameById(gameUuid);
-            if (game == null) {
+            getGameAdministration();
+            gameServer = gameAdministration.getGameById(gameUuid);
+            if (gameServer == null) {
                 JOptionPane.showMessageDialog(null, "Session is not found.", "Game could not be started!", JOptionPane.WARNING_MESSAGE);
                 dispose();
             }
-            this.gameClient = game.registerClient(gameClient);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public IGameServer getGameServer() {
+        return gameServer;
     }
 
     @Override
@@ -48,16 +55,9 @@ public class TheValleyGame extends Game {
     @Override
     public void dispose() {
         super.dispose();
-        try {
-            if (game != null) {
-                game.removeClient(gameClient);
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
-    public static IGameAdministration getGameAdministration() {
+    public IGameAdministration getGameAdministration() {
         if (gameAdministration == null) {
             try {
                 Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, Constants.PORT_NUMBER);

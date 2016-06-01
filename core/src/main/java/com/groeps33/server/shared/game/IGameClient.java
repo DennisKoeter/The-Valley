@@ -10,6 +10,18 @@ import java.rmi.RemoteException;
  *
  * @author Bram Hoendervangers
  */
-public interface IGameClient extends Remote{
+public interface IGameClient extends Remote {
     UserAccount getUserAccount() throws RemoteException;
+
+    float getX() throws RemoteException;
+
+    float getY() throws RemoteException;
+
+    void update(float x, float y, byte direction) throws RemoteException;
+
+    byte getDirection() throws RemoteException;
+
+    void setDirection(byte direction) throws RemoteException;
+
+    int getId() throws RemoteException;
 }

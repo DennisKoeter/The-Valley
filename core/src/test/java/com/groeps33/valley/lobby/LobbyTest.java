@@ -25,9 +25,9 @@ public class LobbyTest {
 
     @Before
     public void setUp() throws Exception {
-        creator = new Character(1, 1, "creator", 10, 10, 10, 10);
-        player1 = new Character(1, 1, "player1", 10, 10, 10, 10);
-        player2 = new Character(1, 1, "player2", 10, 10, 10, 10);
+        creator = new Character( 1, 1, "creator", 10, 10, 10, 10);
+        player1 = new Character( 1, 1, "player1", 10, 10, 10, 10);
+        player2 = new Character( 1, 1, "player2", 10, 10, 10, 10);
 
         expected = new ArrayList();
         expected.add(player1);

@@ -11,6 +11,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Arrays;
 
 class DesktopLauncher {
     public static void main(String[] arg) {
@@ -27,7 +28,9 @@ class DesktopLauncher {
             } catch (RemoteException | NotBoundException e) {
                 e.printStackTrace();
             }
-        } else
-        new LwjglApplication(new TheValleyGame(new UserAccount(arg[1], arg[2]), arg[0]), config);
+        } else {
+            System.out.println(Arrays.toString(arg));
+            new LwjglApplication(new TheValleyGame(new UserAccount(arg[1], arg[2]), arg[0]), config);
+        }
     }
 }

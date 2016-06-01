@@ -1,5 +1,7 @@
 package com.groeps33.server.shared.game;
 
+import com.groeps33.server.shared.UserAccount;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;

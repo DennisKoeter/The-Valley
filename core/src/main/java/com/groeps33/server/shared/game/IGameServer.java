@@ -12,13 +12,17 @@ import java.util.List;
  * @author Bram Hoendervangers
  */
 public interface IGameServer extends Remote {
-    String getUUID();
+    String getUUID() throws RemoteException;
 
     List<IGameClient> getConnectedClients() throws RemoteException;
+
+    List<IMonsterClient> getMonsters() throws RemoteException;
 
     IGameClient registerClient(UserAccount userAccount) throws RemoteException;
 
     void removeClient(IGameClient gameClient) throws RemoteException;
 
     boolean isRunning() throws RemoteException;
+
+    boolean hadSomeoneConnected() throws RemoteException;
 }

@@ -5,10 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.groeps33.server.shared.game.IGameClient;
 import com.groeps33.valley.shop.Consumable;
 import com.groeps33.valley.shop.Statboost;
 import com.groeps33.valley.shop.Stat;
@@ -20,7 +22,15 @@ import java.util.List;
  * Created by Bram on 6-4-2016.
  */
 public class Character extends Entity {
-    enum Direction {SOUTH, WEST, EAST, NORTH}
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(byte ordinal) {
+       setDirection(Direction.values()[ordinal]);
+    }
+
+    public enum Direction {SOUTH, WEST, EAST, NORTH}
 
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
@@ -40,6 +50,8 @@ public class Character extends Entity {
     private float frameTime;
     private Direction direction;
 
+    private BitmapFont font;
+
     public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
         this.statboosts = new ArrayList<Statboost>();
@@ -51,6 +63,7 @@ public class Character extends Entity {
         animation = new Animation(0.10f, frames[0][0]);
         frameTime = 0;
         currentFrame = animation.getKeyFrame(frameTime);
+        font = new BitmapFont();
     }
 
     public int getGold() {
@@ -200,6 +213,7 @@ public class Character extends Entity {
     @Override
     public void draw(Batch batch) {
         batch.draw(currentFrame, location.x, location.y);
+        font.draw(batch, name, location.x, location.y + 50);
     }
 
     @Override

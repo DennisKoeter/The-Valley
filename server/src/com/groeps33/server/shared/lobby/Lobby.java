@@ -68,8 +68,8 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
     }
 
     @Override
-    public String getGameUuid() throws RemoteException {
-        return startedGame == null || !startedGame.isRunning() ? null : startedGame.getUUID();
+    public IGameServer getGameServer() throws RemoteException {
+        return startedGame;
     }
 
 

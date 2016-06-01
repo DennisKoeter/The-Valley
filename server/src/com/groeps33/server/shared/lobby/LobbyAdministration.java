@@ -21,6 +21,7 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
     private static LobbyAdministration instance;
     private final List<ILobby> lobbyList;
     private Database database;
+    private int idCounter = 0;
 
 
     private LobbyAdministration() throws RemoteException {
@@ -42,7 +43,7 @@ public class LobbyAdministration extends UnicastRemoteObject implements ILobbyAd
             throw new RemoteException("Maximum players can't be less then one.");
         }
 
-        ILobby lobby = new Lobby(userAccount, name, password, maximumPlayers, lobbyList.size());
+        ILobby lobby = new Lobby(userAccount, name, password, maximumPlayers, idCounter++);
         lobbyList.add(lobby);
         return lobby;
     }

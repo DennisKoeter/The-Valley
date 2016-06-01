@@ -2,43 +2,83 @@ package com.groeps33.server.shared.game;
 
 import com.groeps33.server.shared.UserAccount;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.*;
 
 /**
  * Created by Bram on 5/29/2016.
  *
  * @author Bram Hoendervangers
  */
-public class GameServer implements IGameServer, Serializable {
+public class GameServer extends UnicastRemoteObject implements IGameServer {
 
     private final String uuid;
     private boolean running;
-    private List<IGameClient> gameClients;
+    private boolean someoneConnected;
+    private final List<IGameClient> gameClients;
+    private int idCounter = 0;
+    private List<IMonsterClient> monsters;
 
-    public GameServer(String uuid) {
+    public GameServer(String uuid) throws RemoteException {
         this.uuid = uuid;
         running = true;
         gameClients = new ArrayList<>();
+        monsters = new ArrayList<>();
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (someoneConnected) {
+                    try {
+                        synchronized (gameClients) {
+                            long currentT = System.currentTimeMillis();
+                            Iterator<IGameClient> it = gameClients.iterator();
+                            while (it.hasNext()) {
+                                GameClient gameClient = (GameClient) it.next();
+                                if (currentT - gameClient.getLastUpdateTime() > 1000) {
+                                    System.out.println("Player timeout: " + gameClient.getUserAccount().getEmail());
+                                    System.out.println("Disconnecting..");
+                                    it.remove();
+                                }
+                            }
+
+                            if (gameClients.size() == 0) {
+                                System.out.println("No players left for game: " + uuid);
+                                GameAdministration.get().removeGame(GameServer.this);
+                                running = false;
+                                cancel();
+                            }
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, 0, 200);
     }
 
     @Override
-    public String getUUID() {
+    public String getUUID() throws RemoteException {
         return uuid;
     }
 
     @Override
-    public List<IGameClient> getConnectedClients() {
+    public List<IGameClient> getConnectedClients() throws RemoteException {
         return Collections.unmodifiableList(gameClients);
     }
 
     @Override
-    public IGameClient registerClient(UserAccount userAccount) {
-        IGameClient gameClient = new GameClient(userAccount);
+    public List<IMonsterClient> getMonsters() throws RemoteException {
+        return Collections.unmodifiableList(monsters);
+    }
+
+    @Override
+    public IGameClient registerClient(UserAccount userAccount) throws RemoteException {
+        System.out.println("Register client: " + userAccount.getEmail());
+        IGameClient gameClient = new GameClient(idCounter++, userAccount);
         gameClients.add(gameClient);
+        someoneConnected = true;
         return gameClient;
     }
 
@@ -57,5 +97,10 @@ public class GameServer implements IGameServer, Serializable {
     @Override
     public boolean isRunning() throws RemoteException {
         return running;
+    }
+
+    @Override
+    public boolean hadSomeoneConnected() throws RemoteException {
+        return someoneConnected;
     }
 }

@@ -1,13 +1,14 @@
 package com.groeps33.valley.screens;
 
 import com.badlogic.gdx.Game;
+import com.groeps33.valley.TheValleyGame;
 
 /**
  * Created by Bram on 6-4-2016.
  */
 class MainMenuScreen extends TheValleyScreen {
 
-    protected MainMenuScreen(Game game) {
+    protected MainMenuScreen(TheValleyGame game) {
         super(game);
     }
 
