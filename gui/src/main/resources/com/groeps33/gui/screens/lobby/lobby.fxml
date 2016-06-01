@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  prefHeight="711.0" prefWidth="1280.0" styleClass="body" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.screens.lobby.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="711.0" prefWidth="1280.0" styleClass="body" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.groeps33.gui.screens.lobby.Controller">
    <children>
       <VBox layoutX="390.0" layoutY="250.0" prefHeight="465.0" prefWidth="500.0" styleClass="middle">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label fx:id="lobbyNameLabel" prefHeight="39.0" prefWidth="417.0" text="Label" />
-                  <Label fx:id="playerCountLabel" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="228.0" text="Label" />
+                  <Label fx:id="playerCountLabel" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="330.0" text="Label" />
                </children>
             </HBox>
             <ListView fx:id="userAccountsListView" prefHeight="345.0" prefWidth="650.0" />
