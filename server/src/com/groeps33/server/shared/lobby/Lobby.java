@@ -18,6 +18,7 @@ import java.util.*;
  */
 public class Lobby extends UnicastRemoteObject implements ILobby {
     private final List<UserAccount> userAccountList;
+    private final List<Message> messageList;
     private final Map<UserAccount, Long> pulseMap;
     private final String lobbyName;
     private final String password;
@@ -51,6 +52,7 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
                 }
             }
         }, 0, 200);
+        messageList = new ArrayList<>();
     }
 
     @Override
@@ -68,8 +70,18 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
     }
 
     @Override
-    public String getGameUuid() throws RemoteException {
-        return startedGame == null || !startedGame.isRunning() ? null : startedGame.getUUID();
+    public IGameServer getGameServer() throws RemoteException {
+        return startedGame;
+    }
+
+    @Override
+    public List<Message> getMessages() throws RemoteException {
+        return Collections.unmodifiableList(messageList);
+    }
+
+    @Override
+    public void registerMessage(UserAccount userAccount, String message) throws RemoteException {
+        messageList.add(new Message(userAccount, message));
     }
 
 

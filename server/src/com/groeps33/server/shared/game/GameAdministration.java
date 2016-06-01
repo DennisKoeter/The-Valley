@@ -1,5 +1,7 @@
 package com.groeps33.server.shared.game;
 
+import com.groeps33.server.shared.UserAccount;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
@@ -24,6 +26,8 @@ public class GameAdministration extends UnicastRemoteObject implements IGameAdmi
                 return game;
             }
         }
+
+        System.out.println("Session not found: "  + uuid);
         return null;
     }
 
@@ -36,6 +40,7 @@ public class GameAdministration extends UnicastRemoteObject implements IGameAdmi
     public IGameServer registerGame() throws RemoteException {
         final String uuid = UUID.randomUUID().toString();
         IGameServer game = new GameServer(uuid);
+        System.out.println(game.getUUID());
         games.add(game);
         return game;
     }

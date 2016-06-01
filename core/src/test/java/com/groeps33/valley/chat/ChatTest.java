@@ -24,7 +24,7 @@ public class ChatTest {
 
     @Before
     public void setUp() throws Exception {
-        sender = new Character(1, 1, "sender", 10, 10, 10, 10);
+        sender = new Character( 1, 1, "sender", 10, 10, 10, 10);
         m1 = new ChatMessage("message one", sender);
         m2 = new ChatMessage("message two", sender);
         m3 = new ChatMessage("message three", sender);

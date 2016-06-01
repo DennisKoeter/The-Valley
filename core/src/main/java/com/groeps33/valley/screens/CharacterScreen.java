@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.groeps33.valley.TheValleyGame;
 import com.groeps33.valley.entity.Character;
 
 /**
@@ -32,7 +33,7 @@ public class CharacterScreen extends TheValleyScreen {
 
     Table rootTable;
 
-    CharacterScreen(final Game game) {
+    CharacterScreen(final TheValleyGame game) {
         super(game);
         stage = new Stage();
         spriteBatch = new SpriteBatch();

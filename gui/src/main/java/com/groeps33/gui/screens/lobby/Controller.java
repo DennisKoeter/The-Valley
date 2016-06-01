@@ -2,12 +2,15 @@ package com.groeps33.gui.screens.lobby;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
+import com.groeps33.server.shared.game.IGameServer;
 import com.groeps33.server.shared.lobby.ILobby;
 import com.groeps33.server.shared.UserAccount;
+import com.groeps33.server.shared.lobby.Message;
 import com.groeps33.server.shared.lobby.exceptions.InsufficientPermissionsException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -20,6 +23,13 @@ import java.util.stream.Collectors;
  * Created by Dennis on 25/05/16.
  */
 public class Controller {
+
+    @FXML
+    public ListView<String> messageList;
+    @FXML
+    public TextField txtMessageBox;
+    @FXML
+    public Button btnSendMessage;
 
     @FXML
     Button startButton;
@@ -35,6 +45,7 @@ public class Controller {
 
     private ILobby thisLobby;
     private TimerTask updateTask;
+    private ObservableList<String> msgList;
 
     public void init(ILobby l) throws RemoteException {
         thisLobby = l;
@@ -44,6 +55,9 @@ public class Controller {
         //disable selection
         userAccountsListView.setMouseTransparent(true);
         userAccountsListView.setFocusTraversable(false);
+
+        msgList = FXCollections.observableArrayList();
+        messageList.setItems(msgList);
 
         updateTask = new TimerTask() {
             @Override
@@ -56,9 +70,19 @@ public class Controller {
                         thisLobby.pulse(ValleyFX.getUserAccount());
                         updatePlayerCounts();
                         getUserAccounts(thisLobby);
-                        String gameId = l.getGameUuid();
-                        if (gameId != null) {
-                            ValleyFX.startGame(gameId);
+                        IGameServer game = l.getGameServer();
+                        if (game != null) {
+                            if (!game.isRunning()) {
+                                switchToStartButton();
+                            } else {
+                                if (game.hadSomeoneConnected()) {
+                                    switchToJoinButton();
+                                } else {
+                                    ValleyFX.startGame(game.getUUID());
+                                }
+                            }
+                        } else {
+                            syncChatBox();
                         }
                     } catch (RemoteException e) {
                         e.printStackTrace();
@@ -71,8 +95,27 @@ public class Controller {
         new Timer().schedule(updateTask, 0, 500);
     }
 
+    private void syncChatBox() throws RemoteException {
+        List<Message> msgs = thisLobby.getMessages();
+        msgList.clear();
+        for (Message message : msgs) {
+            msgList.add(message.getSender().getUsername()+ ": " + message.getMessage());
+        }
+
+        messageList.scrollTo(msgList.size()-1);
+    }
+
+    private void switchToStartButton() {
+        startButton.setText("Start");
+    }
+
+    private void switchToJoinButton() {
+        startButton.setText("Join");
+        startButton.setDisable(false);
+    }
+
     private void updatePlayerCounts() throws RemoteException {
-        playerCountLabel.setText("Players: " + thisLobby.getPlayerCount() + "/" + thisLobby.getMaximumPlayers());
+        playerCountLabel.setText("" + thisLobby.getPlayerCount() + "/" + thisLobby.getMaximumPlayers());
     }
 
     private void getUserAccounts(ILobby l) throws RemoteException {
@@ -82,6 +125,7 @@ public class Controller {
                 .map(acc -> (acc.equals(host) ? "Host: " : "Player: ") + acc.getUsername()).collect(Collectors.toList());
         ObservableList<String> userAccountNamesObservable = FXCollections.observableList(userAccountNames);
         userAccountsListView.setItems(userAccountNamesObservable);
+        startButton.setDisable(!thisLobby.getHost().equals(ValleyFX.getUserAccount()));
     }
 
 
@@ -106,11 +150,28 @@ public class Controller {
 
     @FXML
     private void confirm() throws RemoteException {
+        IGameServer gameServer = thisLobby.getGameServer();
+        if (gameServer == null || !gameServer.isRunning()) {
+            try {
+                thisLobby.startGame(ValleyFX.getUserAccount());
+            } catch (InsufficientPermissionsException e) {
+                //should never get here, since the start button will be disabled for non-hosts.
+                ValleyFX.showMessageBox(Alert.AlertType.WARNING, "Insufficient permissions", "Only the host can start a game");
+            }
+        } else {
+            ValleyFX.startGame(gameServer.getUUID());
+        }
+    }
+
+    @FXML
+    public void sendMessage() {
         try {
-            thisLobby.startGame(ValleyFX.getUserAccount());
-        } catch (InsufficientPermissionsException e) {
-            //should never get here, since the start button will be disabled for non-hosts.
-            ValleyFX.showMessageBox(Alert.AlertType.WARNING, "Insufficient permissions", "Only the host can start a game");
+            thisLobby.registerMessage(ValleyFX.getUserAccount(), txtMessageBox.getText());
+            msgList.add(ValleyFX.getUserAccount().getUsername()+ ": " + txtMessageBox.getText());
+            txtMessageBox.setText("");
+            messageList.scrollTo(msgList.size()-1);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 }

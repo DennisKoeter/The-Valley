@@ -1,6 +1,7 @@
 package com.groeps33.server.shared.lobby;
 
 import com.groeps33.server.shared.UserAccount;
+import com.groeps33.server.shared.game.IGameServer;
 import com.groeps33.server.shared.lobby.exceptions.AlreadyJoinedException;
 import com.groeps33.server.shared.lobby.exceptions.InsufficientPermissionsException;
 import com.groeps33.server.shared.lobby.exceptions.LobbyFullException;
@@ -52,5 +53,9 @@ public interface ILobby extends Remote {
      * @return the unique identifier of the started game, <b>null</b> if not started yet.
      * @throws RemoteException
      */
-    String getGameUuid() throws RemoteException;
+    IGameServer getGameServer() throws RemoteException;
+
+    List<Message> getMessages() throws RemoteException;
+
+    void registerMessage(UserAccount userAccount, String message) throws RemoteException;
 }

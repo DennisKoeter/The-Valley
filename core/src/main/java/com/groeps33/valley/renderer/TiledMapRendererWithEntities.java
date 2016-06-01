@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.entity.Entity;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
     public TiledMapRendererWithEntities(TiledMap map, int drawEntitiesAfterLayer) {
         super(map);
         this.drawEntitiesAfterLayer = drawEntitiesAfterLayer;
-        entities = new ArrayList<Entity>();
+        entities = new ArrayList<>();
     }
 
     public void addEntity(Entity entity) {
@@ -54,5 +55,9 @@ public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
         }
 
         endRender();
+    }
+
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
     }
 }

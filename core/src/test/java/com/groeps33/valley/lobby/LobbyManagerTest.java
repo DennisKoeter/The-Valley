@@ -19,7 +19,7 @@ public class LobbyManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        creator = new Character(1, 1, "creator", 10, 10, 10, 10);
+        creator = new Character( 1, 1, "creator", 10, 10, 10, 10);
 
         lobbyManager = new LobbyManager();
         lobbyManager.createLobby(1, "lobby1", 4, "hunter2", creator);

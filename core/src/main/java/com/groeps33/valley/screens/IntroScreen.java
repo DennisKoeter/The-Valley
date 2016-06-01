@@ -13,6 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.groeps33.valley.TheValleyGame;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 /**
  * Created by Bram on 6-4-2016.
@@ -21,6 +24,7 @@ public class IntroScreen extends TheValleyScreen {
 
     private final SpriteBatch spriteBatch;
     private final Texture splashTexture;
+    private final long startTime;
     private Stage stage;
     private TextButton button;
     private TextButtonStyle textButtonStyle;
@@ -30,7 +34,7 @@ public class IntroScreen extends TheValleyScreen {
     private Table rootTable;
 
 
-    public IntroScreen(final Game game) {
+    public IntroScreen(final TheValleyGame game) {
         super(game);
         rootTable = new Table();
         rootTable.setFillParent(true);
@@ -40,25 +44,29 @@ public class IntroScreen extends TheValleyScreen {
         spriteBatch = new SpriteBatch();
         splashTexture = new Texture("menus/front(login).png");
 
-        font = new BitmapFont();
-        skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/ui-gray.atlas"));
-        skin.addRegions(buttonAtlas);
+//        font = new BitmapFont();
+//        skin = new Skin();
+//        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/ui-gray.atlas"));
+//        skin.addRegions(buttonAtlas);
+//
+//        textButtonStyle = new TextButtonStyle();
+//        textButtonStyle.font = font;
+//        textButtonStyle.up = skin.getDrawable("button_03");
+//        textButtonStyle.down = skin.getDrawable("button_02");
+//
+//        button = new TextButton("Start", textButtonStyle);
+//        button.addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ChangeEvent event, Actor actor) {
+//                game.setScreen(new CharacterScreen(game));
+//            }
+//        });
+//        rootTable.add(button);
+        //stage.addActor(rootTable);
+        stage.getRoot().getColor().a = 0;
+        stage.getRoot().addAction(fadeIn(3f));
 
-        textButtonStyle = new TextButtonStyle();
-        textButtonStyle.font = font;
-        textButtonStyle.up = skin.getDrawable("button_03");
-        textButtonStyle.down = skin.getDrawable("button_02");
-
-        button = new TextButton("Start", textButtonStyle);
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new CharacterScreen(game));
-            }
-        });
-        rootTable.add(button);
-        stage.addActor(rootTable);
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -69,9 +77,15 @@ public class IntroScreen extends TheValleyScreen {
     @Override
     public void render(float delta) {
         spriteBatch.begin();
+
+        spriteBatch.setColor(1.0f, 1.0f, 1.0f, (System.currentTimeMillis() - startTime) /30000f);
         spriteBatch.draw(splashTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         spriteBatch.end();
-        stage.draw();
+
+        if (System.currentTimeMillis() - startTime > 3000) {
+            game.setScreen(new GameScreen(game));
+        }
     }
 
     @Override
