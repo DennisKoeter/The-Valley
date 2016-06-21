@@ -10,13 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.groeps33.server.shared.game.IGameClient;
-import com.groeps33.valley.shop.Consumable;
-import com.groeps33.valley.shop.Statboost;
-import com.groeps33.valley.shop.Stat;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.InetAddress;
 
 /**
  * Created by Bram on 6-4-2016.
@@ -34,14 +29,12 @@ public class Character extends Entity {
 
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
-    private Consumable consumable;
     private int bonusAttackSpeed;
     private int bonusMoveSpeed;
     private int bonusHp;
     private int bonusDefence;
     private int bonusAttackDamage;
     private int gold;
-    private List<Statboost> statboosts;
 
     private Animation animation;
     private Texture spriteSheet;
@@ -52,18 +45,12 @@ public class Character extends Entity {
 
     private BitmapFont font;
 
-    public Character(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
-        super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
-        this.statboosts = new ArrayList<Statboost>();
+    public Character(float x, float y, String name) {
+        super(x, y, name);
         direction = Direction.SOUTH;
         //Wanneer meerdere karakters gebruikt worden kan
         // in de consructor een andere spritesheet geladen worden.
-        spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
-        frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
-        animation = new Animation(0.10f, frames[0][0]);
-        frameTime = 0;
-        currentFrame = animation.getKeyFrame(frameTime);
-        font = new BitmapFont();
+
     }
 
     public int getGold() {
@@ -72,49 +59,6 @@ public class Character extends Entity {
 
     public void reduceGold(int amount) {
         this.gold -= amount;
-    }
-
-    public boolean useConsumable() {
-        if (this.consumable == null) return false;
-        Stat stat = consumable.getStat();
-        int boostValue = consumable.getBoost();
-
-        switch (stat) {
-            case DEFENCE:
-                this.bonusDefence += boostValue;
-                break;
-            case ATTACK_DAMAGE:
-                this.bonusAttackDamage += boostValue;
-                break;
-            case ATTACK_SPEED:
-                this.bonusAttackSpeed += boostValue;
-                break;
-            case MOVE_SPEED:
-                this.bonusMoveSpeed += boostValue;
-                break;
-            case MAX_HP:
-                this.bonusHp += boostValue;
-                break;
-            case CURRENT_HP:
-                this.currentHp += boostValue;
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-        this.consumable = null;
-        return true;
-    }
-
-    public void addStatboost(Statboost statboost) {
-        this.statboosts.add(statboost);
-    }
-
-    public void removeStatboost(Statboost statboost) {
-        this.statboosts.remove(statboost);
-    }
-
-    public void setConsumable(Consumable consumable) {
-        this.consumable = consumable;
     }
 
 
@@ -126,8 +70,20 @@ public class Character extends Entity {
         }
     }
 
+    private void init() {
+        spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
+        frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
+        animation = new Animation(0.10f, frames[0][0]);
+        frameTime = 0;
+        currentFrame = animation.getKeyFrame(frameTime);
+        font = new BitmapFont();
+    }
+
     @Override
     public void update(float deltaTime) {
+        if (frames == null) {
+            init();
+        }
 
         velocity.set(0,0);
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -212,6 +168,10 @@ public class Character extends Entity {
 
     @Override
     public void draw(Batch batch) {
+        if (frames == null) {
+            init();
+        }
+
         batch.draw(currentFrame, location.x, location.y);
         font.draw(batch, name, location.x, location.y + 50);
     }
@@ -228,4 +188,6 @@ public class Character extends Entity {
     public Animation getCharacterAnimator() {
         return animation = new Animation(0.10f , frames[0]);
     }
+
+
 }

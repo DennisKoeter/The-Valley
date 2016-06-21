@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
     private List<Entity> entities;
-    private int drawEntitiesAfterLayer = 2;
+    private int drawEntitiesAfterLayer;
     public TiledMapRendererWithEntities(TiledMap map, int drawEntitiesAfterLayer) {
         super(map);
         this.drawEntitiesAfterLayer = drawEntitiesAfterLayer;

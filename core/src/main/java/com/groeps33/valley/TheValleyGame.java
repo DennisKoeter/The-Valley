@@ -1,14 +1,14 @@
 package com.groeps33.valley;
 
 import com.badlogic.gdx.Game;
-import com.groeps33.server.application.Constants;
-import com.groeps33.server.shared.UserAccount;
-import com.groeps33.server.shared.game.IGameClient;
-import com.groeps33.server.shared.game.IGameServer;
-import com.groeps33.server.shared.game.IGameAdministration;
+import com.groeps33.valley.net.GameClient;
+import com.groeps33.valley.net.GameServer;
+import com.groeps33.valley.net.UserAccount;
+import com.groeps33.valley.screens.GameScreen;
 import com.groeps33.valley.screens.IntroScreen;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,35 +16,25 @@ import java.rmi.registry.Registry;
 
 public class TheValleyGame extends Game {
 
-    private static IGameAdministration gameAdministration;
     private final UserAccount userAccount;
-    private IGameServer gameServer;
+    private final boolean isHost;
+    private final String host;
+    private GameServer gameServer;
+    private GameClient gameClient;
 
-    public TheValleyGame(UserAccount userAccount, String gameUuid) {
+    public TheValleyGame(UserAccount userAccount, String host) {
         this.userAccount = userAccount;
-        try {
-            getGameAdministration();
-            gameServer = gameAdministration.getGameById(gameUuid);
-            if (gameServer == null) {
-                JOptionPane.showMessageDialog(null, "Session is not found.", "Game could not be started!", JOptionPane.WARNING_MESSAGE);
-                dispose();
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        this.host = host;
+        isHost = JOptionPane.showConfirmDialog(null, "Do you want to run the server") == 0;
     }
 
     public UserAccount getUserAccount() {
         return userAccount;
     }
 
-    public IGameServer getGameServer() {
-        return gameServer;
-    }
-
     @Override
     public void create() {
-        setScreen(new IntroScreen(this));
+        setScreen(new GameScreen(this)); //new IntroScreen(this));
     }
 
     @Override
@@ -57,17 +47,21 @@ public class TheValleyGame extends Game {
         super.dispose();
     }
 
-    public IGameAdministration getGameAdministration() {
-        if (gameAdministration == null) {
-            try {
-                Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, Constants.PORT_NUMBER);
-                gameAdministration = (IGameAdministration) registry.lookup(Constants.GAME_ADMIN_NAME);
-                return gameAdministration;
-            } catch (RemoteException | NotBoundException e) {
-                e.printStackTrace();
+    public void setupNetworking(GameScreen gameScreen) {
+        try {
+            if (isHost) {
+                gameServer = new GameServer();
             }
+
+            gameClient = new GameClient(gameScreen, host);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return gameAdministration;
+    }
+
+
+    public GameClient getGameClient() {
+        return gameClient;
     }
 }

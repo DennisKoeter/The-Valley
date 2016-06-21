@@ -32,6 +32,10 @@ public abstract class Entity {
         currentHp = maxHp;
     }
 
+    public Entity(float x, float y, String name) {
+        this(x, y, name, 100, -1,-1, 200);
+    }
+
     public abstract void update(float deltaTime);
 
     public abstract void draw(Batch batch);
@@ -68,5 +72,9 @@ public abstract class Entity {
 
     public Vector2 getGridLocation() {
         return new Vector2(getGridX(), getGridY());
+    }
+
+    public String getName() {
+        return name;
     }
 }
