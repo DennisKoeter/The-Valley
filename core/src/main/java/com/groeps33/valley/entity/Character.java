@@ -22,7 +22,7 @@ public class Character extends Entity {
     }
 
     public void setDirection(byte ordinal) {
-       setDirection(Direction.values()[ordinal]);
+        setDirection(Direction.values()[ordinal]);
     }
 
     public enum Direction {SOUTH, WEST, EAST, NORTH}
@@ -70,6 +70,17 @@ public class Character extends Entity {
         }
     }
 
+    public void updateFrame() {
+
+        if (frames != null) {
+            frameTime += Gdx.graphics.getDeltaTime();
+            currentFrame = animation.getKeyFrame(frameTime, true);
+
+            if (currentFrame.isFlipY())
+                currentFrame.flip(false, true);
+        }
+    }
+
     private void init() {
         spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
         frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
@@ -85,7 +96,7 @@ public class Character extends Entity {
             init();
         }
 
-        velocity.set(0,0);
+        velocity.set(0, 0);
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             velocity.x = deltaTime * -moveSpeed;
         }
@@ -186,7 +197,7 @@ public class Character extends Entity {
     }
 
     public Animation getCharacterAnimator() {
-        return animation = new Animation(0.10f , frames[0]);
+        return animation = new Animation(0.10f, frames[0]);
     }
 
 

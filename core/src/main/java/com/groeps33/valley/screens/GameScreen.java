@@ -138,6 +138,7 @@ public class GameScreen extends TheValleyScreen {
         }
 
         character.setLocation(x, y);
+        character.updateFrame();
         character.setDirection(direction);
     }
 
