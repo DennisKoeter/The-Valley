@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -12,10 +13,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.groeps33.valley.TheValleyGame;
 import com.groeps33.valley.entity.Entity;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.net.GameServer;
+import com.groeps33.valley.renderer.HudRenderer;
 import com.groeps33.valley.renderer.TiledMapRendererWithEntities;
 
 import java.util.HashMap;
@@ -29,6 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Bram Hoendervangers
  */
 public class GameScreen extends TheValleyScreen {
+    private final static Vector2 MONSTER_SPAWN = new Vector2(309, 1355);
     private TiledMap tiledMap;
     private OrthographicCamera camera;
     private TiledMapRendererWithEntities tiledMapRenderer;
@@ -38,6 +42,8 @@ public class GameScreen extends TheValleyScreen {
     private MapObjects objects;
     private Map<String, Character> characters;
     private GameServer gameServer;
+    private HudRenderer hudRenderer;
+
 //    private SpriteBatch spriteBash;
 
     public GameScreen(TheValleyGame game) {
@@ -58,6 +64,7 @@ public class GameScreen extends TheValleyScreen {
         objects = collisionObjectLayer.getObjects();
         localPlayer = addPlayer(game.getUserAccount().getUsername());
         game.getGameClient().connect(localPlayer);
+        hudRenderer = new HudRenderer(this);
     }
 
     @Override
@@ -77,11 +84,9 @@ public class GameScreen extends TheValleyScreen {
 
         checkCollisionWithMap(localPlayer);
         tiledMapRenderer.setView(camera);
-        if (tiledMapRenderer.getBatch() != null) {
-            tiledMapRenderer.render();
-        } else {
-            System.out.println("null");
-        }
+        tiledMapRenderer.render();
+
+        hudRenderer.render();
     }
 
     @Override
@@ -149,5 +154,9 @@ public class GameScreen extends TheValleyScreen {
             characters.remove(username);
             tiledMapRenderer.removeEntity(character);
         }
+    }
+
+    public Character getLocalPlayer() {
+        return localPlayer;
     }
 }

@@ -77,4 +77,12 @@ public abstract class Entity {
     public String getName() {
         return name;
     }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public int getCurrentHp() {
+        return currentHp;
+    }
 }
