@@ -52,7 +52,7 @@ public class GameScreen extends TheValleyScreen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("thevalley.tmx");
-        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 4);
+        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 5);
         System.out.println(tiledMapRenderer.getBatch());
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("Collision");
         objects = collisionObjectLayer.getObjects();
@@ -106,7 +106,7 @@ public class GameScreen extends TheValleyScreen {
 
     @Override
     public void dispose() {
-
+//        game.getGameClient().disconnect(localPlayer);
     }
 
     private boolean checkCollisionWithMap(Entity entity) {
@@ -143,6 +143,11 @@ public class GameScreen extends TheValleyScreen {
     }
 
     public void removePlayer(String username) {
-        characters.remove(username);
+        System.out.println("Player disconected: " + username);
+        Character character = characters.get(username);
+        if (character != null) {
+            characters.remove(username);
+            tiledMapRenderer.removeEntity(character);
+        }
     }
 }

@@ -13,8 +13,13 @@ public class DisconnectPacket extends Packet {
 
     private String username;
 
-    DisconnectPacket(byte[] data) throws IOException {
+    public DisconnectPacket(byte[] data) throws IOException {
         super(PacketType.DISCONNECT, data);
+    }
+
+    public DisconnectPacket(String username) {
+        super(PacketType.DISCONNECT);
+        this.username = username;
     }
 
     @Override

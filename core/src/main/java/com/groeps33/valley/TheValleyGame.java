@@ -45,6 +45,7 @@ public class TheValleyGame extends Game {
     @Override
     public void dispose() {
         super.dispose();
+        gameClient.disconnect(userAccount.getUsername());
     }
 
     public void setupNetworking(GameScreen gameScreen) {

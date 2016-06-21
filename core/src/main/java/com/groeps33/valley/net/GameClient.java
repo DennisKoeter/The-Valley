@@ -73,4 +73,17 @@ public class GameClient implements PacketListener {
     private void sendPacket(Packet packet) throws IOException {
         handler.sendPacket(packet, address, GameServer.SERVER_PORT);
     }
+
+    public void disconnect(Character character) {
+        disconnect(character.getName());
+    }
+
+    public void disconnect(String username) {
+        try {
+            sendPacket(new DisconnectPacket(username));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
