@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Bram Hoendervangers
  */
 public class GameScreen extends TheValleyScreen {
-    private static final Vector2 START_LOC = new Vector2(1300, 1100);
+    private static final Vector2 START_LOC = new Vector2(1450, 1400);
     private final PlayerClass playerClass;
     private TiledMap tiledMap;
     private OrthographicCamera camera;
@@ -67,7 +67,7 @@ public class GameScreen extends TheValleyScreen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("thevalley.tmx");
-        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 6);
+        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 7);
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("Collision");
         objects = collisionObjectLayer.getObjects();
         localPlayer = addPlayer(game.getUserAccount().getUsername(), playerClass);
@@ -99,7 +99,8 @@ public class GameScreen extends TheValleyScreen {
 
 
         if (localPlayer.getCurrentHp() <= 0) {
-            localPlayer.setLocation(START_LOC.x, START_LOC.y);
+            Random random = new Random();
+            localPlayer.setLocation(START_LOC.x + random.nextInt(201), START_LOC.y + random.nextInt(201));
             localPlayer.resetHp();
         }
 
@@ -193,8 +194,9 @@ public class GameScreen extends TheValleyScreen {
         if (localPlayer != null && localPlayer.getName().equals(username)) {
             return localPlayer;
         }
+        Random random = new Random();
         hudRenderer.addMessage(new Message("Player connected: " + username, Message.Type.SERVER));
-        Character character = new Character(START_LOC.x, START_LOC.y, username, playerClass);
+        Character character = new Character(START_LOC.x + random.nextInt(201), START_LOC.y + random.nextInt(201), username, playerClass);
         characters.put(username, character);
         tiledMapRenderer.addEntity(character);
         return character;
