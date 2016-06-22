@@ -113,7 +113,9 @@ public class GameServer implements PacketListener {
                 case MOVE:
                     MovePacket movePacket = (MovePacket) packet;
                     ClientConnection movedClient = getClientForPlayerName(movePacket.getUsername());
-                    assert movedClient != null;
+                    if (movedClient == null) {
+                        System.out.println("No client found for: " + movePacket.getUsername());
+                    }
                     Character player = movedClient.getCharacter();
                     player.setLocation(movePacket.getX(), movePacket.getY());
                     broadcastPacket(packet, movedClient);

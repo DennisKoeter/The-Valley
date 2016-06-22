@@ -65,7 +65,6 @@ public class GameScreen extends TheValleyScreen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("thevalley.tmx");
         tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 5);
-        System.out.println(tiledMapRenderer.getBatch());
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("Collision");
         objects = collisionObjectLayer.getObjects();
         localPlayer = addPlayer(game.getUserAccount().getUsername(), playerClass);
@@ -133,8 +132,6 @@ public class GameScreen extends TheValleyScreen {
 //                game.getGameClient().remove(projectile);
             }
 
-
-            System.out.println(projectile);
             projectile.getLocation().add(projectile.getVelocity().x * deltaTime, projectile.getVelocity().y * deltaTime);
         }
     }
