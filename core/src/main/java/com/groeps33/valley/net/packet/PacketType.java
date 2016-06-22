@@ -6,5 +6,5 @@ package com.groeps33.valley.net.packet;
  * @author Bram Hoendervangers
  */
 public enum PacketType {
-    CONNECT, DISCONNECT, PROJECTILES, PLAYER_HIT, REQUEST_UPDATE, MOVE
+    CONNECT, DISCONNECT, PROJECTILES, PLAYER_HIT, REQUEST_UPDATE, MONSTERS, MONSTER_TARGET_UPDATE, NEW_WAVE, MOVE
 }

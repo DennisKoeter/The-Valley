@@ -37,7 +37,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Bram Hoendervangers
  */
 public class GameScreen extends TheValleyScreen {
-    private final static Vector2 MONSTER_SPAWN = new Vector2(309, 1355);
     private static final Vector2 START_LOC = new Vector2(90, 100);
     private TiledMap tiledMap;
     private OrthographicCamera camera;
@@ -238,5 +237,9 @@ public class GameScreen extends TheValleyScreen {
     public void registerHit(String hitByPlayer, int damage) {
         hudRenderer.addMessage(new Message("Friendly fire by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
         localPlayer.damage(damage);
+    }
+
+    public void registerNewWave(int number) {
+
     }
 }

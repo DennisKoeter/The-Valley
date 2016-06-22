@@ -1,7 +1,10 @@
 package com.groeps33.valley.net;
 
+import com.badlogic.gdx.math.Vector2;
 import com.groeps33.valley.entity.Character;
+import com.groeps33.valley.entity.Monster;
 import com.groeps33.valley.net.packet.*;
+import com.groeps33.valley.util.Calculations;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -21,40 +24,15 @@ public class GameServer implements PacketListener {
     public final static int SERVER_PORT = 8009;
     private static final Packet PLAYER_UPDATE_PACKET = new RequestPlayerUpdate();
 
-    private class ClientConnection {
-        private final Character character;
-        private final InetAddress address;
-        private final int port;
-
-        ClientConnection(Character character, InetAddress address, int port) {
-            this.character = character;
-            this.address = address;
-            this.port = port;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof ClientConnection)) return false;
-
-            ClientConnection that = (ClientConnection) o;
-
-            return port == that.port && (address != null ? address.equals(that.address) : that.address == null);
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = address != null ? address.hashCode() : 0;
-            result = 31 * result + port;
-            return result;
-        }
-    }
+    private final static Vector2 MONSTER_SPAWN = new Vector2(309, 1355);
 
 
     private final DatagramSocket serverSocket;
     private final List<ClientConnection> connectedPlayers = new CopyOnWriteArrayList<>();
+    private final List<Monster> monsters = new CopyOnWriteArrayList<>();
     private final PacketHandler handler;
+
+    private Wave currentWave;
 
     public GameServer() throws IOException {
         this.serverSocket = new DatagramSocket(SERVER_PORT);
@@ -75,11 +53,43 @@ public class GameServer implements PacketListener {
                 }
             }
         }, 0, 500);
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                tick();
+            }
+        }, 0, 100);
+    }
+
+
+
+    private void tick() {
+        if (currentWave == null) {
+            currentWave = new Wave(1, System.currentTimeMillis() + 500);
+            broadcastPacket(new NewWave(1), null);
+        }
+        for (Monster monster : currentWave.getMonsterList()) {
+            ClientConnection closest = null;
+            double dist = Double.MAX_VALUE;
+            for (ClientConnection clientConnection : connectedPlayers) {
+                double t = Calculations.distance(clientConnection.getCharacter().getLocation(), monster.getLocation());
+                if (t < dist) {
+                    dist = t;
+                    closest = clientConnection;
+                }
+            }
+
+            if (closest != null && !closest.getCharacter().getName().equals(monster.getTarget())) {
+                monster.setTarget(closest.getCharacter().getName());
+                broadcastPacket(new MonsterTargetUpdate(monster.getId(), monster.getTarget()), null);
+            }
+        }
+
     }
 
     @Override
     public void onPacketReceived(Packet packet, InetAddress address, int port) {
-
         try {
             switch (packet.getType()) {
                 case CONNECT:
@@ -92,9 +102,9 @@ public class GameServer implements PacketListener {
 
                     //notify new connected player about existing players
                     for (ClientConnection client : connectedPlayers) {
-                        handler.sendPacket(new ConnectPacket(client.character.getName()), address, port);
-                        handler.sendPacket(new MovePacket(client.character.getName(), client.character.getLocation().x, client.character.getLocation().y,
-                                (byte) client.character.getDirection().ordinal()), address, port);
+                        handler.sendPacket(new ConnectPacket(client.getCharacter().getName()), address, port);
+                        handler.sendPacket(new MovePacket(client.getCharacter().getName(), client.getCharacter().getLocation().x, client.getCharacter().getLocation().y,
+                                (byte) client.getCharacter().getDirection().ordinal()), address, port);
                     }
 
                     connectedPlayers.add(newClient);
@@ -104,7 +114,7 @@ public class GameServer implements PacketListener {
                     MovePacket movePacket = (MovePacket) packet;
                     ClientConnection movedClient = getClientForPlayerName(movePacket.getUsername());
                     assert movedClient != null;
-                    Character player = movedClient.character;
+                    Character player = movedClient.getCharacter();
                     player.setLocation(movePacket.getX(), movePacket.getY());
                     broadcastPacket(packet, movedClient);
                     break;
@@ -122,28 +132,44 @@ public class GameServer implements PacketListener {
                     //todo add projectiles to server side players (maybe needed for syncing)
                     break;
                 case PLAYER_HIT:
-                    PlayerHitPacket playerHitPacket = (PlayerHitPacket) packet;
-                    ClientConnection sender = getClientForPlayerName(playerHitPacket.getUsername());
-                    Character target = getClientForPlayerName(playerHitPacket.getTargetName()).character;
-                    target.damage(playerHitPacket.getDamage());
-                    broadcastPacket(playerHitPacket, sender);
+                    HitPacket hitPacket = (HitPacket) packet;
+                    ClientConnection sender = getClientForPlayerName(hitPacket.getSender());
+                    switch (hitPacket.getHitType()) {
+                        case PLAYER_HIT_PLAYER:
+                            Character target = getClientForPlayerName(hitPacket.getTargetId()).getCharacter();
+                            target.damage(hitPacket.getDamage());
+                            break;
+                        case PLAYER_HIT_MONSTER:
+                            Monster monster = getMonsterById(hitPacket.getTargetId());
+                            assert monster != null;
+
+                            //todo
+
+                    }
+                    broadcastPacket(hitPacket, sender);
                     //todo clients need to sync player hp every x ms with server
+                    break;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private Monster getMonsterById(String targetId) {
+        return null;
+    }
+
 
     private void syncClientWithConnectedPlayers(ClientConnection reciever) throws IOException {
         for (ClientConnection client : connectedPlayers) {
-            handler.sendPacket(PLAYER_UPDATE_PACKET, client.address, client.port);
+            if (client != reciever)
+            handler.sendPacket(PLAYER_UPDATE_PACKET, client.getAddress(), client.getPort());
         }
     }
 
     private ClientConnection getClientForPlayerName(String username) {
         for (ClientConnection client : connectedPlayers) {
-            if (client.character.getName().equals(username)) {
+            if (client.getCharacter().getName().equals(username)) {
                 return client;
             }
         }
@@ -153,7 +179,7 @@ public class GameServer implements PacketListener {
     private void broadcastPacket(Packet packet, ClientConnection origin) {
         connectedPlayers.stream().filter(client -> !client.equals(origin)).forEach(client -> {
             try {
-                handler.sendPacket(packet, client.address, client.port);
+                handler.sendPacket(packet, client.getAddress(), client.getPort());
             } catch (IOException e) {
                 e.printStackTrace();
             }
