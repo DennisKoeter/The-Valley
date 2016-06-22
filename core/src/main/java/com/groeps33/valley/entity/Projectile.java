@@ -41,12 +41,12 @@ public class Projectile {
         return startLocation;
     }
 
-    public Projectile(Vector2 location, Vector2 velocity, int damage, int attackDamage) {
+    public Projectile(Vector2 location, Vector2 velocity, int damage, int attackRange) {
         this.startLocation = location;
         this.location = new Vector2(location);
         this.velocity = velocity;
         this.damage = damage;
-        this.attackRange = attackDamage;
+        this.attackRange = attackRange;
     }
 
     public double getAttackRange() {

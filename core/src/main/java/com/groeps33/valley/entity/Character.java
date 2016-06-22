@@ -23,9 +23,8 @@ import java.util.List;
  * Created by Bram on 6-4-2016.
  */
 public class Character extends Entity {
+    private final PlayerClass playerClass;
     private long lastAtkTime;
-    private int attackRange;
-    private float projectileSpeed;
 
     public Direction getDirection() {
         return direction;
@@ -65,13 +64,11 @@ public class Character extends Entity {
 
     private BitmapFont font;
 
-    public Character(float x, float y, String name) {
-        super(x, y, name);
+    public Character(float x, float y, String name, PlayerClass playerClass) {
+        super(x, y, name, 100, playerClass.getDefence(), playerClass.getAttackDmg(), playerClass.getMoveSpeed(), playerClass.getAttackInterval());
+        this.playerClass = playerClass;
         direction = Direction.SOUTH;
         projectiles = new ArrayList<>();
-        this.attackRange = 100;
-        this.projectileSpeed = 500;
-        this.attackSpeedInterval = 250;
     }
 
     public int getGold() {
@@ -114,7 +111,7 @@ public class Character extends Entity {
     }
 
     private void init() {
-        spriteSheet = new Texture(Gdx.files.internal("sprites/character 1.png"));
+        spriteSheet = new Texture(Gdx.files.internal(playerClass.getSpriteSheet()));
         frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
         animation = new Animation(0.10f, frames[0][0]);
         frameTime = 0;
@@ -122,10 +119,11 @@ public class Character extends Entity {
         font = new BitmapFont();
 
         //temp texture for projectile
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(new Color(0, 0f, 1f, 1f));
-        pixmap.fill();
-        this.projectileTexture = new Texture(pixmap);
+//        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+//        pixmap.setColor(new Color(0, 0f, 1f, 1f));
+//        pixmap.fill();
+//        this.projectileTexture = new Texture(pixmap);
+        this.projectileTexture = new Texture(playerClass.getProjectileSpriteSheet());
     }
 
     @Override
@@ -178,8 +176,8 @@ public class Character extends Entity {
         Vector2 velocity = new Vector2();//nextY - location.y, nextX - location.x
         double angle = Math.atan2(Gdx.input.getX() - (Gdx.graphics.getWidth()/2),Gdx.input.getY()- (Gdx.graphics.getHeight()/2));
         angle -= Math.PI/2.0;
-        velocity.set(projectileSpeed * (float) Math.cos(angle), projectileSpeed * (float) Math.sin(angle));
-        Projectile projectile = new Projectile(new Vector2(location.x + WIDTH/2, location.y + HEIGHT/2), velocity, attackDamage, attackRange);
+        velocity.set(playerClass.getProjectileSpeed() * (float) Math.cos(angle), playerClass.getProjectileSpeed() * (float) Math.sin(angle));
+        Projectile projectile = new Projectile(new Vector2(location.x + WIDTH/2, location.y + HEIGHT/2), velocity, attackDamage + bonusAttackDamage, playerClass.getAttackRange());
         projectiles.add(projectile);
         return projectile;
     }

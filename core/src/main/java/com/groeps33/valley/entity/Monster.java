@@ -14,23 +14,20 @@ import com.groeps33.valley.util.Calculations;
  */
 public class Monster extends Entity {
 
-    private final Texture spriteSheet;
-    private final TextureRegion[][] frames;
-    private final Animation animation;
-    private final long frameTime;
-    private final TextureRegion currentFrame;
+    private Texture spriteSheet;
+    private TextureRegion[][] frames;
+    private Animation animation;
+    private long frameTime;
+    private TextureRegion currentFrame;
+    private final int id;
     private int width, height;
     private IntArray path;
+    private String target;
 
-    public Monster(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
+    public Monster(int id, float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed, 2);
-        spriteSheet = new Texture(Gdx.files.internal("sprites/monsters.png"));
-        frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
-        animation = new Animation(0.10f, frames[0][0]);
-        frameTime = 0;
-        currentFrame = animation.getKeyFrame(frameTime);
-        this.width = currentFrame.getRegionWidth();
-        this.height = currentFrame.getRegionHeight();
+        this.id = id;
+
     }
 
     @Override
@@ -70,7 +67,20 @@ public class Monster extends Entity {
 
     @Override
     public void draw(Batch batch) {
+        if (spriteSheet == null) {
+            init();
+        }
         batch.draw(currentFrame, location.x, location.y);
+    }
+
+    private void init() {
+        spriteSheet = new Texture(Gdx.files.internal("sprites/monsters.png"));
+        frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
+        animation = new Animation(0.10f, frames[0][0]);
+        frameTime = 0;
+        currentFrame = animation.getKeyFrame(frameTime);
+        this.width = currentFrame.getRegionWidth();
+        this.height = currentFrame.getRegionHeight();
     }
 
     @Override
@@ -84,5 +94,17 @@ public class Monster extends Entity {
 
     public IntArray getPath() {
         return path;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public int getId() {
+        return id;
     }
 }
