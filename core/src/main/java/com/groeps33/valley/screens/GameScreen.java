@@ -28,6 +28,7 @@ import com.groeps33.valley.util.Calculations;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Bram Hoendervangers
  */
 public class GameScreen extends TheValleyScreen {
-    private static final Vector2 START_LOC = new Vector2(90, 100);
+    private static final Vector2 START_LOC = new Vector2(1300, 1100);
     private final PlayerClass playerClass;
     private TiledMap tiledMap;
     private OrthographicCamera camera;
