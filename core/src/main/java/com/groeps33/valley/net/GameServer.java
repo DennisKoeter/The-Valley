@@ -54,38 +54,52 @@ public class GameServer implements PacketListener {
             }
         }, 0, 500);
 
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                tick();
-//            }
-//        }, 0, 100);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                tick();
+            }
+        }, 0, 100);
     }
 
-
-
     private void tick() {
-        if (currentWave == null) {
-            currentWave = new Wave(1, System.currentTimeMillis() + 500);
-            broadcastPacket(new NewWave(1), null);
-        }
-        for (Monster monster : currentWave.getMonsterList()) {
-            ClientConnection closest = null;
-            double dist = Double.MAX_VALUE;
-            for (ClientConnection clientConnection : connectedPlayers) {
-                double t = Calculations.distance(clientConnection.getCharacter().getLocation(), monster.getLocation());
-                if (t < dist) {
-                    dist = t;
-                    closest = clientConnection;
-                }
-            }
+//        if (currentWave == null) {
+//            currentWave = new Wave(1, System.currentTimeMillis() + 500);
+//            broadcastPacket(new NewWave(1), null);
+//        }
+//        for (Monster monster : currentWave.getMonsterList()) {
+//            ClientConnection closest = null;
+//            double dist = Double.MAX_VALUE;
+//            for (ClientConnection clientConnection : connectedPlayers) {
+//                double t = Calculations.distance(clientConnection.getCharacter().getLocation(), monster.getLocation());
+//                if (t < dist) {
+//                    dist = t;
+//                    closest = clientConnection;
+//                }
+//            }
+//
+//            if (closest != null && !closest.getCharacter().getName().equals(monster.getTarget())) {
+//                monster.setTarget(closest.getCharacter().getName());
+//                broadcastPacket(new MonsterTargetUpdate(monster.getId(), monster.getTarget()), null);
+//            }
+//        }
 
-            if (closest != null && !closest.getCharacter().getName().equals(monster.getTarget())) {
-                monster.setTarget(closest.getCharacter().getName());
-                broadcastPacket(new MonsterTargetUpdate(monster.getId(), monster.getTarget()), null);
-            }
-        }
+        //todo spawn health items
+//        //for each item
+//            if (!item.isSpawned() && ready to spawn){
+//                item.spawn();
+//                broadcastPacket(new ItemSpawn(10,01,010), null);
+//            }
+        //}
+    }
 
+    @Override
+    public void onPingReceived(InetAddress address, int port) {
+        try {
+            handler.sendData(new byte[] {7}, address, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -18,10 +18,10 @@ public class TheValleyGame extends Game {
     private GameServer gameServer;
     private GameClient gameClient;
 
-    public TheValleyGame(UserAccount userAccount, String host) {
+    public TheValleyGame(UserAccount userAccount, String host, boolean isHost) {
         this.userAccount = userAccount;
         this.host = host;
-        isHost = JOptionPane.showConfirmDialog(null, "Do you want to run the server") == 0;
+        this.isHost = isHost;
     }
 
     public UserAccount getUserAccount() {

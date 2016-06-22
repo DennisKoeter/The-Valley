@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +82,7 @@ public class Controller {
                                 if (game.hadSomeoneConnected()) {
                                     switchToJoinButton();
                                 } else {
-                                    ValleyFX.startGame(game.getUUID());
+                                    ValleyFX.startGame(game.getHost(), isHost());
                                 }
                             }
                         } else {
@@ -156,13 +158,15 @@ public class Controller {
         IGameServer gameServer = thisLobby.getGameServer();
         if (gameServer == null || !gameServer.isRunning()) {
             try {
-                thisLobby.startGame(ValleyFX.getUserAccount());
+                thisLobby.startGame(ValleyFX.getUserAccount(), InetAddress.getLocalHost().getHostAddress());
             } catch (InsufficientPermissionsException e) {
                 //should never get here, since the start button will be disabled for non-hosts.
                 ValleyFX.showMessageBox(Alert.AlertType.WARNING, "Insufficient permissions", "Only the host can start a game");
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
             }
         } else {
-            ValleyFX.startGame(gameServer.getUUID());
+            ValleyFX.startGame(gameServer.getHost(), isHost());
         }
     }
 
@@ -176,5 +180,9 @@ public class Controller {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isHost() throws RemoteException {
+        return thisLobby.getHost().getUsername().equals(ValleyFX.getUserAccount().getUsername());
     }
 }

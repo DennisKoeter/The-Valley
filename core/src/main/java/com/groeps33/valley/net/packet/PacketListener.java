@@ -9,5 +9,6 @@ import java.net.InetAddress;
  */
 public interface PacketListener {
 
+    void onPingReceived(InetAddress address, int port);
     void onPacketReceived(Packet packet, InetAddress address, int port);
 }

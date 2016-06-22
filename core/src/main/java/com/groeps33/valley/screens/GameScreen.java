@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Bram Hoendervangers
  */
 public class GameScreen extends TheValleyScreen {
-    private static final Vector2 START_LOC = new Vector2(1300, 1100);
+    private static final Vector2 START_LOC = new Vector2(1450, 1400);
     private final PlayerClass playerClass;
     private TiledMap tiledMap;
     private OrthographicCamera camera;
@@ -49,6 +49,8 @@ public class GameScreen extends TheValleyScreen {
     private Map<String, Character> characters;
     private GameServer gameServer;
     private HudRenderer hudRenderer;
+
+    //lijst van health items ->
 
 //    private SpriteBatch spriteBash;
 
@@ -62,15 +64,14 @@ public class GameScreen extends TheValleyScreen {
     @Override
     public void show() {
         //todo init
-        game.setupNetworking(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("thevalley.tmx");
-        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 5);
+        tiledMapRenderer = new TiledMapRendererWithEntities(tiledMap, 7);
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("Collision");
         objects = collisionObjectLayer.getObjects();
         localPlayer = addPlayer(game.getUserAccount().getUsername(), playerClass);
-        game.getGameClient().connect(localPlayer);
+        game.setupNetworking(this);
     }
 
     @Override
@@ -78,6 +79,7 @@ public class GameScreen extends TheValleyScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         camera.position.set(localPlayer.getLocation().x, localPlayer.getLocation().y, 0);
         camera.update();
 
@@ -95,13 +97,15 @@ public class GameScreen extends TheValleyScreen {
         boolean hasProjectiles = !localPlayer.getProjectiles().isEmpty();
         checkCollisionWithLocalProjectiles();
 
+
         if (localPlayer.getCurrentHp() <= 0) {
-            localPlayer.setLocation(START_LOC.x, START_LOC.y);
+            Random random = new Random();
+            localPlayer.setLocation(START_LOC.x + random.nextInt(201), START_LOC.y + random.nextInt(201));
             localPlayer.resetHp();
         }
 
         if (x != localPlayer.getLocation().x || y != localPlayer.getLocation().y || !localPlayer.getProjectiles().isEmpty()
-    || (hasProjectiles && localPlayer.getProjectiles().isEmpty())) {
+                || (hasProjectiles && localPlayer.getProjectiles().isEmpty())) {
             game.getGameClient().update(localPlayer);
         }
     }
@@ -110,11 +114,23 @@ public class GameScreen extends TheValleyScreen {
         Iterator<Projectile> it = localPlayer.getProjectiles().iterator();
         while (it.hasNext()) {
             Projectile projectile = it.next();
-            Rectangle bounds = new Rectangle(projectile.getLocation().x-5, projectile.getLocation().y-5, 10, 10);
-            for (Character character: characters.values()) {
+            int pSize = playerClass.getProjectileSize() / 2;
+            Rectangle bounds = new Rectangle(projectile.getLocation().x - pSize / 2, projectile.getLocation().y - pSize / 2, 10, 10);
+            boolean removed = false;
+            for (Character character : characters.values()) {
                 if (character != localPlayer && Intersector.overlaps(character.getBounds(), bounds)) {
                     game.getGameClient().updatePlayerHit(localPlayer, character, projectile);
                     it.remove();
+                    removed = true;
+                }
+            }
+
+            if (!removed) {
+                for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+                    Rectangle rectangle = rectangleObject.getRectangle();
+                    if (Intersector.overlaps(rectangle, bounds)) {
+                        it.remove();
+                    }
                 }
             }
         }
@@ -178,8 +194,9 @@ public class GameScreen extends TheValleyScreen {
         if (localPlayer != null && localPlayer.getName().equals(username)) {
             return localPlayer;
         }
+        Random random = new Random();
         hudRenderer.addMessage(new Message("Player connected: " + username, Message.Type.SERVER));
-        Character character = new Character(START_LOC.x, START_LOC.y, username, playerClass);
+        Character character = new Character(START_LOC.x + random.nextInt(201), START_LOC.y + random.nextInt(201), username, playerClass);
         characters.put(username, character);
         tiledMapRenderer.addEntity(character);
         return character;
@@ -198,7 +215,7 @@ public class GameScreen extends TheValleyScreen {
     }
 
     public void removePlayer(String username) {
-         hudRenderer.addMessage(new Message("Player disconnected: " + username, Message.Type.SERVER));
+        hudRenderer.addMessage(new Message("Player disconnected: " + username, Message.Type.SERVER));
         Character character = characters.get(username);
         if (character != null) {
             characters.remove(username);
@@ -218,6 +235,7 @@ public class GameScreen extends TheValleyScreen {
         }
 
         List<Projectile> projectiles = character.getProjectiles();
+        synchronized (projectiles) {
             int i = 0;
             for (; i < Math.min(projectiles.size(), projectileX.length); i++) {
                 projectiles.get(i).getLocation().set(projectileX[i], projectileY[i]);
@@ -233,8 +251,10 @@ public class GameScreen extends TheValleyScreen {
                     projectiles.add(new Projectile(-1, new Vector2(projectileX[j], projectileY[j]), null, -1, -1));
                 }
 
+            }
         }
     }
+
 
     public void registerHit(String hitByPlayer, int damage) {
         hudRenderer.addMessage(new Message("Friendly fire by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));

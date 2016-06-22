@@ -1,7 +1,5 @@
 package com.groeps33.server.shared.game;
 
-import com.groeps33.server.shared.UserAccount;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
@@ -20,14 +18,14 @@ public class GameAdministration extends UnicastRemoteObject implements IGameAdmi
     }
 
     @Override
-    public IGameServer getGameById(String uuid) throws RemoteException {
+    public IGameServer getGameForHost(String host) throws RemoteException {
         for (IGameServer game : games) {
-            if (game.getUUID().equals(uuid)) {
+            if (game.getHost().equals(host)) {
                 return game;
             }
         }
 
-        System.out.println("Session not found: "  + uuid);
+        System.out.println("Session not found: "  + host);
         return null;
     }
 
@@ -37,10 +35,9 @@ public class GameAdministration extends UnicastRemoteObject implements IGameAdmi
     }
 
     @Override
-    public IGameServer registerGame() throws RemoteException {
-        final String uuid = UUID.randomUUID().toString();
-        IGameServer game = new GameServer(uuid);
-        System.out.println(game.getUUID());
+    public IGameServer registerGame(String host) throws RemoteException {
+        IGameServer game = new GameServer(host);
+        System.out.println(game.getHost());
         games.add(game);
         return game;
     }

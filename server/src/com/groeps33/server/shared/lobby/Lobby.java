@@ -143,12 +143,12 @@ public class Lobby extends UnicastRemoteObject implements ILobby {
     }
 
     @Override
-    public void startGame(UserAccount userAccount) throws RemoteException, InsufficientPermissionsException {
+    public void startGame(UserAccount userAccount, String host) throws RemoteException, InsufficientPermissionsException {
         if (!userAccount.equals(getHost())) {
             throw new InsufficientPermissionsException("Only the host can start the game.");
         }
 
-        startedGame = GameAdministration.get().registerGame();
+        startedGame = GameAdministration.get().registerGame(host);
     }
 
     @Override
