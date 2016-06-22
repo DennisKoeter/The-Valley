@@ -94,7 +94,7 @@ public class GameClient implements PacketListener {
 
     public void updatePlayerHit(Character localPlayer, Character target, Projectile projectile) {
         try {
-            sendPacket(new HitPacket(localPlayer.getName(), target.getName(), projectile.getDamage(), HitPacket.Type.PLAYER_HIT_PLAYER));
+            sendPacket(new HitPacket(localPlayer.getName(), target.getName(), projectile.getDamage(), HitPacket.HitType.PLAYER_HIT_PLAYER));
         } catch (IOException e) {
             e.printStackTrace();
         }

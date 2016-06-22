@@ -13,9 +13,9 @@ public class HitPacket extends Packet {
     private String sender;
     private String targetId;
     private int damage;
-    private Type hitType;
+    private HitType hitType;
 
-    public enum Type {
+    public enum HitType {
         PLAYER_HIT_PLAYER,
         PLAYER_HIT_MONSTER,
         MONSTER_HIT_PLAYER
@@ -25,7 +25,7 @@ public class HitPacket extends Packet {
         super(PacketType.PLAYER_HIT, data);
     }
 
-    public HitPacket(String sender, String targetName, int damage, Type hitType) {
+    public HitPacket(String sender, String targetName, int damage, HitType hitType) {
         super(PacketType.PLAYER_HIT);
         this.sender = sender;
         this.targetId = targetName;
@@ -38,7 +38,7 @@ public class HitPacket extends Packet {
         sender = dis.readUTF();
         targetId = dis.readUTF();
         damage = dis.readInt();
-        hitType = Type.values()[dis.readByte()];
+        hitType = HitType.values()[dis.readByte()];
     }
 
     @Override
@@ -46,7 +46,7 @@ public class HitPacket extends Packet {
         dos.writeUTF(sender);
         dos.writeUTF(targetId);
         dos.writeInt(damage);
-        dos.writeByte(type.ordinal());
+        dos.writeByte(hitType.ordinal());
     }
 
     public String getSender() {
@@ -61,7 +61,7 @@ public class HitPacket extends Packet {
         return damage;
     }
 
-    public Type getHitType() {
+    public HitType getHitType() {
         return hitType;
     }
 }

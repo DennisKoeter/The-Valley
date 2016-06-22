@@ -41,7 +41,7 @@ public class Projectile {
         return startLocation;
     }
 
-    public Projectile(Vector2 location, Vector2 velocity, int damage, int attackRange) {
+    public Projectile(double angle, Vector2 location, Vector2 velocity, int damage, int attackRange) {
         this.startLocation = location;
         this.location = new Vector2(location);
         this.velocity = velocity;

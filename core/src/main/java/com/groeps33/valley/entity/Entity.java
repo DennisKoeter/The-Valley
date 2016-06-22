@@ -15,8 +15,8 @@ public abstract class Entity {
     protected int maxHp;
     protected int defence;
     protected int attackDamage;
-    protected int attackSpeedInterval;
-    protected int moveSpeed;
+    protected float attackSpeedInterval;
+    protected float moveSpeed;
     protected Vector2 location;
     protected Vector2 velocity;
 
@@ -88,7 +88,7 @@ public abstract class Entity {
     }
 
     public void damage(int damage) {
-        currentHp-= damage;
+        currentHp-= Math.max(damage - defence, 3);
         if (currentHp < 0) {
             currentHp = 0;
         }
