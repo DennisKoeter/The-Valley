@@ -55,6 +55,7 @@ public class GameScreen extends TheValleyScreen {
     public GameScreen(TheValleyGame game) {
         super(game);
         characters = new ConcurrentHashMap<>();
+        hudRenderer = new HudRenderer(this);
     }
 
     @Override
@@ -70,7 +71,6 @@ public class GameScreen extends TheValleyScreen {
         objects = collisionObjectLayer.getObjects();
         localPlayer = addPlayer(game.getUserAccount().getUsername());
         game.getGameClient().connect(localPlayer);
-        hudRenderer = new HudRenderer(this);
     }
 
     @Override
@@ -170,7 +170,7 @@ public class GameScreen extends TheValleyScreen {
         if (localPlayer != null && localPlayer.getName().equals(username)) {
             return localPlayer;
         }
-        System.out.println("Player connected: " + username);
+        hudRenderer.addMessage(new Message("Player connected: " + username, Message.Type.SERVER));
         Character character = new Character(START_LOC.x, START_LOC.y, username);
         characters.put(username, character);
         tiledMapRenderer.addEntity(character);
@@ -189,7 +189,7 @@ public class GameScreen extends TheValleyScreen {
     }
 
     public void removePlayer(String username) {
-        System.out.println("Player disconected: " + username);
+         hudRenderer.addMessage(new Message("Player disconnected: " + username, Message.Type.SERVER));
         Character character = characters.get(username);
         if (character != null) {
             characters.remove(username);
@@ -224,7 +224,7 @@ public class GameScreen extends TheValleyScreen {
     }
 
     public void registerHit(String hitByPlayer, int damage) {
-        hudRenderer.addMessage(new Message("You got hit by " + hitByPlayer, Message.Type.SERVER));
+        hudRenderer.addMessage(new Message("You got hit by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
         localPlayer.damage(damage);
     }
 }
