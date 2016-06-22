@@ -1,6 +1,5 @@
 package com.groeps33.valley.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -30,6 +28,7 @@ public class CharacterScreen extends TheValleyScreen {
 
     ImageButton iButton1;
     ImageButton iButton2;
+    ImageButton iButton3;
 
     Table rootTable;
 
@@ -40,8 +39,9 @@ public class CharacterScreen extends TheValleyScreen {
         splashTexture = new Texture("menus/front(login).png");
         rootTable = new Table();
 
-        iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/warrior.png"))));
-        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/mage.png"))));
+        iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/mage.jpg"))));
+        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/warrior.jpg"))));
+        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/ranger.jpg"))));
 
         Gdx.input.setInputProcessor(stage);
         iButton1.addListener(new ChangeListener() {

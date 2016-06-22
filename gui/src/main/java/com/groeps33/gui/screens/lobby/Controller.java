@@ -2,21 +2,23 @@ package com.groeps33.gui.screens.lobby;
 
 import com.groeps33.gui.application.Constants;
 import com.groeps33.gui.application.ValleyFX;
+import com.groeps33.server.shared.UserAccount;
 import com.groeps33.server.shared.game.IGameServer;
 import com.groeps33.server.shared.lobby.ILobby;
-import com.groeps33.server.shared.UserAccount;
 import com.groeps33.server.shared.lobby.Message;
 import com.groeps33.server.shared.lobby.exceptions.InsufficientPermissionsException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 /**
@@ -150,6 +152,7 @@ public class Controller {
 
     @FXML
     private void confirm() throws RemoteException {
+
         IGameServer gameServer = thisLobby.getGameServer();
         if (gameServer == null || !gameServer.isRunning()) {
             try {
