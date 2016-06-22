@@ -125,11 +125,10 @@ public class ValleyFX extends Application {
         alert.showAndWait();
     }
 
-    public static void startGame(String gameId) {
+    public static void startGame(String host, boolean isHost) {
         File jarFile = new File("desktop\\build\\libs", "desktop-1.0.jar");
-        System.out.println(jarFile.getAbsoluteFile());
-        System.out.println(gameId);
-        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarFile.getAbsolutePath(), gameId, userAccount.getUsername(), userAccount.getEmail());
+
+        ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarFile.getAbsolutePath(), host, userAccount.getUsername(), userAccount.getEmail(), Boolean.toString(isHost));
         try {
             stage.setIconified(true);
             Process p = processBuilder.start(); //Runtime.getRuntime().exec("java -jar \"" + jarFile.getAbsolutePath() + "\"");//processBuilder.start();
@@ -143,7 +142,7 @@ public class ValleyFX extends Application {
             }
 
             p.waitFor();
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             stage.setIconified(false);
             stage.toFront();
         } catch (IOException | InterruptedException e) {

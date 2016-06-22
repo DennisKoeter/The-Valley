@@ -6,10 +6,12 @@ import com.groeps33.valley.net.packet.*;
 import com.groeps33.valley.screens.GameScreen;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Bram on 6/15/2016.
@@ -23,6 +25,7 @@ public class GameClient implements PacketListener {
     private final InetAddress address;
     private final List<Character> connectedPlayers;
     private final PacketHandler handler;
+    private AtomicBoolean serverConnected = new AtomicBoolean();
 
     public GameClient(GameScreen game, String host) throws IOException {
         this.game = game;
@@ -32,6 +35,31 @@ public class GameClient implements PacketListener {
         handler = new PacketHandler(socket);
         handler.addListener(this);
         handler.start();
+        new Thread(this::waitOnServer).start();
+    }
+
+    private void waitOnServer() {
+        while (true) {
+            try {
+                if (serverConnected.get()) {
+                    return;
+                }
+                handler.sendData(new byte[]{ 7}, address, GameServer.SERVER_PORT);
+                Thread.sleep(200);
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    @Override
+    public void onPingReceived(InetAddress address, int port) {
+        System.out.println("ping recieved");
+        if (this.address.equals(address)) {
+            serverConnected.set(true);
+            connect(game.getLocalPlayer());
+        }
     }
 
     @Override
@@ -61,7 +89,7 @@ public class GameClient implements PacketListener {
                 update(game.getLocalPlayer());
                 break;
             case NEW_WAVE:
-                game.registerNewWave(((NewWave)packet).getNumber());
+                game.registerNewWave(((NewWave) packet).getNumber());
         }
     }
 

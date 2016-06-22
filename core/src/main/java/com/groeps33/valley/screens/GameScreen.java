@@ -62,7 +62,6 @@ public class GameScreen extends TheValleyScreen {
     @Override
     public void show() {
         //todo init
-        game.setupNetworking(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tiledMap = new TmxMapLoader().load("thevalley.tmx");
@@ -70,7 +69,7 @@ public class GameScreen extends TheValleyScreen {
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("Collision");
         objects = collisionObjectLayer.getObjects();
         localPlayer = addPlayer(game.getUserAccount().getUsername(), playerClass);
-        game.getGameClient().connect(localPlayer);
+        game.setupNetworking(this);
     }
 
     @Override
@@ -78,6 +77,7 @@ public class GameScreen extends TheValleyScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         camera.position.set(localPlayer.getLocation().x, localPlayer.getLocation().y, 0);
         camera.update();
 
@@ -111,11 +111,23 @@ public class GameScreen extends TheValleyScreen {
         Iterator<Projectile> it = localPlayer.getProjectiles().iterator();
         while (it.hasNext()) {
             Projectile projectile = it.next();
-            Rectangle bounds = new Rectangle(projectile.getLocation().x-5, projectile.getLocation().y-5, 10, 10);
+            int pSize = playerClass.getProjectileSize()/2;
+            Rectangle bounds = new Rectangle(projectile.getLocation().x-pSize/2, projectile.getLocation().y-pSize/2, 10, 10);
+            boolean removed = false;
             for (Character character: characters.values()) {
                 if (character != localPlayer && Intersector.overlaps(character.getBounds(), bounds)) {
                     game.getGameClient().updatePlayerHit(localPlayer, character, projectile);
                     it.remove();
+                    removed = true;
+                }
+            }
+
+            if (!removed) {
+                for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+                    Rectangle rectangle = rectangleObject.getRectangle();
+                    if (Intersector.overlaps(rectangle, bounds)) {
+                        it.remove();
+                    }
                 }
             }
         }
