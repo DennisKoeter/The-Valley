@@ -23,9 +23,9 @@ public class HudRenderer {
     private static final int HP_BAR_WIDTH = 150;
     private static final int HP_BAR_HEIGHT = 20;
 
-    private static final Texture HUD_BACKGROUND_TEXTURE = new Texture(createPixmap(0f, 0f, 0f,0.7f));
+    private static final Texture HUD_BACKGROUND_TEXTURE = new Texture(createPixmap(0f, 0f, 0f, 0.7f));
     private static final Texture HP_BAR_TEXTURE = new Texture(createPixmap(1f, 0f, 0f, 1f));
-    private static final Texture HP_BAR_BACKGROUND_TEXTURE = new Texture(createPixmap(0f, 0f, 0f,1f));
+    private static final Texture HP_BAR_BACKGROUND_TEXTURE = new Texture(createPixmap(0f, 0f, 0f, 1f));
 
     private final GameScreen gameScreen;
     private final BitmapFont font = new BitmapFont();
@@ -54,7 +54,7 @@ public class HudRenderer {
             spriteBatch.draw(HP_BAR_BACKGROUND_TEXTURE, hpBarX, hpBarY, HP_BAR_WIDTH, HP_BAR_HEIGHT);
             spriteBatch.draw(HP_BAR_TEXTURE, hpBarX, hpBarY, healthWidth * localPlayer.getCurrentHp(), HP_BAR_HEIGHT);
             font.draw(spriteBatch, "HP: ", hpBarX - 30, hpBarY + 15);
-
+            font.draw(spriteBatch, localPlayer.getCurrentHp() + "/" + localPlayer.getMaxHp(), hpBarX + 50, hpBarY + 15);
             //player name
             String loc = "(" + (int) localPlayer.getLocation().x + ", " + (int) localPlayer.getLocation().y + ")";
             font.draw(spriteBatch, "Player: " + localPlayer.getName() + "  " + loc, 10, Gdx.graphics.getHeight() - 10);
@@ -74,7 +74,7 @@ public class HudRenderer {
             } else {
                 font.setColor(message.getType().getColor());
                 font.draw(spriteBatch, message.getMessage(), x, y);
-                y+=15;
+                y += 15;
             }
         }
 

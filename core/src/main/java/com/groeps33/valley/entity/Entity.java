@@ -88,7 +88,7 @@ public abstract class Entity {
     }
 
     public void damage(int damage) {
-        currentHp-= damage;
+        currentHp-= Math.min(damage - defence, 3);
         if (currentHp < 0) {
             currentHp = 0;
         }

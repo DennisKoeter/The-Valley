@@ -52,7 +52,7 @@ public class CharacterScreen extends TheValleyScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.input.setInputProcessor(null);
-                game.setScreen(new GameScreen(game, PlayerClass.ARCHER));
+                game.setScreen(new GameScreen(game, PlayerClass.MAGE));
             }
         });
         iButton2.addListener(new ChangeListener() {
