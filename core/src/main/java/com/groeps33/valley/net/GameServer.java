@@ -1,10 +1,9 @@
 package com.groeps33.valley.net;
 
-import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.Constants;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.entity.Monster;
 import com.groeps33.valley.net.packet.*;
-import com.groeps33.valley.util.Calculations;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -17,17 +16,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by Bram on 6/15/2016.
  *
+ * This is the server-side game server. It runs on the host player
+ * and handles all game logic & packet related events.
+ *
  * @author Bram Hoendervangers
  */
+
 public class GameServer implements PacketListener {
 
-    public final static int SERVER_PORT = 8009;
     private static final Packet PLAYER_UPDATE_PACKET = new RequestPlayerUpdate();
 
-    private final static Vector2 MONSTER_SPAWN = new Vector2(309, 1355);
-
-
-    private final DatagramSocket serverSocket;
     private final List<ClientConnection> connectedPlayers = new CopyOnWriteArrayList<>();
     private final List<Monster> monsters = new CopyOnWriteArrayList<>();
     private final PacketHandler handler;
@@ -35,7 +33,7 @@ public class GameServer implements PacketListener {
     private Wave currentWave;
 
     public GameServer() throws IOException {
-        this.serverSocket = new DatagramSocket(SERVER_PORT);
+        DatagramSocket serverSocket = new DatagramSocket(Constants.SERVER_PORT);
         handler = new PacketHandler(serverSocket);
         handler.addListener(this);
         handler.start();
@@ -52,14 +50,14 @@ public class GameServer implements PacketListener {
                     e.printStackTrace();
                 }
             }
-        }, 0, 500);
+        }, 0, Constants.SYNC_ALL_PLAYERS_INTERVAL);
 
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 tick();
             }
-        }, 0, 100);
+        }, 0, Constants.TICK_INTERVAL);
     }
 
     private void tick() {
@@ -152,6 +150,7 @@ public class GameServer implements PacketListener {
                     ClientConnection sender = getClientForPlayerName(hitPacket.getSender());
                     switch (hitPacket.getHitType()) {
                         case PLAYER_HIT_PLAYER:
+                            // todo: when player is hit, all players besides self get damaged. only make the targeted player lose damage
                             Character target = getClientForPlayerName(hitPacket.getTargetId()).getCharacter();
                             target.damage(hitPacket.getDamage());
                             break;

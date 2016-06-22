@@ -10,7 +10,8 @@ import com.badlogic.gdx.graphics.Color;
 public class Message {
 
 
-    public enum Type { SERVER(Color.GREEN), FRIENDLY_FIRE(Color.RED), PLAYER(Color.WHITE);
+    public enum Type {
+        SERVER(Color.GREEN), FRIENDLY_FIRE(Color.RED), PLAYER(Color.WHITE);
 
         private Color color;
 
@@ -58,6 +59,6 @@ public class Message {
     }
 
     public boolean isValid() {
-        return  System.currentTimeMillis() - startTime < DISPLAY_TIME + FADE_OUT_TIME;
+        return System.currentTimeMillis() - startTime < DISPLAY_TIME + FADE_OUT_TIME;
     }
 }

@@ -1,5 +1,7 @@
 package com.groeps33.valley.net;
 
+import com.groeps33.valley.Constants;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.util.Arrays;
 public class ServerTest {
 
     public static void main(String[] args) throws SocketException {
-        DatagramSocket socket = new DatagramSocket(8009);
+        DatagramSocket socket = new DatagramSocket(Constants.SERVER_PORT);
         while (true) {
             byte[] data = new byte[1024];
             DatagramPacket packet = new DatagramPacket(data, data.length);

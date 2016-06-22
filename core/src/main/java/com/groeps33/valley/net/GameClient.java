@@ -1,12 +1,12 @@
 package com.groeps33.valley.net;
 
+import com.groeps33.valley.Constants;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.entity.Projectile;
 import com.groeps33.valley.net.packet.*;
 import com.groeps33.valley.screens.GameScreen;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class GameClient implements PacketListener {
                 if (serverConnected.get()) {
                     return;
                 }
-                handler.sendData(new byte[]{ 7}, address, GameServer.SERVER_PORT);
+                handler.sendData(new byte[]{ 7}, address, Constants.SERVER_PORT);
                 Thread.sleep(200);
             } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
@@ -130,7 +130,7 @@ public class GameClient implements PacketListener {
     }
 
     private void sendPacket(Packet packet) throws IOException {
-        handler.sendPacket(packet, address, GameServer.SERVER_PORT);
+        handler.sendPacket(packet, address, Constants.SERVER_PORT);
     }
 
     public void disconnect(Character character) {
