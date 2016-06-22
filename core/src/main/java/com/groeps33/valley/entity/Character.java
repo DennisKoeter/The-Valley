@@ -205,8 +205,8 @@ public class Character extends Entity {
         synchronized (projectiles) {
             for (Projectile projectile : projectiles) {
                 //todo rotate projectiles
-                batch.draw(projectileTexture, projectile.getLocation().x - projectileTexture.getWidth()/2, projectile.getLocation().y - projectileTexture.getHeight()/2 ,
-                        projectileTexture.getWidth(), projectileTexture.getHeight());
+                batch.draw(projectileTexture, projectile.getLocation().x - playerClass.getProjectileSize()/2, projectile.getLocation().y - playerClass.getProjectileSize()/2 ,
+                        playerClass.getProjectileSize(), playerClass.getProjectileSize(), 0, 0, projectileTexture.getWidth(), projectileTexture.getHeight(), false, false);
             }
         }
     }
