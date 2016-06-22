@@ -23,4 +23,12 @@ public class Constants {
     public static final int MONSTER_DEFENCE = -1;
     public static final int MONSTER_ATTACK_DAMAGE = 10;
     public static final int MONSTER_MOVESPEED = 150;
+
+    /**
+     * Misc
+     */
+    public static final int HEALTH_POT_COOLDOWN = 5; // in seconds
+    public static int HEALTH_POT_LOCATION_X = 300;
+    public static int HEALTH_POT_LOCATION_Y = 300;
+    public static int HEALTH_POT_AMOUNT_OF_HEAL = 25;
 }
