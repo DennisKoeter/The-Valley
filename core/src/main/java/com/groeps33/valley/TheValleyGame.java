@@ -6,14 +6,9 @@ import com.groeps33.valley.net.GameServer;
 import com.groeps33.valley.net.UserAccount;
 import com.groeps33.valley.screens.CharacterScreen;
 import com.groeps33.valley.screens.GameScreen;
-import com.groeps33.valley.screens.IntroScreen;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 public class TheValleyGame extends Game {
 
@@ -54,7 +49,6 @@ public class TheValleyGame extends Game {
             if (isHost) {
                 gameServer = new GameServer();
             }
-
             gameClient = new GameClient(gameScreen, host);
         } catch (IOException e) {
             e.printStackTrace();
