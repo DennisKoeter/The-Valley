@@ -39,8 +39,12 @@ public class PacketHandler extends Thread {
             DatagramPacket datagramPacket = new DatagramPacket(data, data.length);
             try {
                 socket.receive(datagramPacket);
-                Packet packet = parsePacket(datagramPacket);
-                listeners.forEach(l -> l.onPacketReceived(packet, datagramPacket.getAddress(), datagramPacket.getPort()));
+                if (datagramPacket.getLength() == 1 && datagramPacket.getData()[0] == 7) {
+                    listeners.forEach(l -> l.onPingReceived(datagramPacket.getAddress(), datagramPacket.getPort()));
+                } else {
+                    Packet packet = parsePacket(datagramPacket);
+                    listeners.forEach(l -> l.onPacketReceived(packet, datagramPacket.getAddress(), datagramPacket.getPort()));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

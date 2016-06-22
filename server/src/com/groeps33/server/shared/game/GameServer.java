@@ -13,15 +13,15 @@ import java.util.*;
  */
 public class GameServer extends UnicastRemoteObject implements IGameServer {
 
-    private final String uuid;
+    private final String host;
     private boolean running;
     private boolean someoneConnected;
     private final List<IGameClient> gameClients;
     private int idCounter = 0;
     private List<IMonsterClient> monsters;
 
-    public GameServer(String uuid) throws RemoteException {
-        this.uuid = uuid;
+    public GameServer(String host) throws RemoteException {
+        this.host = host;
         running = true;
         gameClients = new ArrayList<>();
         monsters = new ArrayList<>();
@@ -44,7 +44,7 @@ public class GameServer extends UnicastRemoteObject implements IGameServer {
                             }
 
                             if (gameClients.size() == 0) {
-                                System.out.println("No players left for game: " + uuid);
+                                System.out.println("No players left for game: " + host);
                                 GameAdministration.get().removeGame(GameServer.this);
                                 running = false;
                                 cancel();
@@ -59,8 +59,8 @@ public class GameServer extends UnicastRemoteObject implements IGameServer {
     }
 
     @Override
-    public String getUUID() throws RemoteException {
-        return uuid;
+    public String getHost() throws RemoteException {
+        return host;
     }
 
     @Override

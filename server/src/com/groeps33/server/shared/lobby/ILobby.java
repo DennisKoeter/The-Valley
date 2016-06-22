@@ -42,7 +42,7 @@ public interface ILobby extends Remote {
 
     boolean hasPassword() throws RemoteException;
 
-    void startGame(UserAccount userAccount) throws RemoteException, InsufficientPermissionsException;
+    void startGame(UserAccount userAccount, String host) throws RemoteException, InsufficientPermissionsException;
 
     UserAccount getHost() throws RemoteException;
 

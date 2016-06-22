@@ -89,6 +89,15 @@ public class GameServer implements PacketListener {
     }
 
     @Override
+    public void onPingReceived(InetAddress address, int port) {
+        try {
+            handler.sendData(new byte[] {7}, address, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onPacketReceived(Packet packet, InetAddress address, int port) {
         try {
             switch (packet.getType()) {

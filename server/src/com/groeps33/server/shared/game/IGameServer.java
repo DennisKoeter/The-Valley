@@ -12,7 +12,7 @@ import java.util.List;
  * @author Bram Hoendervangers
  */
 public interface IGameServer extends Remote {
-    String getUUID() throws RemoteException;
+    String getHost() throws RemoteException;
 
     List<IGameClient> getConnectedClients() throws RemoteException;
 
