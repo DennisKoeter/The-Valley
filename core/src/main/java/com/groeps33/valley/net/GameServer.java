@@ -54,12 +54,12 @@ public class GameServer implements PacketListener {
             }
         }, 0, 500);
 
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                tick();
-            }
-        }, 0, 100);
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                tick();
+//            }
+//        }, 0, 100);
     }
 
 
@@ -95,14 +95,14 @@ public class GameServer implements PacketListener {
                 case CONNECT:
                     ConnectPacket connectPacket = (ConnectPacket) packet;
                     System.out.println("server: connect -> " + connectPacket.getUsername());
-                    Character character = new Character(-1, -1, connectPacket.getUsername());
+                    Character character = new Character(-1, -1, connectPacket.getUsername(), connectPacket.getPlayerClass());
                     ClientConnection newClient = new ClientConnection(character, address, port);
                     //notify other players that someone connected
                     broadcastPacket(packet, newClient);
 
                     //notify new connected player about existing players
                     for (ClientConnection client : connectedPlayers) {
-                        handler.sendPacket(new ConnectPacket(client.getCharacter().getName()), address, port);
+                        handler.sendPacket(new ConnectPacket(client.getCharacter().getName(), client.getCharacter().getPlayerClass()), address, port);
                         handler.sendPacket(new MovePacket(client.getCharacter().getName(), client.getCharacter().getLocation().x, client.getCharacter().getLocation().y,
                                 (byte) client.getCharacter().getDirection().ordinal()), address, port);
                     }

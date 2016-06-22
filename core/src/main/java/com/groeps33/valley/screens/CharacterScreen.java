@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.groeps33.valley.TheValleyGame;
 import com.groeps33.valley.entity.Character;
+import com.groeps33.valley.entity.PlayerClass;
 
 /**
  * Created by Roy on 13-4-2016.
@@ -50,19 +51,19 @@ public class CharacterScreen extends TheValleyScreen {
         iButton1.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, PlayerClass.ARCHER));
             }
         });
         iButton2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, PlayerClass.WARRIOR));
             }
         });
         iButton3.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, PlayerClass.ARCHER));
             }
         });
 

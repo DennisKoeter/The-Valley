@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.groeps33.valley.TheValleyGame;
+import com.groeps33.valley.entity.PlayerClass;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
@@ -84,7 +85,7 @@ public class IntroScreen extends TheValleyScreen {
         spriteBatch.end();
 
         if (System.currentTimeMillis() - startTime > 3000) {
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new CharacterScreen(game));//new GameScreen(game, PlayerClass.ARCHER));
         }
     }
 

@@ -39,7 +39,7 @@ public class GameClient implements PacketListener {
         switch (packet.getType()) {
             case CONNECT:
                 ConnectPacket connectPacket = (ConnectPacket) packet;
-                game.addPlayer(connectPacket.getUsername());
+                game.addPlayer(connectPacket.getUsername(), connectPacket.getPlayerClass());
                 break;
             case MOVE:
                 MovePacket movePacket = (MovePacket) packet;
@@ -85,7 +85,7 @@ public class GameClient implements PacketListener {
 
     public void connect(Character character) {
         try {
-            sendPacket(new ConnectPacket(character.getName()));
+            sendPacket(new ConnectPacket(character.getName(), character.getPlayerClass()));
         } catch (IOException e) {
             e.printStackTrace();
         }
