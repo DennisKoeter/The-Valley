@@ -105,7 +105,7 @@ public class GameScreen extends TheValleyScreen {
         }
 
         if (x != localPlayer.getLocation().x || y != localPlayer.getLocation().y || !localPlayer.getProjectiles().isEmpty()
-    || (hasProjectiles && localPlayer.getProjectiles().isEmpty())) {
+                || (hasProjectiles && localPlayer.getProjectiles().isEmpty())) {
             game.getGameClient().update(localPlayer);
         }
     }
@@ -114,10 +114,10 @@ public class GameScreen extends TheValleyScreen {
         Iterator<Projectile> it = localPlayer.getProjectiles().iterator();
         while (it.hasNext()) {
             Projectile projectile = it.next();
-            int pSize = playerClass.getProjectileSize()/2;
-            Rectangle bounds = new Rectangle(projectile.getLocation().x-pSize/2, projectile.getLocation().y-pSize/2, 10, 10);
+            int pSize = playerClass.getProjectileSize() / 2;
+            Rectangle bounds = new Rectangle(projectile.getLocation().x - pSize / 2, projectile.getLocation().y - pSize / 2, 10, 10);
             boolean removed = false;
-            for (Character character: characters.values()) {
+            for (Character character : characters.values()) {
                 if (character != localPlayer && Intersector.overlaps(character.getBounds(), bounds)) {
                     game.getGameClient().updatePlayerHit(localPlayer, character, projectile);
                     it.remove();
@@ -215,7 +215,7 @@ public class GameScreen extends TheValleyScreen {
     }
 
     public void removePlayer(String username) {
-         hudRenderer.addMessage(new Message("Player disconnected: " + username, Message.Type.SERVER));
+        hudRenderer.addMessage(new Message("Player disconnected: " + username, Message.Type.SERVER));
         Character character = characters.get(username);
         if (character != null) {
             characters.remove(username);
@@ -235,6 +235,7 @@ public class GameScreen extends TheValleyScreen {
         }
 
         List<Projectile> projectiles = character.getProjectiles();
+        synchronized (projectiles) {
             int i = 0;
             for (; i < Math.min(projectiles.size(), projectileX.length); i++) {
                 projectiles.get(i).getLocation().set(projectileX[i], projectileY[i]);
@@ -250,9 +251,9 @@ public class GameScreen extends TheValleyScreen {
                     projectiles.add(new Projectile(-1, new Vector2(projectileX[j], projectileY[j]), null, -1, -1));
                 }
 
+            }
         }
     }
-
 
 
     public void registerHit(String hitByPlayer, int damage) {
