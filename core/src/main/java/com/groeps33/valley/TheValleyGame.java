@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.groeps33.valley.net.GameClient;
 import com.groeps33.valley.net.GameServer;
 import com.groeps33.valley.net.UserAccount;
+import com.groeps33.valley.screens.CharacterScreen;
 import com.groeps33.valley.screens.GameScreen;
 import com.groeps33.valley.screens.IntroScreen;
 
@@ -34,7 +35,7 @@ public class TheValleyGame extends Game {
 
     @Override
     public void create() {
-        setScreen(new GameScreen(this)); //new IntroScreen(this));
+        setScreen(new CharacterScreen(this)); //new IntroScreen(this));
     }
 
     @Override

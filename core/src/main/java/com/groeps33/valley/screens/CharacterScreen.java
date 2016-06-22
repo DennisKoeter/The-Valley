@@ -32,16 +32,19 @@ public class CharacterScreen extends TheValleyScreen {
 
     Table rootTable;
 
-    CharacterScreen(final TheValleyGame game) {
+    public CharacterScreen(final TheValleyGame game) {
         super(game);
         stage = new Stage();
         spriteBatch = new SpriteBatch();
-        splashTexture = new Texture("menus/front(login).png");
+        splashTexture = new Texture("menus/characters.jpg");
         rootTable = new Table();
 
-        iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/mage.jpg"))));
-        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/warrior.jpg"))));
-        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/ranger.jpg"))));
+        iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/mage.png"))));
+        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/warrior.png"))));
+        iButton3 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/ranger.png"))));
+        iButton1.pad(12);
+        iButton2.pad(12);
+        iButton3.pad(12);
 
         Gdx.input.setInputProcessor(stage);
         iButton1.addListener(new ChangeListener() {
@@ -56,10 +59,16 @@ public class CharacterScreen extends TheValleyScreen {
                 game.setScreen(new GameScreen(game));
             }
         });
+        iButton3.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new GameScreen(game));
+            }
+        });
 
-        rootTable.add(iButton1);
-        rootTable.pad(20);
-        rootTable.add(iButton2);
+        rootTable.add(iButton1).size(170, 255);
+        rootTable.add(iButton2).size(170, 255);
+        rootTable.add(iButton3).size(170, 255);
         stage.addActor(rootTable);
         rootTable.setFillParent(true);
         rootTable.center();
