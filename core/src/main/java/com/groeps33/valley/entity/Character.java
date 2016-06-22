@@ -39,6 +39,10 @@ public class Character extends Entity {
         return projectiles;
     }
 
+    public void resetHp() {
+        currentHp = maxHp;
+    }
+
     public enum Direction {SOUTH, WEST, EAST, NORTH}
 
     private static final int WIDTH = 32;

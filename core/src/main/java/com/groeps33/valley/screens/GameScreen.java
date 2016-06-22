@@ -92,20 +92,29 @@ public class GameScreen extends TheValleyScreen {
 
         hudRenderer.render();
 
-//        boolean hasProjectiles = !localPlayer.getProjectiles().isEmpty();
+        boolean hasProjectiles = !localPlayer.getProjectiles().isEmpty();
         checkCollisionWithLocalProjectiles();
-        if (x != localPlayer.getLocation().x || y != localPlayer.getLocation().y || !localPlayer.getProjectiles().isEmpty()) {
-            game.getGameClient().update(localPlayer);
+
+        if (localPlayer.getCurrentHp() <= 0) {
+            localPlayer.setLocation(START_LOC.x, START_LOC.y);
+            localPlayer.resetHp();
         }
 
+        if (x != localPlayer.getLocation().x || y != localPlayer.getLocation().y || !localPlayer.getProjectiles().isEmpty()
+    || (hasProjectiles && localPlayer.getProjectiles().isEmpty())) {
+            game.getGameClient().update(localPlayer);
+        }
     }
 
     private void checkCollisionWithLocalProjectiles() {
-        for (Projectile projectile : localPlayer.getProjectiles()) {
+        Iterator<Projectile> it = localPlayer.getProjectiles().iterator();
+        while (it.hasNext()) {
+            Projectile projectile = it.next();
             Rectangle bounds = new Rectangle(projectile.getLocation().x-5, projectile.getLocation().y-5, 10, 10);
             for (Character character: characters.values()) {
                 if (character != localPlayer && Intersector.overlaps(character.getBounds(), bounds)) {
                     game.getGameClient().updatePlayerHit(localPlayer, character, projectile);
+                    it.remove();
                 }
             }
         }
@@ -224,7 +233,7 @@ public class GameScreen extends TheValleyScreen {
     }
 
     public void registerHit(String hitByPlayer, int damage) {
-        hudRenderer.addMessage(new Message("You got hit by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
+        hudRenderer.addMessage(new Message("Friendly fire by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
         localPlayer.damage(damage);
     }
 }
