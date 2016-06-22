@@ -60,6 +60,8 @@ public class PacketHandler extends Thread {
                 return new ProjectilesPacket(datagramPacket.getData());
             case PLAYER_HIT:
                 return new PlayerHitPacket(datagramPacket.getData());
+            case REQUEST_UPDATE:
+                return new RequestPlayerUpdate(datagramPacket.getData());
 
         }
         return null;

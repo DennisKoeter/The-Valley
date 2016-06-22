@@ -189,7 +189,8 @@ public class GameScreen extends TheValleyScreen {
     public void playerMoved(String username, float x, float y, byte direction) {
         Character character = characters.get(username);
         if (character == null) {
-            throw new IllegalStateException("Player not found: " + username);
+//            throw new IllegalStateException("Player not found: " + username);
+            character = addPlayer(username);
         }
 
         character.setLocation(x, y);
@@ -213,7 +214,8 @@ public class GameScreen extends TheValleyScreen {
     public void setProjectiles(String username, float[] projectileX, float[] projectileY) {
         Character character = characters.get(username);
         if (character == null) {
-            throw new IllegalStateException("Player not found: " + username);
+//            throw new IllegalStateException("Player not found: " + username);
+            character = addPlayer(username);
         }
 
         int i = 0;
@@ -223,6 +225,7 @@ public class GameScreen extends TheValleyScreen {
 
         if (i >= projectileX.length) {
             for (int j = projectileX.length-1; j < character.getProjectiles().size(); j++) {
+                if (j == -1) continue;
                 character.getProjectiles().remove(j);
             }
         } else {

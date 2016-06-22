@@ -19,6 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameServer implements PacketListener {
 
     public final static int SERVER_PORT = 8009;
+    private static final Packet PLAYER_UPDATE_PACKET = new RequestPlayerUpdate();
 
     private class ClientConnection {
         private final Character character;
@@ -61,19 +62,19 @@ public class GameServer implements PacketListener {
         handler.addListener(this);
         handler.start();
 
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                //syncing hp (and other important stuff?)
-//                try {
-//                    for (ClientConnection client : connectedPlayers) {
-//                        syncClientWithConnectedPlayers(client);
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, 500);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //syncing hp (and other important stuff?)
+                try {
+                    for (ClientConnection client : connectedPlayers) {
+                        syncClientWithConnectedPlayers(client);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 500);
     }
 
     @Override
@@ -90,7 +91,11 @@ public class GameServer implements PacketListener {
                     broadcastPacket(packet, newClient);
 
                     //notify new connected player about existing players
-                    syncClientWithConnectedPlayers(newClient);
+                    for (ClientConnection client : connectedPlayers) {
+                        handler.sendPacket(new ConnectPacket(client.character.getName()), address, port);
+                        handler.sendPacket(new MovePacket(client.character.getName(), client.character.getLocation().x, client.character.getLocation().y,
+                                (byte) client.character.getDirection().ordinal()), address, port);
+                    }
 
                     connectedPlayers.add(newClient);
 
@@ -129,12 +134,10 @@ public class GameServer implements PacketListener {
         }
     }
 
+
     private void syncClientWithConnectedPlayers(ClientConnection reciever) throws IOException {
         for (ClientConnection client : connectedPlayers) {
-            handler.sendPacket(new ConnectPacket(client.character.getName()), reciever.address, reciever.port);
-            handler.sendPacket(new MovePacket(client.character.getName(), client.character.getLocation().x, client.character.getLocation().y,
-                    (byte) client.character.getDirection().ordinal()), reciever.address, reciever.port);
-//            handler.sendPacket();
+            handler.sendPacket(PLAYER_UPDATE_PACKET, client.address, client.port);
         }
     }
 
