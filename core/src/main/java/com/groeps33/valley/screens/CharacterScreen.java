@@ -42,7 +42,7 @@ public class CharacterScreen extends TheValleyScreen {
 
         iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/mage.png"))));
         iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/warrior.png"))));
-        iButton3 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/ranger.png"))));
+        iButton3 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/archer.png"))));
         iButton1.pad(12);
         iButton2.pad(12);
         iButton3.pad(12);
@@ -67,9 +67,9 @@ public class CharacterScreen extends TheValleyScreen {
             }
         });
 
-        rootTable.add(iButton1).size(170, 255);
-        rootTable.add(iButton2).size(170, 255);
-        rootTable.add(iButton3).size(170, 255);
+        rootTable.add(iButton1).size(170, 272);
+        rootTable.add(iButton2).size(170, 272);
+        rootTable.add(iButton3).size(170, 272);
         stage.addActor(rootTable);
         rootTable.setFillParent(true);
         rootTable.center();
