@@ -54,8 +54,14 @@ public class GameClient implements PacketListener {
                 game.setProjectiles(projectilesPacket.getUsername(), projectilesPacket.getProjectileX(), projectilesPacket.getProjectileY());
                 break;
             case PLAYER_HIT:
-                PlayerHitPacket playerHitPacket = (PlayerHitPacket) packet;
-                game.registerHit(playerHitPacket.getUsername(), playerHitPacket.getDamage());
+                HitPacket hitPacket = (HitPacket) packet;
+                game.registerHit(hitPacket.getSender(), hitPacket.getDamage());
+                break;
+            case REQUEST_UPDATE:
+                update(game.getLocalPlayer());
+                break;
+            case NEW_WAVE:
+                game.registerNewWave(((NewWave)packet).getNumber());
         }
     }
 
@@ -63,15 +69,15 @@ public class GameClient implements PacketListener {
         //update just consists of move yet
         try {
             sendPacket(new MovePacket(character.getName(), character.getLocation().x, character.getLocation().y, (byte) character.getDirection().ordinal()));
-            if (!character.getProjectiles().isEmpty()) {
-                float[] projectileX = new float[character.getProjectiles().size()];
-                float[] projectileY = new float[character.getProjectiles().size()];
-                for (int i = 0; i  < projectileX.length; i++) {
-                    projectileX[i] = character.getProjectiles().get(i).getLocation().x;
-                    projectileY[i] = character.getProjectiles().get(i).getLocation().y;
-                }
-                sendPacket(new ProjectilesPacket(character.getName(), projectileX, projectileY));
+//            if (!character.getProjectiles().isEmpty()) {
+            float[] projectileX = new float[character.getProjectiles().size()];
+            float[] projectileY = new float[character.getProjectiles().size()];
+            for (int i = 0; i < projectileX.length; i++) {
+                projectileX[i] = character.getProjectiles().get(i).getLocation().x;
+                projectileY[i] = character.getProjectiles().get(i).getLocation().y;
             }
+            sendPacket(new ProjectilesPacket(character.getName(), projectileX, projectileY));
+//            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -88,7 +94,7 @@ public class GameClient implements PacketListener {
 
     public void updatePlayerHit(Character localPlayer, Character target, Projectile projectile) {
         try {
-            sendPacket(new PlayerHitPacket(localPlayer.getName(), target.getName(), projectile.getDamage()));
+            sendPacket(new HitPacket(localPlayer.getName(), target.getName(), projectile.getDamage(), HitPacket.Type.PLAYER_HIT_PLAYER));
         } catch (IOException e) {
             e.printStackTrace();
         }

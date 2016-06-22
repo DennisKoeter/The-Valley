@@ -59,7 +59,13 @@ public class PacketHandler extends Thread {
             case PROJECTILES:
                 return new ProjectilesPacket(datagramPacket.getData());
             case PLAYER_HIT:
-                return new PlayerHitPacket(datagramPacket.getData());
+                return new HitPacket(datagramPacket.getData());
+            case REQUEST_UPDATE:
+                return new RequestPlayerUpdate(datagramPacket.getData());
+            case MONSTER_TARGET_UPDATE:
+                return new MonsterTargetUpdate(datagramPacket.getData());
+            case NEW_WAVE:
+                return new NewWave(datagramPacket.getData());
 
         }
         return null;
