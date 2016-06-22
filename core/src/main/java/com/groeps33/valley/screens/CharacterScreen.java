@@ -40,9 +40,9 @@ public class CharacterScreen extends TheValleyScreen {
         splashTexture = new Texture("menus/characters.jpg");
         rootTable = new Table();
 
-        iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/mage.png"))));
-        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/warrior.png"))));
-        iButton3 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("characters/archer.png"))));
+        iButton1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/mage.png"))));
+        iButton2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/warrior.png"))));
+        iButton3 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("temp/archer.png"))));
         iButton1.pad(12);
         iButton2.pad(12);
         iButton3.pad(12);
