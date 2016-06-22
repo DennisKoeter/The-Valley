@@ -90,6 +90,7 @@ public class GameClient implements PacketListener {
                 break;
             case NEW_WAVE:
                 game.registerNewWave(((NewWave) packet).getNumber());
+                //case ITEM_SPAWN -> game.onItemSpawn();
         }
     }
 

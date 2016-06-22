@@ -50,6 +50,8 @@ public class GameScreen extends TheValleyScreen {
     private GameServer gameServer;
     private HudRenderer hudRenderer;
 
+    //lijst van health items ->
+
 //    private SpriteBatch spriteBash;
 
     public GameScreen(TheValleyGame game, PlayerClass playerClass) {
@@ -94,6 +96,7 @@ public class GameScreen extends TheValleyScreen {
 
         boolean hasProjectiles = !localPlayer.getProjectiles().isEmpty();
         checkCollisionWithLocalProjectiles();
+
 
         if (localPlayer.getCurrentHp() <= 0) {
             localPlayer.setLocation(START_LOC.x, START_LOC.y);
@@ -247,6 +250,8 @@ public class GameScreen extends TheValleyScreen {
 
         }
     }
+
+
 
     public void registerHit(String hitByPlayer, int damage) {
         hudRenderer.addMessage(new Message("Friendly fire by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
