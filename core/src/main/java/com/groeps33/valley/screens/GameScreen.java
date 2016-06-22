@@ -26,6 +26,7 @@ import com.groeps33.valley.renderer.TiledMapRendererWithEntities;
 import com.groeps33.valley.util.Calculations;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -215,20 +216,22 @@ public class GameScreen extends TheValleyScreen {
 //            character = addPlayer(username, connectPacket.getPlayerClass());
         }
 
-        int i = 0;
-        for (;i < Math.min(character.getProjectiles().size(), projectileX.length); i++) {
-            character.getProjectiles().get(i).getLocation().set(projectileX[i], projectileY[i]);
-        }
+        List<Projectile> projectiles = character.getProjectiles();
+            int i = 0;
+            for (; i < Math.min(projectiles.size(), projectileX.length); i++) {
+                projectiles.get(i).getLocation().set(projectileX[i], projectileY[i]);
+            }
 
-        if (i >= projectileX.length) {
-            for (int j = projectileX.length-1; j < character.getProjectiles().size(); j++) {
-                if (j == -1) continue;
-                character.getProjectiles().remove(j);
-            }
-        } else {
-            for (int j = i; j < projectileX.length; j++) {
-                character.getProjectiles().add(new Projectile(new Vector2(projectileX[j], projectileY[j]), null, -1, -1));
-            }
+            if (i >= projectileX.length) {
+                for (int j = projectileX.length - 1; j < projectiles.size(); j++) {
+                    if (j == -1) continue;
+                    projectiles.remove(j);
+                }
+            } else {
+                for (int j = i; j < projectileX.length; j++) {
+                    projectiles.add(new Projectile(-1, new Vector2(projectileX[j], projectileY[j]), null, -1, -1));
+                }
+
         }
     }
 

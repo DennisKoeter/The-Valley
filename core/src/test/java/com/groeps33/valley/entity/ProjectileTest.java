@@ -32,7 +32,7 @@ public class ProjectileTest {
     public void setUp() throws Exception {
         location = new Vector2(locX, locY);
         velocity = new Vector2(velX, velY);
-        projectile = new Projectile(location, velocity, damage, attackDamage);
+        projectile = new Projectile(angle, location, velocity, damage, attackDamage);
     }
 
     @Test

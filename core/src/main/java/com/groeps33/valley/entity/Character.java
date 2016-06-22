@@ -63,7 +63,7 @@ public class Character extends Entity {
     private TextureRegion[][] frames;
     private float frameTime;
     private Direction direction;
-    private List<Projectile> projectiles;
+    private final List<Projectile> projectiles;
     private Texture projectileTexture;
 
     private BitmapFont font;
@@ -178,10 +178,10 @@ public class Character extends Entity {
 
     public Projectile spawnProjectile() {
         Vector2 velocity = new Vector2();//nextY - location.y, nextX - location.x
-        double angle = Math.atan2(Gdx.input.getX() - (Gdx.graphics.getWidth()/2),Gdx.input.getY()- (Gdx.graphics.getHeight()/2));
-        angle -= Math.PI/2.0;
+        double angle = Math.atan2(Gdx.input.getX() - (Gdx.graphics.getWidth() / 2), Gdx.input.getY() - (Gdx.graphics.getHeight() / 2));
+        angle -= Math.PI / 2.0;
         velocity.set(playerClass.getProjectileSpeed() * (float) Math.cos(angle), playerClass.getProjectileSpeed() * (float) Math.sin(angle));
-        Projectile projectile = new Projectile(new Vector2(location.x + WIDTH/2, location.y + HEIGHT/2), velocity, attackDamage + bonusAttackDamage, playerClass.getAttackRange());
+        Projectile projectile = new Projectile(angle, new Vector2(location.x + WIDTH / 2, location.y + HEIGHT / 2), velocity, attackDamage + bonusAttackDamage, playerClass.getAttackRange());
         projectiles.add(projectile);
         return projectile;
     }
@@ -202,8 +202,12 @@ public class Character extends Entity {
         font.draw(batch, name, location.x, location.y + 50);
 
         //projectiles
-        for (Projectile projectile : projectiles) {
-            batch.draw(projectileTexture, projectile.getLocation().x - 5, projectile.getLocation().y - 5, 10, 10);
+        synchronized (projectiles) {
+            for (Projectile projectile : projectiles) {
+                //todo rotate projectiles
+                batch.draw(projectileTexture, projectile.getLocation().x - projectileTexture.getWidth()/2, projectile.getLocation().y - projectileTexture.getHeight()/2 ,
+                        projectileTexture.getWidth(), projectileTexture.getHeight());
+            }
         }
     }
 
