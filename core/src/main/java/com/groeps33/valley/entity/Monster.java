@@ -23,7 +23,7 @@ public class Monster extends Entity {
     private IntArray path;
 
     public Monster(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
-        super(x, y, name, maxHp, defence, attackDamage, moveSpeed);
+        super(x, y, name, maxHp, defence, attackDamage, moveSpeed, 2);
         spriteSheet = new Texture(Gdx.files.internal("sprites/monsters.png"));
         frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
         animation = new Animation(0.10f, frames[0][0]);

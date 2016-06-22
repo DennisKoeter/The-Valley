@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.Vector2;
  * @author Edwin
  *         Created on 4/6/2016
  */
-class Projectile {
+public class Projectile {
+    private final Vector2 startLocation;
     private Vector2 location;
     private Vector2 velocity;
     private int damage;
+    private double attackRange;
 
     public Vector2 getLocation() {
         return location;
@@ -35,9 +37,19 @@ class Projectile {
         this.damage = damage;
     }
 
-    public Projectile(Vector2 location, Vector2 velocity, int damage) {
-        this.location = location;
+    public Vector2 getStartLocation() {
+        return startLocation;
+    }
+
+    public Projectile(Vector2 location, Vector2 velocity, int damage, int attackDamage) {
+        this.startLocation = location;
+        this.location = new Vector2(location);
         this.velocity = velocity;
         this.damage = damage;
+        this.attackRange = attackDamage;
+    }
+
+    public double getAttackRange() {
+        return attackRange;
     }
 }

@@ -5,8 +5,12 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Queue;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.screens.GameScreen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Bram on 6/21/2016.
@@ -25,6 +29,7 @@ public class HudRenderer {
     private final Character localPlayer;
     private final BitmapFont font = new BitmapFont();
     private final SpriteBatch spriteBatch;
+    private final List<Message> messages = new ArrayList<>();
 
     public HudRenderer(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -63,5 +68,9 @@ public class HudRenderer {
         pixmap.fill();
 
         return pixmap;
+    }
+
+    public void addMessage(Message message) {
+        messages.add(message);
     }
 }

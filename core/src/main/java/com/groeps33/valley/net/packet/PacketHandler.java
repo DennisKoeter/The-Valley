@@ -56,6 +56,10 @@ public class PacketHandler extends Thread {
                 return new MovePacket(datagramPacket.getData());
             case DISCONNECT:
                 return new DisconnectPacket(datagramPacket.getData());
+            case PROJECTILES:
+                return new ProjectilesPacket(datagramPacket.getData());
+            case PLAYER_HIT:
+                return new PlayerHitPacket(datagramPacket.getData());
 
         }
         return null;

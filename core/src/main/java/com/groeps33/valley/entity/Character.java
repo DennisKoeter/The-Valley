@@ -2,6 +2,8 @@ package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,19 +12,31 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.ai.Map;
+import com.groeps33.valley.util.Calculations;
 
-import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Bram on 6-4-2016.
  */
 public class Character extends Entity {
+    private long lastAtkTime;
+    private int attackRange;
+    private float projectileSpeed;
+
     public Direction getDirection() {
         return direction;
     }
 
     public void setDirection(byte ordinal) {
         setDirection(Direction.values()[ordinal]);
+    }
+
+    public List<Projectile> getProjectiles() {
+        return projectiles;
     }
 
     public enum Direction {SOUTH, WEST, EAST, NORTH}
@@ -42,15 +56,18 @@ public class Character extends Entity {
     private TextureRegion[][] frames;
     private float frameTime;
     private Direction direction;
+    private List<Projectile> projectiles;
+    private Texture projectileTexture;
 
     private BitmapFont font;
 
     public Character(float x, float y, String name) {
         super(x, y, name);
         direction = Direction.SOUTH;
-        //Wanneer meerdere karakters gebruikt worden kan
-        // in de consructor een andere spritesheet geladen worden.
-
+        projectiles = new ArrayList<>();
+        this.attackRange = 100;
+        this.projectileSpeed = 500;
+        this.attackSpeedInterval = 250;
     }
 
     public int getGold() {
@@ -59,6 +76,18 @@ public class Character extends Entity {
 
     public void reduceGold(int amount) {
         this.gold -= amount;
+    }
+
+    public void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
+    }
+
+    public boolean canAttack() {
+        boolean canAttack = System.currentTimeMillis() - lastAtkTime > attackSpeedInterval;
+        if (canAttack) {
+            lastAtkTime = System.currentTimeMillis();
+        }
+        return canAttack;
     }
 
 
@@ -71,7 +100,6 @@ public class Character extends Entity {
     }
 
     public void updateFrame() {
-
         if (frames != null) {
             frameTime += Gdx.graphics.getDeltaTime();
             currentFrame = animation.getKeyFrame(frameTime, true);
@@ -88,6 +116,12 @@ public class Character extends Entity {
         frameTime = 0;
         currentFrame = animation.getKeyFrame(frameTime);
         font = new BitmapFont();
+
+        //temp texture for projectile
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(new Color(0, 0f, 1f, 1f));
+        pixmap.fill();
+        this.projectileTexture = new Texture(pixmap);
     }
 
     @Override
@@ -136,43 +170,18 @@ public class Character extends Entity {
         }
     }
 
-    /*
-    private void move() {
-        /*
-        switch (direction) {
-            case NORTH:
-                move(0, moveSpeed * Gdx.graphics.getDeltaTime());
-                break;
-            case SOUTH:
-                move(0, -moveSpeed * Gdx.graphics.getDeltaTime());
-                break;
-            case EAST:
-                move(moveSpeed * Gdx.graphics.getDeltaTime(), 0);
-                break;
-            case WEST:
-                move(-moveSpeed * Gdx.graphics.getDeltaTime(), 0);
-        }
+    public Projectile spawnProjectile() {
+        Vector2 velocity = new Vector2();//nextY - location.y, nextX - location.x
+        double angle = Math.atan2(Gdx.input.getX() - (Gdx.graphics.getWidth()/2),Gdx.input.getY()- (Gdx.graphics.getHeight()/2));
+        angle -= Math.PI/2.0;
+        velocity.set(projectileSpeed * (float) Math.cos(angle), projectileSpeed * (float) Math.sin(angle));
+        Projectile projectile = new Projectile(new Vector2(location.x + WIDTH/2, location.y + HEIGHT/2), velocity, attackDamage, attackRange);
+        projectiles.add(projectile);
+        return projectile;
     }
-
-        */
 
     @Override
     public void onCollisionWithObject(MapObject object) {
-        /*
-        switch (direction) {
-            case NORTH:
-                velocity.set(0, -moveSpeed * Gdx.graphics.getDeltaTime());
-                break;
-            case SOUTH:
-                velocity.set(0, moveSpeed * Gdx.graphics.getDeltaTime());
-                break;
-            case EAST:
-                velocity.set(-moveSpeed * Gdx.graphics.getDeltaTime(), 0);
-                break;
-            case WEST:
-                velocity.set(moveSpeed * Gdx.graphics.getDeltaTime(), 0);
-        }
-        */
         velocity.set(-velocity.x, -velocity.y);
         move();
     }
@@ -185,6 +194,11 @@ public class Character extends Entity {
 
         batch.draw(currentFrame, location.x, location.y);
         font.draw(batch, name, location.x, location.y + 50);
+
+        //projectiles
+        for (Projectile projectile : projectiles) {
+            batch.draw(projectileTexture, projectile.getLocation().x - 5, projectile.getLocation().y - 5, 10, 10);
+        }
     }
 
     @Override

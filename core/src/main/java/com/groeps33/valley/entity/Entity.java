@@ -15,16 +15,17 @@ public abstract class Entity {
     protected int maxHp;
     protected int defence;
     protected int attackDamage;
-    protected int attackSpeed;
+    protected int attackSpeedInterval;
     protected int moveSpeed;
     protected Vector2 location;
     protected Vector2 velocity;
 
-    Entity(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
+    Entity(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed, int attackSpeed) {
         this.name = name;
         this.maxHp = maxHp;
         this.defence = defence;
         this.attackDamage = attackDamage;
+        this.attackSpeedInterval = attackSpeed;
         this.moveSpeed = moveSpeed;
         location = new Vector2(x,y);
         velocity = new Vector2();
@@ -33,7 +34,7 @@ public abstract class Entity {
     }
 
     public Entity(float x, float y, String name) {
-        this(x, y, name, 100, -1,-1, 200);
+        this(x, y, name, 100, -1,3, 200, 5);
     }
 
     public abstract void update(float deltaTime);
@@ -84,5 +85,12 @@ public abstract class Entity {
 
     public int getCurrentHp() {
         return currentHp;
+    }
+
+    public void damage(int damage) {
+        currentHp-= damage;
+        if (currentHp < 0) {
+            currentHp = 0;
+        }
     }
 }

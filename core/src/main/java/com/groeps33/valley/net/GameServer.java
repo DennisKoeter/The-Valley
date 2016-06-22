@@ -1,14 +1,15 @@
 package com.groeps33.valley.net;
 
-import com.groeps33.valley.TheValleyGame;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.net.packet.*;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Bram on 6/15/2016.
@@ -49,8 +50,9 @@ public class GameServer implements PacketListener {
         }
     }
 
+
     private final DatagramSocket serverSocket;
-    private final List<ClientConnection> connectedPlayers = new ArrayList<>();
+    private final List<ClientConnection> connectedPlayers = new CopyOnWriteArrayList<>();
     private final PacketHandler handler;
 
     public GameServer() throws IOException {
@@ -58,6 +60,20 @@ public class GameServer implements PacketListener {
         handler = new PacketHandler(serverSocket);
         handler.addListener(this);
         handler.start();
+
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                //syncing hp (and other important stuff?)
+//                try {
+//                    for (ClientConnection client : connectedPlayers) {
+//                        syncClientWithConnectedPlayers(client);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, 500);
     }
 
     @Override
@@ -74,11 +90,7 @@ public class GameServer implements PacketListener {
                     broadcastPacket(packet, newClient);
 
                     //notify new connected player about existing players
-                    for (ClientConnection client : connectedPlayers) {
-                        handler.sendPacket(new ConnectPacket(client.character.getName()), address, port);
-                        handler.sendPacket(new MovePacket(client.character.getName(), client.character.getLocation().x, client.character.getLocation().y,
-                                (byte) client.character.getDirection().ordinal()), address, port);
-                    }
+                    syncClientWithConnectedPlayers(newClient);
 
                     connectedPlayers.add(newClient);
 
@@ -97,9 +109,32 @@ public class GameServer implements PacketListener {
                     assert disconnectedClient != null;
                     connectedPlayers.remove(disconnectedClient);
                     broadcastPacket(packet, disconnectedClient);
+                    break;
+                case PROJECTILES:
+                    ProjectilesPacket projectilesPacket = (ProjectilesPacket) packet;
+                    ClientConnection projectilesClient = getClientForPlayerName(projectilesPacket.getUsername());
+                    broadcastPacket(projectilesPacket, projectilesClient);
+                    //todo add projectiles to server side players (maybe needed for syncing)
+                    break;
+                case PLAYER_HIT:
+                    PlayerHitPacket playerHitPacket = (PlayerHitPacket) packet;
+                    ClientConnection sender = getClientForPlayerName(playerHitPacket.getUsername());
+                    Character target = getClientForPlayerName(playerHitPacket.getTargetName()).character;
+                    target.damage(playerHitPacket.getDamage());
+                    broadcastPacket(playerHitPacket, sender);
+                    //todo clients need to sync player hp every x ms with server
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void syncClientWithConnectedPlayers(ClientConnection reciever) throws IOException {
+        for (ClientConnection client : connectedPlayers) {
+            handler.sendPacket(new ConnectPacket(client.character.getName()), reciever.address, reciever.port);
+            handler.sendPacket(new MovePacket(client.character.getName(), client.character.getLocation().x, client.character.getLocation().y,
+                    (byte) client.character.getDirection().ordinal()), reciever.address, reciever.port);
+//            handler.sendPacket();
         }
     }
 
