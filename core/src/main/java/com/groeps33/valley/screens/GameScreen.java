@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -18,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.groeps33.valley.TheValleyGame;
 import com.groeps33.valley.entity.Entity;
 import com.groeps33.valley.entity.Character;
+import com.groeps33.valley.entity.PlayerClass;
 import com.groeps33.valley.entity.Projectile;
 import com.groeps33.valley.net.GameServer;
 import com.groeps33.valley.renderer.HudRenderer;
@@ -25,10 +25,8 @@ import com.groeps33.valley.renderer.Message;
 import com.groeps33.valley.renderer.TiledMapRendererWithEntities;
 import com.groeps33.valley.util.Calculations;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -38,6 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class GameScreen extends TheValleyScreen {
     private static final Vector2 START_LOC = new Vector2(90, 100);
+    private final PlayerClass playerClass;
     private TiledMap tiledMap;
     private OrthographicCamera camera;
     private TiledMapRendererWithEntities tiledMapRenderer;
@@ -51,10 +50,11 @@ public class GameScreen extends TheValleyScreen {
 
 //    private SpriteBatch spriteBash;
 
-    public GameScreen(TheValleyGame game) {
+    public GameScreen(TheValleyGame game, PlayerClass playerClass) {
         super(game);
         characters = new ConcurrentHashMap<>();
         hudRenderer = new HudRenderer(this);
+        this.playerClass = playerClass;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class GameScreen extends TheValleyScreen {
         System.out.println(tiledMapRenderer.getBatch());
         MapLayer collisionObjectLayer = tiledMap.getLayers().get("Collision");
         objects = collisionObjectLayer.getObjects();
-        localPlayer = addPlayer(game.getUserAccount().getUsername());
+        localPlayer = addPlayer(game.getUserAccount().getUsername(), playerClass);
         game.getGameClient().connect(localPlayer);
     }
 
@@ -134,6 +134,7 @@ public class GameScreen extends TheValleyScreen {
             }
 
 
+            System.out.println(projectile);
             projectile.getLocation().add(projectile.getVelocity().x * deltaTime, projectile.getVelocity().y * deltaTime);
         }
     }
@@ -174,12 +175,12 @@ public class GameScreen extends TheValleyScreen {
         return false;
     }
 
-    public Character addPlayer(String username) {
+    public Character addPlayer(String username, PlayerClass playerClass) {
         if (localPlayer != null && localPlayer.getName().equals(username)) {
             return localPlayer;
         }
         hudRenderer.addMessage(new Message("Player connected: " + username, Message.Type.SERVER));
-        Character character = new Character(START_LOC.x, START_LOC.y, username);
+        Character character = new Character(START_LOC.x, START_LOC.y, username, playerClass);
         characters.put(username, character);
         tiledMapRenderer.addEntity(character);
         return character;
@@ -188,8 +189,8 @@ public class GameScreen extends TheValleyScreen {
     public void playerMoved(String username, float x, float y, byte direction) {
         Character character = characters.get(username);
         if (character == null) {
-//            throw new IllegalStateException("Player not found: " + username);
-            character = addPlayer(username);
+            throw new IllegalStateException("Player not found: " + username);
+//            character = addPlayer(username,);
         }
 
         character.setLocation(x, y);
@@ -213,8 +214,8 @@ public class GameScreen extends TheValleyScreen {
     public void setProjectiles(String username, float[] projectileX, float[] projectileY) {
         Character character = characters.get(username);
         if (character == null) {
-//            throw new IllegalStateException("Player not found: " + username);
-            character = addPlayer(username);
+            throw new IllegalStateException("Player not found: " + username);
+//            character = addPlayer(username, connectPacket.getPlayerClass());
         }
 
         int i = 0;

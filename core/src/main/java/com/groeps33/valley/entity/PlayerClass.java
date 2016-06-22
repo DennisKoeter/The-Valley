@@ -6,7 +6,8 @@ package com.groeps33.valley.entity;
  * @author Bram Hoendervangers
  */
 public enum PlayerClass {
-    ;
+    ARCHER("sprites/archer.png", "sprites/archer projectile.png", 10, 0, 250, 200, 200, 750),
+    WARRIOR("sprites/warrior.png", "sprites/warrior projectile.png", 10, 0, 250, 200, 150, 750);
 
 
     private final String spriteSheet;

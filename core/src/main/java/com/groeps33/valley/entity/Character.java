@@ -42,6 +42,10 @@ public class Character extends Entity {
         currentHp = maxHp;
     }
 
+    public PlayerClass getPlayerClass() {
+        return playerClass;
+    }
+
     public enum Direction {SOUTH, WEST, EAST, NORTH}
 
     private static final int WIDTH = 32;
