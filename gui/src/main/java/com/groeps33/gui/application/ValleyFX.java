@@ -47,6 +47,7 @@ public class ValleyFX extends Application {
             JOptionPane.showMessageDialog(null, "It appears that the server is not online.", "Couldn't connect to server", JOptionPane.ERROR_MESSAGE);
         }
 
+
         launch(args);
     }
 
@@ -127,7 +128,7 @@ public class ValleyFX extends Application {
     }
 
     public static void startGame(String host, boolean isHost) {
-        File jarFile = new File("desktop\\build\\libs", "desktop-1.0.jar");
+        File jarFile = new File("desktop" + File.separator + "build" + File.separator + "libs", "desktop-1.0.jar");
 
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", jarFile.getAbsolutePath(), host, userAccount.getUsername(), userAccount.getEmail(), Boolean.toString(isHost));
         try {

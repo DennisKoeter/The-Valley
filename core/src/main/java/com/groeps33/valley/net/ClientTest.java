@@ -20,6 +20,7 @@ public class ClientTest {
 
         address = InetAddress.getByName(Constants.HOST_IP);
         socket = new DatagramSocket();
+
 //        while (true) {
 //            byte[] data = new byte[1024];
 //            DatagramPacket packet = new DatagramPacket(data, data.length);
