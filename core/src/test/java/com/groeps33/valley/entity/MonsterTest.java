@@ -24,9 +24,11 @@ public class MonsterTest {
     private int width = 5;
     private int height = 5;
 
+    private int id = 1;
+
     @Before
     public void setUp() throws Exception {
-        monster = new Monster(locX, locY, name, maxHp, defence, ad, ms);
+        monster = new Monster(id, locX, locY, name, maxHp, defence, ad, ms);
     }
 
     @Test

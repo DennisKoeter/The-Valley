@@ -10,7 +10,7 @@ public class Constants {
      * Net
      */
     public static final int SERVER_PORT = 8009;
-    public static final String HOST_IP = "127.0.0.1";
+    public static final String HOST_IP = "169.254.195.1";
     public static final long TICK_INTERVAL = 100;
     public static final long SYNC_ALL_PLAYERS_INTERVAL = 500;
 
