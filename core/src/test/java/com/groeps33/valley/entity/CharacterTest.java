@@ -4,28 +4,81 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Edwin
  */
 public class CharacterTest {
+
+    private Character character;
+    private final float X = 10;
+    private final float Y = 10;
+    private final String NAME = "Naam";
+    private PlayerClass PLAYERCLASS = PlayerClass.ARCHER;
+
     @Before
     public void setUp() throws Exception {
-
+        character = new Character(X, Y, NAME, PLAYERCLASS);
     }
 
     @After
     public void tearDown() throws Exception {
-
+        character = null;
     }
 
     @Test
     public void getDirection() throws Exception {
+        /**
+         * Move the character to south
+         */
+        character.setDirection((byte) 0);
+        assertEquals(character.getDirection(), Character.Direction.SOUTH);
 
+        /**
+         * Move the character to west
+         */
+        character.setDirection((byte) 1);
+        assertEquals(character.getDirection(), Character.Direction.WEST);
+
+        /**
+         * Move the character to east
+         */
+        character.setDirection((byte) 2);
+        assertEquals(character.getDirection(), Character.Direction.EAST);
+
+        /**
+         * Move the character to north
+         */
+        character.setDirection((byte) 3);
+        assertEquals(character.getDirection(), Character.Direction.NORTH);
     }
 
     @Test
     public void setDirection() throws Exception {
+        /**
+         * Move the character to south
+         */
+        character.setDirection((byte) 0);
+        assertEquals(character.getDirection(), Character.Direction.SOUTH);
 
+        /**
+         * Move the character to west
+         */
+        character.setDirection((byte) 1);
+        assertEquals(character.getDirection(), Character.Direction.WEST);
+
+        /**
+         * Move the character to east
+         */
+        character.setDirection((byte) 2);
+        assertEquals(character.getDirection(), Character.Direction.EAST);
+
+        /**
+         * Move the character to north
+         */
+        character.setDirection((byte) 3);
+        assertEquals(character.getDirection(), Character.Direction.NORTH);
     }
 
     @Test
