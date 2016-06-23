@@ -1,6 +1,6 @@
 package com.groeps33.valley.net;
 
-import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.Constants;
 import com.groeps33.valley.entity.Monster;
 
 import java.util.ArrayList;
@@ -12,7 +12,6 @@ import java.util.List;
  * @author Bram Hoendervangers
  */
 class Wave {
-    private final static Vector2 MONSTER_SPAWN = new Vector2(309, 1355);
     private final int number;
     private final long startTime;
     private boolean finished;
@@ -27,7 +26,7 @@ class Wave {
 
     private void spawnMonsters() {
         for (int i = 0; i < 10 + number * 2; i++) {
-            monsterList.add(new Monster(i, MONSTER_SPAWN.x, MONSTER_SPAWN.y, "Monster", 100, -1, 10, 150));
+            monsterList.add(new Monster(i, Constants.MONSTER_SPAWN_LOCATION_X, Constants.MONSTER_SPAWN_LOCATION_Y, Constants.MONSTER_NAME, Constants.MONSTER_MAXHP, Constants.MONSTER_DEFENCE, Constants.MONSTER_ATTACK_DAMAGE, Constants.MONSTER_MOVESPEED));
         }
     }
 

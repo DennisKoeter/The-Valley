@@ -1,14 +1,16 @@
 package com.groeps33.valley.net;
 
-import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.Constants;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.entity.Monster;
+import com.groeps33.valley.items.HealthPotion;
+import com.groeps33.valley.items.ItemSpawn;
 import com.groeps33.valley.net.packet.*;
-import com.groeps33.valley.util.Calculations;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,29 +18,38 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Bram on 6/15/2016.
+ * <p>
+ * This is the server-side game server. It runs on the host player
+ * and handles all game logic & packet related events.
  *
  * @author Bram Hoendervangers
  */
+
 public class GameServer implements PacketListener {
 
-    public final static int SERVER_PORT = 8009;
     private static final Packet PLAYER_UPDATE_PACKET = new RequestPlayerUpdate();
 
-    private final static Vector2 MONSTER_SPAWN = new Vector2(309, 1355);
-
-
-    private final DatagramSocket serverSocket;
     private final List<ClientConnection> connectedPlayers = new CopyOnWriteArrayList<>();
     private final List<Monster> monsters = new CopyOnWriteArrayList<>();
     private final PacketHandler handler;
 
+    private List<ItemSpawn> itemSpawnList = new ArrayList<>();
+    ItemSpawn healthPotion;
+
     private Wave currentWave;
 
     public GameServer() throws IOException {
-        this.serverSocket = new DatagramSocket(SERVER_PORT);
+        DatagramSocket serverSocket = new DatagramSocket(Constants.SERVER_PORT);
         handler = new PacketHandler(serverSocket);
         handler.addListener(this);
         handler.start();
+
+        /**
+         * Initialize all items that will spawn on the map
+         */
+        // create a hp pot with 60 second cooldown
+        healthPotion = new HealthPotion(Constants.HEALTH_POT_LOCATION_X, Constants.HEALTH_POT_LOCATION_Y, Constants.HEALTH_POT_COOLDOWN, 0, Constants.HEALTH_POT_AMOUNT_OF_HEAL);
+        itemSpawnList.add(healthPotion);
 
         new Timer().schedule(new TimerTask() {
             @Override
@@ -52,14 +63,14 @@ public class GameServer implements PacketListener {
                     e.printStackTrace();
                 }
             }
-        }, 0, 500);
+        }, 0, Constants.SYNC_ALL_PLAYERS_INTERVAL);
 
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 tick();
             }
-        }, 0, 100);
+        }, 0, Constants.TICK_INTERVAL);
     }
 
     private void tick() {
@@ -84,19 +95,22 @@ public class GameServer implements PacketListener {
 //            }
 //        }
 
-        //todo spawn health items
-//        //for each item
-//            if (!item.isSpawned() && ready to spawn){
-//                item.spawn();
-//                broadcastPacket(new ItemSpawn(10,01,010), null);
-//            }
-        //}
+        //for each item
+        for (ItemSpawn item : itemSpawnList) {
+            if (item.isReadyToSpawn()) {
+                // todo: no clue what I'm doing. fill in the item.spawn() method
+                item.spawn();
+                // todo: broadcast a packet to let all clients know there's been spawned an item
+//                broadcastPacket(new ItemSpawn);
+//                broadcastPacket(new ItemSpawn(10, 01, 010), null);
+            }
+        }
     }
 
     @Override
     public void onPingReceived(InetAddress address, int port) {
         try {
-            handler.sendData(new byte[] {7}, address, port);
+            handler.sendData(new byte[]{7}, address, port);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,6 +166,7 @@ public class GameServer implements PacketListener {
                     ClientConnection sender = getClientForPlayerName(hitPacket.getSender());
                     switch (hitPacket.getHitType()) {
                         case PLAYER_HIT_PLAYER:
+                            // todo: when player is hit, all players besides self get damaged. only make the targeted player lose damage
                             Character target = getClientForPlayerName(hitPacket.getTargetId()).getCharacter();
                             target.damage(hitPacket.getDamage());
                             break;
@@ -165,6 +180,8 @@ public class GameServer implements PacketListener {
                     broadcastPacket(hitPacket, sender);
                     //todo clients need to sync player hp every x ms with server
                     break;
+                case ITEM_SPAWN:
+                    // todo: notify all other players that there's been spawned an item
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,7 +196,7 @@ public class GameServer implements PacketListener {
     private void syncClientWithConnectedPlayers(ClientConnection reciever) throws IOException {
         for (ClientConnection client : connectedPlayers) {
             if (client != reciever)
-            handler.sendPacket(PLAYER_UPDATE_PACKET, client.getAddress(), client.getPort());
+                handler.sendPacket(PLAYER_UPDATE_PACKET, client.getAddress(), client.getPort());
         }
     }
 

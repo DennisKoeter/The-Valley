@@ -8,6 +8,8 @@ import java.io.IOException;
 /**
  * Created by Bram on 6/15/2016.
  *
+ * A packet containing information to be sent over a network.
+ *
  * @author Bram Hoendervangers
  */
 public abstract class Packet {

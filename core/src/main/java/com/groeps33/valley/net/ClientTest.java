@@ -1,6 +1,7 @@
 package com.groeps33.valley.net;
 
-import java.io.BufferedOutputStream;
+import com.groeps33.valley.Constants;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -17,8 +18,9 @@ public class ClientTest {
 
     public static void main(String[] args) throws SocketException, UnknownHostException {
 
-        address = InetAddress.getByName("127.0.0.1");
+        address = InetAddress.getByName(Constants.HOST_IP);
         socket = new DatagramSocket();
+
 //        while (true) {
 //            byte[] data = new byte[1024];
 //            DatagramPacket packet = new DatagramPacket(data, data.length);
