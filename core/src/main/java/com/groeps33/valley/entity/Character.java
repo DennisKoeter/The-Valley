@@ -42,6 +42,22 @@ public class Character extends Entity {
         return playerClass;
     }
 
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public float getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    public int getDefence() {
+        return defence;
+    }
+
+    public int getAttackRange() {
+        return playerClass.getAttackRange();
+    }
+
     public enum Direction {SOUTH, WEST, EAST, NORTH}
 
     private static final int WIDTH = 32;
@@ -134,8 +150,7 @@ public class Character extends Entity {
 
     @Override
     public void update(float deltaTime) {
-
-        if(manaCounter < 1) manaCounter += deltaTime * 0.2f;
+        if(manaCounter < 1) manaCounter += deltaTime * 0.6f;
 
         if(currentMana < maxMana && manaCounter>=1){
             currentMana+=1;
@@ -282,5 +297,21 @@ public class Character extends Entity {
 
     public int getMaxMana(){
         return maxMana;
+    }
+
+    public int getBonusAttackSpeed() {
+        return bonusAttackSpeed;
+    }
+
+    public int getBonusMoveSpeed() {
+        return bonusMoveSpeed;
+    }
+
+    public int getBonusAttackDamage() {
+        return bonusAttackDamage;
+    }
+
+    public int getBonusDefence() {
+        return bonusDefence;
     }
 }

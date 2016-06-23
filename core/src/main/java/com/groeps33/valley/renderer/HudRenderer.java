@@ -69,6 +69,18 @@ public class HudRenderer {
             //player name
             String loc = "(" + (int) localPlayer.getLocation().x + ", " + (int) localPlayer.getLocation().y + ")";
             font.draw(spriteBatch, "Player: " + localPlayer.getName() + "  " + loc, 10, Gdx.graphics.getHeight() - 10);
+
+            //statsdwa
+            int padding = 10;
+            int width = 135, height = 65;
+            int xStats = Gdx.graphics.getWidth()- width - padding;
+            int yStats = Gdx.graphics.getHeight() - height - padding;
+            spriteBatch.draw(HUD_BACKGROUND_TEXTURE, xStats, yStats, width, height);
+            font.draw(spriteBatch, "Dmg: " + localPlayer.getAttackDamage() + " (+" + localPlayer.getBonusAttackDamage() + ")", xStats+5, yStats + height -5);
+            font.draw(spriteBatch, "Spd: " + (int)localPlayer.getMoveSpeed() + " (+" + localPlayer.getBonusMoveSpeed() + ")", xStats+5, yStats + height -25);
+            font.draw(spriteBatch, "Def: " + localPlayer.getDefence() + " (+" + localPlayer.getBonusDefence() + ")", xStats+5, yStats + height -45);
+            font.draw(spriteBatch, "Rng: " + localPlayer.getAttackRange(), xStats+5, yStats + height -45);
+
         }
 
         //draw messages
