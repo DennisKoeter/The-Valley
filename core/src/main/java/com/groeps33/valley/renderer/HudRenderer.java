@@ -24,7 +24,8 @@ public class HudRenderer {
     private static final int HP_BAR_HEIGHT = 20;
 
     private static final Texture HUD_BACKGROUND_TEXTURE = new Texture(createPixmap(0f, 0f, 0f, 0.7f));
-    private static final Texture HP_BAR_TEXTURE = new Texture(createPixmap(1f, 0f, 0f, 1f));
+    private static final Texture HP_BAR_TEXTURE = new Texture(createPixmap(1f, 0f, 0f, 1f));;
+    private static final Texture MP_BAR_TEXTURE = new Texture(createPixmap(0f, 0f, 1f, 1f));
     private static final Texture HP_BAR_BACKGROUND_TEXTURE = new Texture(createPixmap(0f, 0f, 0f, 1f));
 
     private final GameScreen gameScreen;
@@ -45,7 +46,7 @@ public class HudRenderer {
         Character localPlayer = gameScreen.getLocalPlayer();
         if (localPlayer != null) {
             //background
-            spriteBatch.draw(HUD_BACKGROUND_TEXTURE, 0, Gdx.graphics.getHeight() - 60, 200, 60);
+            spriteBatch.draw(HUD_BACKGROUND_TEXTURE, 0, Gdx.graphics.getHeight() - 90, 200, 90);
 
             //health bar
             int hpBarX = 40;
@@ -58,13 +59,12 @@ public class HudRenderer {
 
             //mana bar
             int mpBarX = hpBarX;
-            int mpBarY = hpBarY - HP_BAR_HEIGHT - 20;
-            float healthWidth = (float) HP_BAR_WIDTH / (float) localPlayer.getMaxHp();
+            int mpBarY = hpBarY - HP_BAR_HEIGHT - 10;
+            float manaWidth = (float) HP_BAR_WIDTH / (float) localPlayer.getMaxMana();
             spriteBatch.draw(HP_BAR_BACKGROUND_TEXTURE, mpBarX, mpBarY, HP_BAR_WIDTH, HP_BAR_HEIGHT);
-            spriteBatch.draw(HP_BAR_TEXTURE, mpBarX, mpBarY, healthWidth * localPlayer.getCurrentHp(), HP_BAR_HEIGHT);
-            font.draw(spriteBatch, "HP: ", mpBarX - 30, mpBarY + 15);
-            font.draw(spriteBatch, localPlayer.getCurrentHp() + "/" + localPlayer.getMaxHp(), mpBarX + 50, mpBarY + 15);
-
+            spriteBatch.draw(MP_BAR_TEXTURE, mpBarX, mpBarY, manaWidth * localPlayer.getCurrentMana(), HP_BAR_HEIGHT);
+            font.draw(spriteBatch, "MP: ", mpBarX - 30, mpBarY + 15);
+            font.draw(spriteBatch, localPlayer.getCurrentMana() + "/" + localPlayer.getMaxMana(), mpBarX + 50, mpBarY + 15);
 
             //player name
             String loc = "(" + (int) localPlayer.getLocation().x + ", " + (int) localPlayer.getLocation().y + ")";
