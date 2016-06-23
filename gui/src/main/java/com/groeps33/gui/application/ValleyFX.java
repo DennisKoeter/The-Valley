@@ -58,6 +58,7 @@ public class ValleyFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
         URL url = getClass().getResource(Constants.LOGIN_PATH);
         String musicString = new File(Constants.MAINMUSIC_NAME).toURI().toString();
         Media musicMedia = new Media(musicString);
