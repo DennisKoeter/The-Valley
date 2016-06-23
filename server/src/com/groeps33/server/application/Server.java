@@ -3,6 +3,8 @@ package com.groeps33.server.application;
 import com.groeps33.server.shared.game.GameAdministration;
 import com.groeps33.server.shared.lobby.LobbyAdministration;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,7 +14,9 @@ import java.rmi.registry.Registry;
  */
 public class Server {
 
-    public static void main(String[] args) throws RemoteException {
+    public static void main(String[] args) throws RemoteException, UnknownHostException {
+        System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
+        System.out.println(System.getProperty("java.rmi.server.hostname"));
         System.out.println("Creating registry at: " + Constants.PORT_NUMBER);
         Registry registry = LocateRegistry.createRegistry(Constants.PORT_NUMBER);
 

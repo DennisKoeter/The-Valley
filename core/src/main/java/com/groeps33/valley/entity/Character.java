@@ -42,6 +42,26 @@ public class Character extends Entity {
         return playerClass;
     }
 
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
+    public float getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    public int getDefence() {
+        return defence;
+    }
+
+    public int getAttackRange() {
+        return playerClass.getAttackRange();
+    }
+
+    public float getTotalMovSpd() {
+        return moveSpeed + bonusMoveSpeed;
+    }
+
     public enum Direction {SOUTH, WEST, EAST, NORTH}
 
     private static final int WIDTH = 32;
@@ -116,6 +136,14 @@ public class Character extends Entity {
         }
     }
 
+    @Override
+    public void damage(int damage) {
+        currentHp-= Math.max(damage - defence - bonusDefence, 3);
+        if (currentHp < 0) {
+            currentHp = 0;
+        }
+    }
+
     private void init() {
         spriteSheet = new Texture(Gdx.files.internal(playerClass.getSpriteSheet()));
         frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
@@ -134,57 +162,28 @@ public class Character extends Entity {
 
     @Override
     public void update(float deltaTime) {
-
-        if(manaCounter < 1) manaCounter += deltaTime * 0.2f;
-
-        if(currentMana < maxMana && manaCounter>=1){
-            currentMana+=1;
-            manaCounter=0;
-        }
-
-        if(specialActive && (lastSpecialAtkTime >= 2000)){
-            specialActive = false;
-            this.moveSpeed -= 200;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && System.currentTimeMillis() - lastSpecialAtkTime > 500){
-            switch(playerClass){
-                case WARRIOR:
-                    if(this.currentMana >= 30 && !specialActive){
-                        specialActive = true;
-                        this.moveSpeed += 200;
-                        this.currentMana += 30;
-                        lastSpecialAtkTime = System.currentTimeMillis();
-                    }
-                    break;
-                case MAGE:
-                    if(this.currentMana >= 40) {
-                        this.currentHp += 20;
-                        this.currentMana -= 40;
-                        lastSpecialAtkTime = System.currentTimeMillis();
-                    }
-                    break;
-            }
-        }
-
         if (frames == null) {
             init();
         }
 
+        regenMana(deltaTime);
+        specialAttk(deltaTime);
+
         velocity.set(0, 0);
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velocity.x = deltaTime * -moveSpeed;
+            velocity.x = deltaTime * -getTotalMovSpd();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocity.x = deltaTime * moveSpeed;
+            velocity.x = deltaTime * getTotalMovSpd();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velocity.y = deltaTime * moveSpeed;
+            velocity.y = deltaTime * getTotalMovSpd();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velocity.y = deltaTime * -moveSpeed;
+            velocity.y = deltaTime * -getTotalMovSpd();
         }
 
         if (velocity.y != 0) {
@@ -207,6 +206,59 @@ public class Character extends Entity {
                 currentFrame.flip(false, true);
 
             move();
+        }
+    }
+
+    private void specialAttk(float deltaTime) {
+        if(specialActive && (System.currentTimeMillis() - lastSpecialAtkTime >= 2000)){
+            specialActive = false;
+            switch(playerClass){
+                case WARRIOR:
+                    this.bonusMoveSpeed -= 200;
+                    break;
+                case MAGE:
+                    break;
+                case ARCHER:
+                    this.bonusDefence -= 20;
+                    break;
+            }
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            switch(playerClass){
+                case WARRIOR:
+                    if(currentMana >= 30 && !specialActive){
+                        specialActive = true;
+                        bonusMoveSpeed += 200;
+                        currentMana -= 30;
+                        lastSpecialAtkTime = System.currentTimeMillis();
+                    }
+                    break;
+                case MAGE:
+                    if(currentMana >= 40 && currentHp < maxHp && !specialActive) {
+                        specialActive = true;
+                        currentHp += Math.min(20, maxHp - currentHp);
+                        currentMana -= 40;
+                        lastSpecialAtkTime = System.currentTimeMillis();
+                    }
+                    break;
+                case ARCHER:
+                    if(currentMana >= 60 && !specialActive) {
+                        specialActive = true;
+                        bonusDefence += 20;
+                        currentMana -= 60;
+                        lastSpecialAtkTime = System.currentTimeMillis();
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void regenMana(float deltaTime) {
+        if(manaCounter < 1) manaCounter += deltaTime * 0.6f;
+
+        if(currentMana < maxMana && manaCounter>=1){
+            currentMana+=1;
+            manaCounter=0;
         }
     }
 
@@ -264,5 +316,21 @@ public class Character extends Entity {
 
     public int getMaxMana(){
         return maxMana;
+    }
+
+    public int getBonusAttackSpeed() {
+        return bonusAttackSpeed;
+    }
+
+    public int getBonusMoveSpeed() {
+        return bonusMoveSpeed;
+    }
+
+    public int getBonusAttackDamage() {
+        return bonusAttackDamage;
+    }
+
+    public int getBonusDefence() {
+        return bonusDefence;
     }
 }
