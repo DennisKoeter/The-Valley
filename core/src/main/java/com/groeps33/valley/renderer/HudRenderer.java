@@ -55,6 +55,17 @@ public class HudRenderer {
             spriteBatch.draw(HP_BAR_TEXTURE, hpBarX, hpBarY, healthWidth * localPlayer.getCurrentHp(), HP_BAR_HEIGHT);
             font.draw(spriteBatch, "HP: ", hpBarX - 30, hpBarY + 15);
             font.draw(spriteBatch, localPlayer.getCurrentHp() + "/" + localPlayer.getMaxHp(), hpBarX + 50, hpBarY + 15);
+
+            //mana bar
+            int mpBarX = hpBarX;
+            int mpBarY = hpBarY - HP_BAR_HEIGHT - 20;
+            float healthWidth = (float) HP_BAR_WIDTH / (float) localPlayer.getMaxHp();
+            spriteBatch.draw(HP_BAR_BACKGROUND_TEXTURE, mpBarX, mpBarY, HP_BAR_WIDTH, HP_BAR_HEIGHT);
+            spriteBatch.draw(HP_BAR_TEXTURE, mpBarX, mpBarY, healthWidth * localPlayer.getCurrentHp(), HP_BAR_HEIGHT);
+            font.draw(spriteBatch, "HP: ", mpBarX - 30, mpBarY + 15);
+            font.draw(spriteBatch, localPlayer.getCurrentHp() + "/" + localPlayer.getMaxHp(), mpBarX + 50, mpBarY + 15);
+
+
             //player name
             String loc = "(" + (int) localPlayer.getLocation().x + ", " + (int) localPlayer.getLocation().y + ")";
             font.draw(spriteBatch, "Player: " + localPlayer.getName() + "  " + loc, 10, Gdx.graphics.getHeight() - 10);
