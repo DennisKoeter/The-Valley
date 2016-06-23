@@ -144,7 +144,16 @@ public class Character extends Entity {
 
         if(specialActive && (lastSpecialAtkTime >= 2000)){
             specialActive = false;
-            this.moveSpeed -= 200;
+            switch(playerClass){
+                case WARRIOR:
+                    this.moveSpeed -= 200;
+                    break;
+                case MAGE:
+                    break;
+                case ARCHER:
+                    this.defence -= 5;
+                    break;
+            }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && System.currentTimeMillis() - lastSpecialAtkTime > 500){
             switch(playerClass){
@@ -157,9 +166,18 @@ public class Character extends Entity {
                     }
                     break;
                 case MAGE:
-                    if(this.currentMana >= 40) {
+                    if(this.currentMana >= 40 && !specialActive) {
+                        specialActive = true;
                         this.currentHp += 20;
                         this.currentMana -= 40;
+                        lastSpecialAtkTime = System.currentTimeMillis();
+                    }
+                    break;
+                case ARCHER:
+                    if(this.currentMana >= 60 && !specialActive) {
+                        specialActive = true;
+                        this.defence += 5;
+                        this.currentMana -= 60;
                         lastSpecialAtkTime = System.currentTimeMillis();
                     }
                     break;
