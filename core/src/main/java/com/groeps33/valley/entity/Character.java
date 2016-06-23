@@ -20,6 +20,7 @@ import java.util.List;
 public class Character extends Entity {
     private final PlayerClass playerClass;
     private long lastAtkTime;
+    private long lastSpecialAtkTime;
 
     public Direction getDirection() {
         return direction;
@@ -51,6 +52,11 @@ public class Character extends Entity {
     private int bonusDefence;
     private int bonusAttackDamage;
     private int gold;
+    private int currentMana;
+    private int maxMana;
+    private boolean specialActive;
+
+    private float manaCounter;
 
     private Animation animation;
     private Texture spriteSheet;
@@ -66,6 +72,8 @@ public class Character extends Entity {
     public Character(float x, float y, String name, PlayerClass playerClass) {
         super(x, y, name, 100, playerClass.getDefence(), playerClass.getAttackDmg(), playerClass.getMoveSpeed(), playerClass.getAttackInterval());
         this.playerClass = playerClass;
+        this.maxMana = 100;
+        this.currentMana = this.maxMana;
         direction = Direction.SOUTH;
         projectiles = new ArrayList<>();
     }
@@ -126,6 +134,38 @@ public class Character extends Entity {
 
     @Override
     public void update(float deltaTime) {
+
+        if(manaCounter < 1) manaCounter += deltaTime * 0.2f;
+
+        if(currentMana < maxMana && manaCounter>=1){
+            currentMana+=1;
+            manaCounter=0;
+        }
+
+        if(specialActive && (lastSpecialAtkTime >= 2000)){
+            specialActive = false;
+            this.moveSpeed -= 200;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && System.currentTimeMillis() - lastSpecialAtkTime > 500){
+            switch(playerClass){
+                case WARRIOR:
+                    if(this.currentMana >= 30 && !specialActive){
+                        specialActive = true;
+                        this.moveSpeed += 200;
+                        this.currentMana += 30;
+                        lastSpecialAtkTime = System.currentTimeMillis();
+                    }
+                    break;
+                case MAGE:
+                    if(this.currentMana >= 40) {
+                        this.currentHp += 20;
+                        this.currentMana -= 40;
+                        lastSpecialAtkTime = System.currentTimeMillis();
+                    }
+                    break;
+            }
+        }
+
         if (frames == null) {
             init();
         }
@@ -218,5 +258,11 @@ public class Character extends Entity {
         return animation = new Animation(0.10f, frames[0]);
     }
 
+    public int getCurrentMana(){
+        return currentMana;
+    }
 
+    public int getMaxMana(){
+        return maxMana;
+    }
 }
