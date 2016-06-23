@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Edwin
@@ -22,14 +22,19 @@ public class MonsterTest {
     private int ms = 5;
     private Monster monster;
 
-    private int width = 5;
-    private int height = 5;
+    private int width = 32;
+    private int height = 32;
 
     private int id = 1;
 
     @After
     public void tearDown() throws Exception {
 
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        monster = new Monster(id, locX, locY, name, maxHp, defence, ad, ms);
     }
 
     @Test
@@ -70,13 +75,6 @@ public class MonsterTest {
     @Test
     public void getId() throws Exception {
 
-    }
-
-
-
-    @Before
-    public void setUp() throws Exception {
-        monster = new Monster(id, locX, locY, name, maxHp, defence, ad, ms);
     }
 
     @Test

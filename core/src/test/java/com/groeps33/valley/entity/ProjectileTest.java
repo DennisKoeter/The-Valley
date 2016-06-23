@@ -99,7 +99,7 @@ public class ProjectileTest {
     @Test
     public void getVelocity() throws Exception {
         Vector2 actual = projectile.getVelocity();
-        assertEquals(location, actual);
+        assertEquals(velocity, actual);
     }
 
     @Test
