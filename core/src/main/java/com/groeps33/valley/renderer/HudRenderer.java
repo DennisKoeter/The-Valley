@@ -72,14 +72,14 @@ public class HudRenderer {
 
             //statsdwa
             int padding = 10;
-            int width = 135, height = 65;
+            int width = 135, height = 85;
             int xStats = Gdx.graphics.getWidth()- width - padding;
             int yStats = Gdx.graphics.getHeight() - height - padding;
             spriteBatch.draw(HUD_BACKGROUND_TEXTURE, xStats, yStats, width, height);
             font.draw(spriteBatch, "Dmg: " + localPlayer.getAttackDamage() + " (+" + localPlayer.getBonusAttackDamage() + ")", xStats+5, yStats + height -5);
             font.draw(spriteBatch, "Spd: " + (int)localPlayer.getMoveSpeed() + " (+" + localPlayer.getBonusMoveSpeed() + ")", xStats+5, yStats + height -25);
             font.draw(spriteBatch, "Def: " + localPlayer.getDefence() + " (+" + localPlayer.getBonusDefence() + ")", xStats+5, yStats + height -45);
-            font.draw(spriteBatch, "Rng: " + localPlayer.getAttackRange(), xStats+5, yStats + height -45);
+            font.draw(spriteBatch, "Rng: " + localPlayer.getAttackRange(), xStats+5, yStats + height -65);
 
         }
 
