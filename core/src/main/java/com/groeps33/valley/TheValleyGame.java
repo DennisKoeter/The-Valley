@@ -50,6 +50,7 @@ public class TheValleyGame extends Game {
                 gameServer = new GameServer();
             }
             gameClient = new GameClient(gameScreen, host);
+            System.out.println(host);
         } catch (IOException e) {
             e.printStackTrace();
         }
