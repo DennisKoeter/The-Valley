@@ -146,12 +146,12 @@ public class Character extends Entity {
             specialActive = false;
             switch(playerClass){
                 case WARRIOR:
-                    this.moveSpeed -= 200;
+                    this.bonusMoveSpeed -= 200;
                     break;
                 case MAGE:
                     break;
                 case ARCHER:
-                    this.defence -= 5;
+                    this.bonusDefence -= 20;
                     break;
             }
         }
@@ -160,7 +160,7 @@ public class Character extends Entity {
                 case WARRIOR:
                     if(this.currentMana >= 30 && !specialActive){
                         specialActive = true;
-                        this.moveSpeed += 200;
+                        this.bonusMoveSpeed += 200;
                         this.currentMana += 30;
                         lastSpecialAtkTime = System.currentTimeMillis();
                     }
@@ -176,7 +176,7 @@ public class Character extends Entity {
                 case ARCHER:
                     if(this.currentMana >= 60 && !specialActive) {
                         specialActive = true;
-                        this.defence += 5;
+                        this.bonusDefence += 20;
                         this.currentMana -= 60;
                         lastSpecialAtkTime = System.currentTimeMillis();
                     }
