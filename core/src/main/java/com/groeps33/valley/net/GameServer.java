@@ -167,10 +167,11 @@ public class GameServer implements PacketListener {
                     ClientConnection movedClient = getClientForPlayerName(movePacket.getUsername());
                     if (movedClient == null) {
                         System.out.println("No client found for: " + movePacket.getUsername());
+                    } else {
+                        Character player = movedClient.getCharacter();
+                        player.setLocation(movePacket.getX(), movePacket.getY());
+                        broadcastPacket(packet, movedClient);
                     }
-                    Character player = movedClient.getCharacter();
-                    player.setLocation(movePacket.getX(), movePacket.getY());
-                    broadcastPacket(packet, movedClient);
                     break;
                 case DISCONNECT:
                     DisconnectPacket disconnectPacket = (DisconnectPacket) packet;
