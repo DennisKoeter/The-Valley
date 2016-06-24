@@ -3,7 +3,6 @@ package com.groeps33.valley.net;
 import com.groeps33.valley.Constants;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.entity.Monster;
-import com.groeps33.valley.items.HealthPotion;
 import com.groeps33.valley.items.ItemSpawn;
 import com.groeps33.valley.net.packet.*;
 
@@ -48,7 +47,7 @@ public class GameServer implements PacketListener {
          * Initialize all items that will spawn on the map
          */
         // create a hp pot with 60 second cooldown
-        healthPotion = new HealthPotion(Constants.HEALTH_POT_LOCATION_X, Constants.HEALTH_POT_LOCATION_Y, Constants.HEALTH_POT_COOLDOWN, 0, Constants.HEALTH_POT_AMOUNT_OF_HEAL);
+//        healthPotion = new HealthPotion(Constants.HEALTH_POT_LOCATION_X, Constants.HEALTH_POT_LOCATION_Y, Constants.HEALTH_POT_COOLDOWN, 0, Constants.HEALTH_POT_AMOUNT_OF_HEAL);
         itemSpawnList.add(healthPotion);
 
         new Timer().schedule(new TimerTask() {
