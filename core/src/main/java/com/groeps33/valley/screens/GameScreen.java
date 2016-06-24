@@ -14,11 +14,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.Constants;
 import com.groeps33.valley.TheValleyGame;
-import com.groeps33.valley.entity.Entity;
+import com.groeps33.valley.entity.*;
 import com.groeps33.valley.entity.Character;
-import com.groeps33.valley.entity.PlayerClass;
-import com.groeps33.valley.entity.Projectile;
 import com.groeps33.valley.net.GameServer;
 import com.groeps33.valley.renderer.HudRenderer;
 import com.groeps33.valley.renderer.Message;
@@ -49,6 +48,7 @@ public class GameScreen extends TheValleyScreen {
     private Map<String, Character> characters;
     private GameServer gameServer;
     private HudRenderer hudRenderer;
+    private Map<Integer, Monster> monsters = new ConcurrentHashMap<>();
 
     //lijst van health items ->
 
@@ -96,7 +96,7 @@ public class GameScreen extends TheValleyScreen {
 
         boolean hasProjectiles = !localPlayer.getProjectiles().isEmpty();
         checkCollisionWithLocalProjectiles();
-
+        checkCollisionWithEnemies();
 
         if (localPlayer.getCurrentHp() <= 0) {
             Random random = new Random();
@@ -110,28 +110,45 @@ public class GameScreen extends TheValleyScreen {
         }
     }
 
+    private void checkCollisionWithEnemies() {
+        for (Monster monster : monsters.values()) {
+            if (monster.canAttack() && Intersector.overlaps(monster.getBounds(), localPlayer.getBounds())) {
+                game.getGameClient().updateHitByMonster(localPlayer, monster);
+                monster.attacked();
+            }
+        }
+    }
+
     private void checkCollisionWithLocalProjectiles() {
         Iterator<Projectile> it = localPlayer.getProjectiles().iterator();
+
+        projectileLoop:
         while (it.hasNext()) {
             Projectile projectile = it.next();
             int pSize = playerClass.getProjectileSize() / 2;
             Rectangle bounds = new Rectangle(projectile.getLocation().x - pSize / 2, projectile.getLocation().y - pSize / 2, 10, 10);
-            boolean removed = false;
             for (Character character : characters.values()) {
                 if (character != localPlayer && Intersector.overlaps(character.getBounds(), bounds)) {
                     game.getGameClient().updatePlayerHit(localPlayer, character, projectile);
                     it.remove();
-                    removed = true;
+                    continue projectileLoop;
                 }
             }
 
-            if (!removed) {
+                for (Monster monster : monsters.values()) {
+                    if (Intersector.overlaps(monster.getBounds(), bounds)) {
+                        game.getGameClient().updateMonsterHit(localPlayer, monster, projectile);
+                        it.remove();
+                        continue projectileLoop;
+                    }
+                }
+
                 for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
                     Rectangle rectangle = rectangleObject.getRectangle();
                     if (Intersector.overlaps(rectangle, bounds)) {
                         it.remove();
+                        continue projectileLoop;
                     }
-                }
             }
         }
     }
@@ -256,9 +273,14 @@ public class GameScreen extends TheValleyScreen {
     }
 
 
-    public void registerHit(String hitByPlayer, String target, int damage) {
+    public void registerPlayerHit(String hitBy, String target, int damage, boolean byMonster) {
         if (target.equals(game.getUserAccount().getUsername())) {
-            hudRenderer.addMessage(new Message("Friendly fire by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
+            if (!byMonster) {
+                hudRenderer.addMessage(new Message("Friendly fire by " + hitBy, Message.Type.FRIENDLY_FIRE));
+            } else {
+                hudRenderer.addMessage(new Message("You got hit by a monster!", Message.Type.HIT_BY_MONSTER));
+            }
+
             localPlayer.damage(damage);
         } else {
             Character character = characters.get(target);
@@ -267,11 +289,33 @@ public class GameScreen extends TheValleyScreen {
             }
 
             character.damage(damage);
-
         }
     }
 
     public void registerNewWave(int number) {
+        System.out.println("NEw wave");
+    }
 
+    public void updateMonsters(int[] ids, float[] xLocs, float[] yLocs) {
+        for (int i = 0; i < ids.length; i++) {
+            Monster monster = monsters.get(ids[i]);
+            if (monster == null) {
+                monster = new Monster(ids[i],xLocs[i],yLocs[i], "Monster", Constants.MONSTER_MAXHP, Constants.MONSTER_DEFENCE, Constants.MONSTER_ATTACK_DAMAGE, Constants.MONSTER_MOVESPEED);
+                monsters.put(ids[i], monster);
+                tiledMapRenderer.addEntity(monster);
+                System.out.println("add monster");
+            }
+
+            monster.setLocation(xLocs[i], yLocs[i]);
+        }
+    }
+
+    public void registerMonsterHit(String sender, int monsterId, int damage) {
+        Monster monster = monsters.get(monsterId);
+        if (monster == null) {
+            throw new IllegalStateException("Monster not found: " + monsterId);
+        }
+
+        monster.damage(damage);
     }
 }

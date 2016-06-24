@@ -22,11 +22,11 @@ public class HitPacket extends Packet {
     }
 
     public HitPacket(byte[] data) throws IOException {
-        super(PacketType.PLAYER_HIT, data);
+        super(PacketType.REGISTER_HIT, data);
     }
 
     public HitPacket(String sender, String targetName, int damage, HitType hitType) {
-        super(PacketType.PLAYER_HIT);
+        super(PacketType.REGISTER_HIT);
         this.sender = sender;
         this.targetId = targetName;
         this.damage = damage;

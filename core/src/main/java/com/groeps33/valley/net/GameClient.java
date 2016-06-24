@@ -1,7 +1,9 @@
 package com.groeps33.valley.net;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.groeps33.valley.Constants;
 import com.groeps33.valley.entity.Character;
+import com.groeps33.valley.entity.Monster;
 import com.groeps33.valley.entity.Projectile;
 import com.groeps33.valley.net.packet.*;
 import com.groeps33.valley.screens.GameScreen;
@@ -81,9 +83,18 @@ public class GameClient implements PacketListener {
                 ProjectilesPacket projectilesPacket = (ProjectilesPacket) packet;
                 game.setProjectiles(projectilesPacket.getUsername(), projectilesPacket.getProjectileX(), projectilesPacket.getProjectileY());
                 break;
-            case PLAYER_HIT:
+            case REGISTER_HIT:
                 HitPacket hitPacket = (HitPacket) packet;
-                game.registerHit(hitPacket.getSender(), hitPacket.getTargetId(), hitPacket.getDamage());
+                switch (hitPacket.getHitType()) {
+                    case PLAYER_HIT_PLAYER:
+                        game.registerPlayerHit(hitPacket.getSender(), hitPacket.getTargetId(), hitPacket.getDamage(), false);
+                    break;
+                    case PLAYER_HIT_MONSTER:
+                        game.registerMonsterHit(hitPacket.getSender(), Integer.parseInt(hitPacket.getTargetId()), hitPacket.getDamage());
+                    break;
+                    case MONSTER_HIT_PLAYER:
+                        game.registerPlayerHit(hitPacket.getSender(), hitPacket.getTargetId(), hitPacket.getDamage(), true);
+                }
                 break;
             case REQUEST_UPDATE:
                 update(game.getLocalPlayer());
@@ -91,6 +102,10 @@ public class GameClient implements PacketListener {
             case NEW_WAVE:
                 game.registerNewWave(((NewWave) packet).getNumber());
                 //case ITEM_SPAWN -> game.onItemSpawn();
+                break;
+            case MONSTERS_UPDATE:
+                MonstersUpdatePacket monstersUpdatePacket = (MonstersUpdatePacket) packet;
+                game.updateMonsters(monstersUpdatePacket.getIds(), monstersUpdatePacket.getXLocs(), monstersUpdatePacket.getYLocs());
         }
     }
 
@@ -146,4 +161,19 @@ public class GameClient implements PacketListener {
 
     }
 
+    public void updateMonsterHit(Character localPlayer, Monster monster, Projectile projectile) {
+        try {
+            sendPacket(new HitPacket(localPlayer.getName(), String.valueOf(monster.getId()), projectile.getDamage(), HitPacket.HitType.PLAYER_HIT_MONSTER));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateHitByMonster(Character localPlayer, Monster monster) {
+        try {
+            sendPacket(new HitPacket(String.valueOf(monster.getId()), localPlayer.getName(), monster.getDamage(), HitPacket.HitType.MONSTER_HIT_PLAYER));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -23,6 +23,9 @@ public class Monster extends Entity {
     private int width, height;
     private IntArray path;
     private String target;
+    private long lastTargetCheck;
+    private int damage;
+    private long lastAtkTime;
 
     public Monster(int id, float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed) {
         super(x, y, name, maxHp, defence, attackDamage, moveSpeed, 2);
@@ -98,6 +101,7 @@ public class Monster extends Entity {
 
     public void setTarget(String target) {
         this.target = target;
+        lastTargetCheck = System.currentTimeMillis();
     }
 
     public String getTarget() {
@@ -106,5 +110,21 @@ public class Monster extends Entity {
 
     public int getId() {
         return id;
+    }
+
+    public long getLastTargetCheck() {
+        return lastTargetCheck;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public boolean canAttack() {
+        return System.currentTimeMillis() - lastAtkTime > 1000;
+    }
+
+    public void attacked() {
+        lastAtkTime = System.currentTimeMillis();
     }
 }
