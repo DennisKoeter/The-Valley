@@ -3,7 +3,14 @@ package com.groeps33.valley.items;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
+import com.groeps33.valley.entity.Projectile;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
+import java.util.Random;
 
 /**
  * @author Edwin
@@ -17,22 +24,84 @@ public abstract class ItemSpawn {
     private int cooldown;
     private Animation animation;
     private TextureRegion currentFrame;
+    private TextureRegion[][] blueframes;
+    private TextureRegion[][] redframes;
+    private TextureRegion[][] greenframes;
+    private TextureRegion[][] orangeframes;
+    private TextureRegion[][] pinkframes;
+    private TextureRegion[][] purpleframes;
     private TextureRegion[][] frames;
     private float frameTime;
+    private Texture emptySpawn;
+    private int type;
 
-    public ItemSpawn(Texture spriteSheet, int cooldown, float y, float x) {
-        this.cooldown = cooldown;
+    BitmapFont font;
+
+    public ItemSpawn(float y, float x) {
+        this.cooldown = 0;
         this.y = y;
         this.x = x;
-        this.frames = TextureRegion.split(spriteSheet, spriteSheet.getWidth(), (spriteSheet.getHeight() / 2));
-        animation = new Animation(0.25f,frames[0]);
+
+        blueframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
+        redframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
+        greenframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
+        orangeframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
+        pinkframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
+        purpleframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
+        font = new BitmapFont();
+        this.emptySpawn = new Texture(Gdx.files.internal("pickups/empty.png"));
+
+
         frameTime = 0f;
     }
 
     public void updateFrame() {
-        if (frames != null) {
-            frameTime += Gdx.graphics.getDeltaTime();
-            currentFrame = animation.getKeyFrame(frameTime, true);
+        if (cooldown == 0) {
+            if (frames != null) {
+                frameTime += Gdx.graphics.getDeltaTime();
+                animation = new Animation(0.25f,frames[type]);
+                currentFrame = animation.getKeyFrame(frameTime, true);
+            }
+        } else {
+            currentFrame.setRegion(emptySpawn);
+            cooldown-=Gdx.graphics.getDeltaTime();
+        }
+
+    }
+
+    public void pickUp() {
+        this.cooldown = 60;
+    }
+
+    public void nextPickUp(){
+        type = new Random().nextInt(6);
+        switch(type) {
+            case 0:
+                frames = blueframes;
+                break;
+            case 1:
+                frames = redframes;
+                break;
+            case 2:
+                frames = greenframes;
+                break;
+            case 3:
+                frames = orangeframes;
+                break;
+            case 4:
+                frames = pinkframes;
+                break;
+            case 5:
+                frames = purpleframes;
+                break;
         }
     }
+
+    public void draw(Batch batch) {
+        batch.draw(currentFrame, x, y);
+        font.draw(batch, String.valueOf(type), x, y + 50);
+
+    }
+
+
 }
