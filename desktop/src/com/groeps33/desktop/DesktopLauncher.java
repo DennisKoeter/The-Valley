@@ -24,7 +24,7 @@ class DesktopLauncher {
 //                e.printStackTrace();
 //            }
             boolean isHost = JOptionPane.showConfirmDialog(null, "Do you want to run the server") == 0;
-            new LwjglApplication(new TheValleyGame(new UserAccount("henk" + new Random(System.nanoTime()).nextInt(100), "henk"), "169.254.195.1", isHost), config);
+            new LwjglApplication(new TheValleyGame(new UserAccount("henk" + new Random(System.nanoTime()).nextInt(100), "henk"), "127.0.0.1", isHost), config);
         } else {
             System.out.println(Arrays.toString(arg));
             new LwjglApplication(new TheValleyGame(new UserAccount(arg[1], arg[2]), arg[0], Boolean.valueOf(arg[3])), config);

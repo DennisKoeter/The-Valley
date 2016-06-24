@@ -10,6 +10,7 @@ import com.groeps33.valley.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
     private List<Entity> entities;
@@ -18,7 +19,7 @@ public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
     public TiledMapRendererWithEntities(TiledMap map, int drawEntitiesAfterLayer) {
         super(map);
         this.drawEntitiesAfterLayer = drawEntitiesAfterLayer;
-        entities = new ArrayList<>();
+        entities = new CopyOnWriteArrayList<>();
     }
 
     public void addEntity(Entity entity) {
@@ -35,18 +36,8 @@ public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
                     renderTileLayer((TiledMapTileLayer) layer);
                     currentLayer++;
                     if (currentLayer == drawEntitiesAfterLayer) {
-                        synchronized (entities) {
-                            for (Entity entity : entities) {
-                                entity.draw(this.getBatch());
-                            }
-                        /*
-                        for (Character character : entities) {
-                            //TODO Wanner character hier wordt gedrawed dus tussen de layers komt er geen map.
-                            spriteBash.begin();
-                            spriteBash.draw(character.getCurrentFrame(), character.getLocation().x, character.getLocation().y);
-                            spriteBash.end();
-                        }
-                        */
+                        for (Entity entity : entities) {
+                            entity.draw(this.getBatch());
                         }
 
                     }

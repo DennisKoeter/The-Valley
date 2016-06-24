@@ -16,7 +16,7 @@ public class ItemSpawnPacket extends Packet {
     }
 
     public ItemSpawnPacket() {
-        super(PacketType.PLAYER_HIT);
+        super(PacketType.REGISTER_HIT);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.groeps33.valley.items;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * @author Edwin
  *         <p>
@@ -7,8 +11,11 @@ package com.groeps33.valley.items;
  */
 
 public abstract class ItemSpawn {
-    private float x;
-    private float y;
+    private Vector2 localtion;
     private int cooldown;
-    private String tilesheet;
+
+
+    public void draw(SpriteBatch spriteBatch) {
+
+    }
 }

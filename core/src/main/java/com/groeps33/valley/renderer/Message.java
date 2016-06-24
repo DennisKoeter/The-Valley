@@ -11,7 +11,7 @@ public class Message {
 
 
     public enum Type {
-        SERVER(Color.GREEN), FRIENDLY_FIRE(Color.RED), PLAYER(Color.WHITE);
+        SERVER(Color.GREEN), FRIENDLY_FIRE(Color.BLUE), PLAYER(Color.WHITE), HIT_BY_MONSTER(Color.RED);
 
         private Color color;
 
