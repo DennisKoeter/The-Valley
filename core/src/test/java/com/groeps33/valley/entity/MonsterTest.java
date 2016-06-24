@@ -1,6 +1,7 @@
 package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +50,13 @@ public class MonsterTest {
 
     @Test
     public void getBounds1() throws Exception {
-
+        Vector2 locationTest;
+        locationTest = new Vector2(10,10);
+        int WIDTH = 32;
+        int HEIGHT = 32;
+        monster.setLocation(10,10);
+        Rectangle rectest = new Rectangle(locationTest.x, locationTest.y, WIDTH, HEIGHT);
+        assertEquals("is hetzelfde", monster.getBounds(), rectest );
     }
 
     @Test
@@ -64,17 +71,18 @@ public class MonsterTest {
 
     @Test
     public void setTarget() throws Exception {
-
+    monster.setTarget("harrie");
+        assertEquals("harrie", monster.getTarget());
     }
 
     @Test
     public void getTarget() throws Exception {
-
+assertEquals("harrie", monster.getTarget());
     }
 
     @Test
     public void getId() throws Exception {
-
+    assertEquals(1, monster.getId());
     }
 
     @Test

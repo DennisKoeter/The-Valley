@@ -12,6 +12,24 @@ import static org.junit.Assert.*;
  *         Created on 4/10/2016
  */
 public class ProjectileTest {
+    private Projectile projectile;
+    private int locX = 5;
+    private int locY = 10;
+    private Vector2 location;
+    private int loc2X = 5;
+    private int loc2Y = 10;
+    private Vector2 locationForSet;
+    private int velX = 20;
+    private int velY = 25;
+    private Vector2 velocity;
+    private int vel2X = 20;
+    private int vel2Y = 25;
+    private Vector2 velocityForSet;
+    private int damage = 30;
+    private int damageForSet = 35;
+    private double angle = 20;
+    private int attackRange = 200;
+
     @After
     public void tearDown() throws Exception {
 
@@ -54,26 +72,10 @@ public class ProjectileTest {
 
     @Test
     public void getAttackRange() throws Exception {
-
+    assertEquals(200, projectile.getAttackRange(), 0.001);
     }
 
-    private Projectile projectile;
-    private int locX = 5;
-    private int locY = 10;
-    private Vector2 location;
-    private int loc2X = 5;
-    private int loc2Y = 10;
-    private Vector2 locationForSet;
-    private int velX = 20;
-    private int velY = 25;
-    private Vector2 velocity;
-    private int vel2X = 20;
-    private int vel2Y = 25;
-    private Vector2 velocityForSet;
-    private int damage = 30;
-    private int damageForSet = 35;
-    private double angle = 20;
-    private int attackRange = 200;
+
 
     @Before
     public void setUp() throws Exception {

@@ -1,11 +1,14 @@
 package com.groeps33.valley.entity;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author Edwin
@@ -99,31 +102,39 @@ public class CharacterTest {
 
     @Test
     public void resetHp() throws Exception {
+    int hp = character.getCurrentHp();
+        character.resetHp();
+        assertEquals("hp is at maximum", character.getCurrentHp(), character.maxHp);
 
     }
 
     @Test
     public void getPlayerClass() throws Exception {
+    assertEquals("character is een archer", PLAYERCLASS.ARCHER, character.getPlayerClass());
 
     }
 
     @Test
     public void getGold() throws Exception {
-
+    assertEquals("moet 0 gold hebben met een nieuw character", character.getGold(), 0);
     }
 
     @Test
     public void reduceGold() throws Exception {
-
+        character.reduceGold(10);
+    assertEquals("gold is gereduced", character.getGold(), -10);
     }
 
     @Test
     public void addProjectile() throws Exception {
-
+    character.addProjectile(projectile);
+        assertEquals("projectile added", character.getProjectiles().size(), 1);
     }
 
     @Test
     public void canAttack() throws Exception {
+    character.attackSpeedInterval =  Long.MAX_VALUE;
+        assertFalse("kan niet aanvallen", character.canAttack());
 
     }
 
@@ -144,6 +155,7 @@ public class CharacterTest {
 
     @Test
     public void onCollisionWithObject() throws Exception {
+        MapObject obj = new MapObject();
 
     }
 
@@ -154,12 +166,21 @@ public class CharacterTest {
 
     @Test
     public void getBounds() throws Exception {
+         Vector2 locationTest;
+        locationTest = new Vector2(10,10);
+         int WIDTH = 32;
+         int HEIGHT = 32;
+        character.setLocation(10,10);
+        Rectangle rectest = new Rectangle(locationTest.x, locationTest.y, WIDTH, HEIGHT);
+        assertEquals("is hetzelfde", character.getBounds(), rectest );
 
     }
 
     @Test
     public void getLocation() throws Exception {
-
+        character.setLocation(10,10);
+        Vector2 vec = new Vector2(10,10);
+        assertEquals(vec, character.getLocation());
     }
 
     @Test
