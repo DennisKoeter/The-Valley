@@ -256,9 +256,19 @@ public class GameScreen extends TheValleyScreen {
     }
 
 
-    public void registerHit(String hitByPlayer, int damage) {
-        hudRenderer.addMessage(new Message("Friendly fire by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
-        localPlayer.damage(damage);
+    public void registerHit(String hitByPlayer, String target, int damage) {
+        if (target.equals(game.getUserAccount().getUsername())) {
+            hudRenderer.addMessage(new Message("Friendly fire by " + hitByPlayer, Message.Type.FRIENDLY_FIRE));
+            localPlayer.damage(damage);
+        } else {
+            Character character = characters.get(target);
+            if (character == null) {
+                throw new IllegalStateException("Player not found: " + target);
+            }
+
+            character.damage(damage);
+
+        }
     }
 
     public void registerNewWave(int number) {

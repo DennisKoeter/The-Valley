@@ -13,7 +13,7 @@ public class HealthPotion extends ItemSpawn {
     }
 
     public HealthPotion(int x, int y, int cooldown, long disabledSince, int amountOfHeal) {
-        super(x, y, cooldown, disabledSince);
+//        super(x, y, cooldown, disabledSince);
         this.amountOfHeal = amountOfHeal;
     }
 }

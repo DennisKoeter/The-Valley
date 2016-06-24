@@ -83,7 +83,7 @@ public class GameClient implements PacketListener {
                 break;
             case PLAYER_HIT:
                 HitPacket hitPacket = (HitPacket) packet;
-                game.registerHit(hitPacket.getSender(), hitPacket.getDamage());
+                game.registerHit(hitPacket.getSender(), hitPacket.getTargetId(), hitPacket.getDamage());
                 break;
             case REQUEST_UPDATE:
                 update(game.getLocalPlayer());
