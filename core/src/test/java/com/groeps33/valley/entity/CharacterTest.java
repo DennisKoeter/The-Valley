@@ -132,9 +132,15 @@ public class CharacterTest {
     }
 
     @Test
-    public void canAttack() throws Exception {
+    public void canNotAttack() throws Exception {
     character.attackSpeedInterval =  Long.MAX_VALUE;
         assertFalse("kan niet aanvallen", character.canAttack());
+
+    }
+
+    public void canAttack() throws Exception {
+        character.attackSpeedInterval = 1;
+        assertFalse("kan aanvallen", character.canAttack());
 
     }
 
