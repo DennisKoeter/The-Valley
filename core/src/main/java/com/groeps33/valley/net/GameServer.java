@@ -97,9 +97,9 @@ public class GameServer implements PacketListener {
 
         //for each item
         for (ItemSpawn item : itemSpawnList) {
-            if (!item.isTaken() && item.isReadyToSpawn()) {
-                item.setTaken(false);
-            }
+//            if (!item.isTaken() && item.isReadyToSpawn()) {
+//                item.setTaken(false);
+//            }
         }
     }
 
