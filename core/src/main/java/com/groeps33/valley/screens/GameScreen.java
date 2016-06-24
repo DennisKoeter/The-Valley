@@ -308,6 +308,20 @@ public class GameScreen extends TheValleyScreen {
 
             monster.setLocation(xLocs[i], yLocs[i]);
         }
+
+        for (int id : monsters.keySet()) {
+            boolean contains = false;
+            for (int serverMonsterId : ids) {
+                if (id == serverMonsterId) {
+                    contains = true;
+                }
+            }
+
+            if (!contains) {
+                Monster monster = monsters.remove(id);
+                tiledMapRenderer.removeEntity(monster);
+            }
+        }
     }
 
     public void registerMonsterHit(String sender, int monsterId, int damage) {
