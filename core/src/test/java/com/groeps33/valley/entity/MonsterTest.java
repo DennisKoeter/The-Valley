@@ -1,10 +1,11 @@
 package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.math.Rectangle;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Edwin
@@ -21,10 +22,15 @@ public class MonsterTest {
     private int ms = 5;
     private Monster monster;
 
-    private int width = 5;
-    private int height = 5;
+    private int width = 32;
+    private int height = 32;
 
     private int id = 1;
+
+    @After
+    public void tearDown() throws Exception {
+
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -32,8 +38,48 @@ public class MonsterTest {
     }
 
     @Test
+    public void update() throws Exception {
+
+    }
+
+    @Test
+    public void draw() throws Exception {
+
+    }
+
+    @Test
+    public void getBounds1() throws Exception {
+
+    }
+
+    @Test
+    public void setPath() throws Exception {
+
+    }
+
+    @Test
+    public void getPath() throws Exception {
+
+    }
+
+    @Test
+    public void setTarget() throws Exception {
+
+    }
+
+    @Test
+    public void getTarget() throws Exception {
+
+    }
+
+    @Test
+    public void getId() throws Exception {
+
+    }
+
+    @Test
     public void getBounds() throws Exception {
-        Rectangle actual =  monster.getBounds();
+        Rectangle actual = monster.getBounds();
         Rectangle expected = new Rectangle(locX, locY, width, height);
 
         assertEquals(actual, expected);

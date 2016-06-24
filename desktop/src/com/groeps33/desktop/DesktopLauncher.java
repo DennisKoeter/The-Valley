@@ -6,10 +6,6 @@ import com.groeps33.valley.TheValleyGame;
 import com.groeps33.valley.net.UserAccount;
 
 import javax.swing.*;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -23,7 +19,7 @@ class DesktopLauncher {
 //            try {
 //                Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, Constants.PORT_NUMBER);
 //                IGameAdministration gameAdministration = (IGameAdministration) registry.lookup(Constants.GAME_ADMIN_NAME);
-//                new LwjglApplication(new TheValleyGame(new UserAccount("henk", "henk"), gameAdministration.registerGame().getHost()), config);
+//                new LwjglApplication(new TheValleyGame(new UserAccount(   "henk", "henk"), gameAdministration.registerGame().getHost()), config);
 //            } catch (RemoteException | NotBoundException e) {
 //                e.printStackTrace();
 //            }

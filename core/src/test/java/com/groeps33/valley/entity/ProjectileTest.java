@@ -1,6 +1,7 @@
 package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.math.Vector2;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,6 +12,50 @@ import static org.junit.Assert.*;
  *         Created on 4/10/2016
  */
 public class ProjectileTest {
+    @After
+    public void tearDown() throws Exception {
+
+    }
+
+    @Test
+    public void getLocation1() throws Exception {
+
+    }
+
+    @Test
+    public void setLocation1() throws Exception {
+
+    }
+
+    @Test
+    public void getVelocity1() throws Exception {
+
+    }
+
+    @Test
+    public void setVelocity1() throws Exception {
+
+    }
+
+    @Test
+    public void getDamage1() throws Exception {
+
+    }
+
+    @Test
+    public void setDamage1() throws Exception {
+
+    }
+
+    @Test
+    public void getStartLocation() throws Exception {
+
+    }
+
+    @Test
+    public void getAttackRange() throws Exception {
+
+    }
 
     private Projectile projectile;
     private int locX = 5;
@@ -54,12 +99,12 @@ public class ProjectileTest {
     @Test
     public void getVelocity() throws Exception {
         Vector2 actual = projectile.getVelocity();
-        assertEquals(location, actual);
+        assertEquals(velocity, actual);
     }
 
     @Test
     public void setVelocity() throws Exception {
-        velocityForSet= new Vector2(vel2X, vel2Y);
+        velocityForSet = new Vector2(vel2X, vel2Y);
         projectile.setVelocity(velocityForSet);
 
         assertEquals(velocityForSet, projectile.getVelocity());
