@@ -9,9 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
-import com.groeps33.valley.entity.Projectile;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.util.Random;
 
