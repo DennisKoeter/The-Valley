@@ -35,8 +35,10 @@ public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
                     renderTileLayer((TiledMapTileLayer) layer);
                     currentLayer++;
                     if (currentLayer == drawEntitiesAfterLayer) {
-                        for (Entity entity : entities)
-                            entity.draw(this.getBatch());
+                        synchronized (entities) {
+                            for (Entity entity : entities) {
+                                entity.draw(this.getBatch());
+                            }
                         /*
                         for (Character character : entities) {
                             //TODO Wanner character hier wordt gedrawed dus tussen de layers komt er geen map.
@@ -45,6 +47,7 @@ public class TiledMapRendererWithEntities extends OrthogonalTiledMapRenderer {
                             spriteBash.end();
                         }
                         */
+                        }
 
                     }
                 } else {

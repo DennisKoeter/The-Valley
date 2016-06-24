@@ -9,13 +9,13 @@ import java.io.IOException;
  *
  * @author Bram Hoendervangers
  */
-public class ItemSpawn extends Packet {
-
-    public ItemSpawn(byte[] data) throws IOException {
+public class ItemSpawnPacket extends Packet {
+    
+    public ItemSpawnPacket(byte[] data) throws IOException {
         super(PacketType.ITEM_SPAWN, data);
     }
 
-    public ItemSpawn() {
+    public ItemSpawnPacket() {
         super(PacketType.PLAYER_HIT);
     }
 

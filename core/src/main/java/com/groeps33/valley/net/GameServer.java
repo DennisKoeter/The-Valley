@@ -97,12 +97,8 @@ public class GameServer implements PacketListener {
 
         //for each item
         for (ItemSpawn item : itemSpawnList) {
-            if (item.isReadyToSpawn()) {
-                // todo: no clue what I'm doing. fill in the item.spawn() method
-                item.spawn();
-                // todo: broadcast a packet to let all clients know there's been spawned an item
-//                broadcastPacket(new ItemSpawn);
-//                broadcastPacket(new ItemSpawn(10, 01, 010), null);
+            if (!item.isTaken() && item.isReadyToSpawn()) {
+                item.setTaken(false);
             }
         }
     }

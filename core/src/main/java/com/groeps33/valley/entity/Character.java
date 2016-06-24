@@ -119,10 +119,12 @@ public class Character extends Entity {
     }
 
     private void setDirection(Direction direction) {
-        if (this.direction != direction) {
-            this.direction = direction;
-            frameTime = 0f;
-            animation = new Animation(0.10f, frames[direction.ordinal()]);
+        if (frames!=null) {
+            if (this.direction != direction) {
+                this.direction = direction;
+                frameTime = 0f;
+                animation = new Animation(0.10f, frames[direction.ordinal()]);
+            }
         }
     }
 
