@@ -52,8 +52,8 @@ public class ValleyFX extends Application {
     }
 
     private static void lookupServer() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, com.groeps33.server.application.Constants.PORT_NUMBER);
-        lobbyAdministration = (ILobbyAdministration) registry.lookup(com.groeps33.server.application.Constants.LOBBY_ADMIN_NAME);
+        Registry registry = LocateRegistry.getRegistry(Constants.RMI_IP, com.groeps33.server.application.Constants.getInstance() .PORT_NUMBER);
+        lobbyAdministration = (ILobbyAdministration) registry.lookup(com.groeps33.server.application.Constants.getInstance(). LOBBY_ADMIN_NAME);
     }
 
     @Override
