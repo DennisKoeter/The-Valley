@@ -1,9 +1,12 @@
 package com.groeps33.valley.entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.Constants;
 
 /**
  * Created by Bram on 6-4-2016.
@@ -19,6 +22,7 @@ public abstract class Entity {
     protected float moveSpeed;
     protected Vector2 location;
     protected Vector2 velocity;
+    protected Sound hitSound;
 
     Entity(float x, float y, String name, int maxHp, int defence, int attackDamage, int moveSpeed, int attackSpeed) {
         this.name = name;
@@ -27,14 +31,16 @@ public abstract class Entity {
         this.attackDamage = attackDamage;
         this.attackSpeedInterval = attackSpeed;
         this.moveSpeed = moveSpeed;
-        location = new Vector2(x,y);
+        location = new Vector2(x, y);
         velocity = new Vector2();
+
+        hitSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_ON_HIT));
 
         currentHp = maxHp;
     }
 
     public Entity(float x, float y, String name) {
-        this(x, y, name, 100, -1,3, 200, 5);
+        this(x, y, name, 100, -1, 3, 200, 5);
     }
 
     public abstract void update(float deltaTime);
@@ -88,7 +94,9 @@ public abstract class Entity {
     }
 
     public void damage(int damage) {
-        currentHp-= Math.max(damage - defence, 3);
+        hitSound.play();
+
+        currentHp -= Math.max(damage - defence, 3);
         if (currentHp < 0) {
             currentHp = 0;
         }

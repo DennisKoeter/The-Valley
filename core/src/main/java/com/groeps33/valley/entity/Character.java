@@ -2,6 +2,7 @@ package com.groeps33.valley.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.groeps33.valley.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,10 @@ public class Character extends Entity {
     private final PlayerClass playerClass;
     private long lastAtkTime;
     private long lastSpecialAtkTime;
+    private Sound deathSound;
+    private Sound respawnSound;
+    private Sound shootSound;
+    private Sound specialSound;
 
     public Direction getDirection() {
         return direction;
@@ -62,6 +68,18 @@ public class Character extends Entity {
         return moveSpeed + bonusMoveSpeed;
     }
 
+    public void resetMana() {
+        currentMana = maxMana;
+    }
+
+    public void playRespawnSound() {
+        respawnSound.play();
+    }
+
+    public void playShootSound() {
+        shootSound.play();
+    }
+
     public enum Direction {SOUTH, WEST, EAST, NORTH}
 
     private static final int WIDTH = 32;
@@ -95,6 +113,24 @@ public class Character extends Entity {
         this.maxMana = 100;
         this.currentMana = this.maxMana;
         direction = Direction.SOUTH;
+        deathSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_ON_CHARACTER_DEATH));
+        respawnSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_ON_CHARACTER_RESPAWN));
+
+        switch (playerClass) {
+            case ARCHER:
+                shootSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_SHOOT_ARCHER));
+                specialSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_SPECIAL_ARCHER));
+                break;
+            case MAGE:
+                shootSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_SHOOT_MAGE));
+                specialSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_SPECIAL_MAGE));
+                break;
+            case WARRIOR:
+                shootSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_SHOOT_WARRIOR));
+                specialSound = Gdx.audio.newSound(Gdx.files.internal(Constants.SOUND_SPECIAL_WARRIOR));
+                break;
+        }
+
         projectiles = new ArrayList<>();
     }
 
@@ -119,7 +155,7 @@ public class Character extends Entity {
     }
 
     private void setDirection(Direction direction) {
-        if (frames!=null) {
+        if (frames != null) {
             if (this.direction != direction) {
                 this.direction = direction;
                 frameTime = 0f;
@@ -140,10 +176,16 @@ public class Character extends Entity {
 
     @Override
     public void damage(int damage) {
-        currentHp-= Math.max(damage - defence - bonusDefence, 3);
+        hitSound.play();
+
+        currentHp -= Math.max(damage - defence - bonusDefence, 3);
         if (currentHp < 0) {
             currentHp = 0;
         }
+    }
+
+    public void playDeathSound() {
+        deathSound.play();
     }
 
     private void init() {
@@ -212,10 +254,11 @@ public class Character extends Entity {
     }
 
     private void specialAttk(float deltaTime) {
-        if(specialActive && (System.currentTimeMillis() - lastSpecialAtkTime >= 2000)){
+        if (specialActive && (System.currentTimeMillis() - lastSpecialAtkTime >= 2000)) {
             specialActive = false;
-            switch(playerClass){
+            switch (playerClass) {
                 case WARRIOR:
+
                     this.bonusMoveSpeed -= 200;
                     break;
                 case MAGE:
@@ -225,10 +268,11 @@ public class Character extends Entity {
                     break;
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            switch(playerClass){
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            specialSound.play();
+            switch (playerClass) {
                 case WARRIOR:
-                    if(currentMana >= 30 && !specialActive){
+                    if (currentMana >= 30 && !specialActive) {
                         specialActive = true;
                         bonusMoveSpeed += 200;
                         currentMana -= 30;
@@ -236,7 +280,7 @@ public class Character extends Entity {
                     }
                     break;
                 case MAGE:
-                    if(currentMana >= 40 && currentHp < maxHp && !specialActive) {
+                    if (currentMana >= 40 && currentHp < maxHp && !specialActive) {
                         specialActive = true;
                         currentHp += Math.min(20, maxHp - currentHp);
                         currentMana -= 40;
@@ -244,7 +288,7 @@ public class Character extends Entity {
                     }
                     break;
                 case ARCHER:
-                    if(currentMana >= 60 && !specialActive) {
+                    if (currentMana >= 60 && !specialActive) {
                         specialActive = true;
                         bonusDefence += 20;
                         currentMana -= 60;
@@ -256,11 +300,11 @@ public class Character extends Entity {
     }
 
     private void regenMana(float deltaTime) {
-        if(manaCounter < 1) manaCounter += deltaTime * 0.6f;
+        if (manaCounter < 1) manaCounter += deltaTime * 0.6f;
 
-        if(currentMana < maxMana && manaCounter>=1){
-            currentMana+=1;
-            manaCounter=0;
+        if (currentMana < maxMana && manaCounter >= 1) {
+            currentMana += 1;
+            manaCounter = 0;
         }
     }
 
@@ -293,7 +337,7 @@ public class Character extends Entity {
         synchronized (projectiles) {
             for (Projectile projectile : projectiles) {
                 //todo rotate projectiles
-                batch.draw(projectileTexture, projectile.getLocation().x - playerClass.getProjectileSize()/2, projectile.getLocation().y - playerClass.getProjectileSize()/2 ,
+                batch.draw(projectileTexture, projectile.getLocation().x - playerClass.getProjectileSize() / 2, projectile.getLocation().y - playerClass.getProjectileSize() / 2,
                         playerClass.getProjectileSize(), playerClass.getProjectileSize(), 0, 0, projectileTexture.getWidth(), projectileTexture.getHeight(), false, false);
             }
         }
@@ -312,11 +356,11 @@ public class Character extends Entity {
         return animation = new Animation(0.10f, frames[0]);
     }
 
-    public int getCurrentMana(){
+    public int getCurrentMana() {
         return currentMana;
     }
 
-    public int getMaxMana(){
+    public int getMaxMana() {
         return maxMana;
     }
 
