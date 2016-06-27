@@ -29,12 +29,16 @@ public class HudRenderer {
 
     private final GameScreen gameScreen;
     private final BitmapFont font = new BitmapFont();
+    private final BitmapFont waveFont = new BitmapFont();
     private final SpriteBatch spriteBatch;
     private final List<Message> messages = new ArrayList<>();
+    private int wave;
+    private long newWaveStartTime;
 
     public HudRenderer(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         this.spriteBatch = new SpriteBatch();
+        waveFont.getData().scale(2f);
     }
 
     //float ratio = width/health;
@@ -101,7 +105,10 @@ public class HudRenderer {
         }
 
         font.setColor(Color.WHITE);
+        int xWave = Gdx.graphics.getWidth()- 200;
+        int yWave = 50;
 
+        waveFont.draw(spriteBatch, "Wave: " + wave, xWave, yWave);
         //loc
 //        font.draw(spriteBatch, ", 10, Gdx.graphics.getHeight() - 10);
         spriteBatch.end();
@@ -117,5 +124,12 @@ public class HudRenderer {
 
     public void addMessage(Message message) {
         messages.add(message);
+    }
+
+    public void setWave(int number) {
+        if (this.wave != number) {
+            newWaveStartTime = System.currentTimeMillis();
+        }
+        this.wave = number;
     }
 }

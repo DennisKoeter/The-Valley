@@ -1,6 +1,5 @@
 package com.groeps33.valley.net;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.groeps33.valley.Constants;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.entity.Monster;
@@ -100,12 +99,13 @@ public class GameClient implements PacketListener {
                 update(game.getLocalPlayer());
                 break;
             case NEW_WAVE:
-                game.registerNewWave(((NewWave) packet).getNumber());
+                game.setWave(((NewWave) packet).getNumber());
                 //case ITEM_SPAWN -> game.onItemSpawn();
                 break;
             case MONSTERS_UPDATE:
                 MonstersUpdatePacket monstersUpdatePacket = (MonstersUpdatePacket) packet;
                 game.updateMonsters(monstersUpdatePacket.getIds(), monstersUpdatePacket.getXLocs(), monstersUpdatePacket.getYLocs());
+                game.setWave(monstersUpdatePacket.getWave());
         }
     }
 

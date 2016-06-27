@@ -312,8 +312,8 @@ public class GameScreen extends TheValleyScreen {
         }
     }
 
-    public void registerNewWave(int number) {
-        System.out.println("NEw wave");
+    public void setWave(int number) {
+        hudRenderer.setWave(number);
     }
 
     public void updateMonsters(int[] ids, float[] xLocs, float[] yLocs) {

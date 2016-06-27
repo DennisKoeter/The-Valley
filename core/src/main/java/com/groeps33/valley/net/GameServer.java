@@ -76,39 +76,48 @@ public class GameServer implements PacketListener {
 
     private void tick() {
         if (currentWave == null) {
-            currentWave = new Wave(1, System.currentTimeMillis() + 500);
+            currentWave = new Wave(1, System.currentTimeMillis() + 5000);
             broadcastPacket(new NewWave(1), null);
         }
 
-        currentWave.checkSpawn();
-        List<Monster> deadMonsters = new ArrayList<>();
-        for (Monster monster : currentWave.getMonsterList()) {
-            if (monster.getCurrentHp() == 0) {
-                deadMonsters.add(monster);
-            }
-            ClientConnection closest = null;
-            double dist = Double.MAX_VALUE;
-            for (ClientConnection clientConnection : connectedPlayers) {
-                double t = Calculations.distance(clientConnection.getCharacter().getLocation(), monster.getLocation());
-                if (t < dist) {
-                    dist = t;
-                    closest = clientConnection;
-                }
-            }
-
-            if (closest != null) {
-
-                if (Calculations.distance(closest.getCharacter().getLocation(), monster.getLocation()) < 20 * 32 || System.currentTimeMillis() - monster.getLastTargetCheck() > 500) {
-                    monster.setTarget(closest.getCharacter().getName());
-                    pathFinder.generatePathForMonster(monster, closest.getCharacter());
-//                broadcastPacket(new MonsterTargetUpdate(monster.getId(), monster.getTarget()), null);
-                }
-            }
-
-            monster.update(0.05f);
+        if (currentWave.isFinished()) {
+            currentWave = new Wave(currentWave.getNumber() + 1, System.currentTimeMillis() + 5000);
+            broadcastPacket(new NewWave(currentWave.getNumber()), null);
         }
 
-        currentWave.getMonsterList().removeAll(deadMonsters);
+
+        if (System.currentTimeMillis() > currentWave.getStartTime()) {
+            currentWave.checkSpawn();
+            List<Monster> deadMonsters = new ArrayList<>();
+            for (Monster monster : currentWave.getMonsterList()) {
+                if (monster.getCurrentHp() == 0) {
+                    deadMonsters.add(monster);
+                }
+                ClientConnection closest = null;
+                double dist = Double.MAX_VALUE;
+                for (ClientConnection clientConnection : connectedPlayers) {
+                    double t = Calculations.distance(clientConnection.getCharacter().getLocation(), monster.getLocation());
+                    if (t < dist) {
+                        dist = t;
+                        closest = clientConnection;
+                    }
+                }
+
+                if (closest != null) {
+
+                    if (Calculations.distance(closest.getCharacter().getLocation(), monster.getLocation()) < 20 * 32 || System.currentTimeMillis() - monster.getLastTargetCheck() > 500) {
+                        monster.setTarget(closest.getCharacter().getName());
+                        pathFinder.generatePathForMonster(monster, closest.getCharacter());
+//                broadcastPacket(new MonsterTargetUpdate(monster.getId(), monster.getTarget()), null);
+                    }
+                }
+
+                monster.update(0.05f);
+            }
+
+            currentWave.getMonsterList().removeAll(deadMonsters);
+        }
+
 
         int ids[] = new int[currentWave.getMonsterList().size()];
         float locsX[] = new float[ids.length];
@@ -121,7 +130,7 @@ public class GameServer implements PacketListener {
             locsY[i] = monster.getLocation().y;
         }
 
-        broadcastPacket(new MonstersUpdatePacket(ids, locsX, locsY), null);
+        broadcastPacket(new MonstersUpdatePacket(ids, locsX, locsY, currentWave.getNumber()), null);
 
         //for each item
         for (ItemSpawn item : itemSpawnList) {

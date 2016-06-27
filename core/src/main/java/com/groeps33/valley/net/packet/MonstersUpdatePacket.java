@@ -13,17 +13,18 @@ public class MonstersUpdatePacket extends Packet {
     private int[] ids;
     private float[] locsY;
     private float[] locsX;
-    private Object XLocs;
+    private int wave;
 
     public MonstersUpdatePacket(byte[] data) throws IOException {
         super(PacketType.MONSTERS_UPDATE, data);
     }
 
-    public MonstersUpdatePacket(int[] ids, float[] locsX, float[] locsY) {
+    public MonstersUpdatePacket(int[] ids, float[] locsX, float[] locsY, int wave) {
         super(PacketType.MONSTERS_UPDATE);
         this.ids = ids;
         this.locsX = locsX;
         this.locsY = locsY;
+        this.wave = wave;
     }
 
     @Override
@@ -38,6 +39,7 @@ public class MonstersUpdatePacket extends Packet {
             locsY[i] = dis.readFloat();
         }
 
+        wave = dis.readShort();
     }
 
     @Override
@@ -48,6 +50,8 @@ public class MonstersUpdatePacket extends Packet {
             dos.writeFloat(locsX[i]);
             dos.writeFloat(locsY[i]);
         }
+
+        dos.writeShort(wave);
     }
 
     public int[] getIds() {
@@ -61,5 +65,9 @@ public class MonstersUpdatePacket extends Packet {
 
     public float[] getYLocs() {
         return locsY;
+    }
+
+    public int getWave() {
+        return wave;
     }
 }

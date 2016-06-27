@@ -37,7 +37,7 @@ class Wave {
     }
 
     public boolean isFinished() {
-        return finished;
+        return getMonsterList().isEmpty() && monstersSpawned >= totalToBeSpawned;
     }
 
     public List<Monster> getMonsterList() {
