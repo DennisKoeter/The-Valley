@@ -26,9 +26,10 @@ public class Database {
 
     public Database() {
         dataSource = new MysqlDataSource();
-        dataSource.setUser(Constants.USER);
-        dataSource.setPassword(Constants.PASS);
-        dataSource.setPort(Constants.MYSQL_PORT);
+        dataSource.setUser(Constants.getInstance().user);
+        dataSource.setPassword(Constants.getInstance().pass);
+        dataSource.setDatabaseName(Constants.getInstance().database);
+        dataSource.setPort(Constants.getInstance().MYSQL_PORT);
     }
 
     public UserAccount register(String username, String email, String password) throws SQLException {

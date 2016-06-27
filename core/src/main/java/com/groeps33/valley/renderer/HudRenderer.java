@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Queue;
 import com.groeps33.valley.entity.Character;
 import com.groeps33.valley.screens.GameScreen;
 
@@ -70,7 +69,7 @@ public class HudRenderer {
             String loc = "(" + (int) localPlayer.getLocation().x + ", " + (int) localPlayer.getLocation().y + ")";
             font.draw(spriteBatch, "Player: " + localPlayer.getName() + "  " + loc, 10, Gdx.graphics.getHeight() - 10);
 
-            //statsdwa
+            //stats
             int padding = 10;
             int width = 135, height = 85;
             int xStats = Gdx.graphics.getWidth()- width - padding;

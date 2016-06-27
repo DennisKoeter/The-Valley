@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
+import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -36,7 +37,7 @@ public class Controller {
             ValleyFX.setUserAccount(acc);
             ValleyFX.changeScene(ValleyFX.class.getResource(Constants.MENU_PATH));
         } else {
-            System.out.println("Login failed.");
+            JOptionPane.showMessageDialog(null, "Incorrect login credentials.", "Couldn't login", JOptionPane.ERROR_MESSAGE);
         }
     }
 

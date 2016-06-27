@@ -99,15 +99,34 @@ public class GameScreen extends TheValleyScreen {
         checkCollisionWithEnemies();
 
         if (localPlayer.getCurrentHp() <= 0) {
-            Random random = new Random();
-            localPlayer.setLocation(START_LOC.x + random.nextInt(201), START_LOC.y + random.nextInt(201));
-            localPlayer.resetHp();
+            onPlayerDeath();
+            // todo: death animation
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            onPlayerRespawn();
         }
 
         if (x != localPlayer.getLocation().x || y != localPlayer.getLocation().y || !localPlayer.getProjectiles().isEmpty()
                 || (hasProjectiles && localPlayer.getProjectiles().isEmpty())) {
             game.getGameClient().update(localPlayer);
         }
+    }
+
+    private void onPlayerRespawn() {
+        localPlayer.playRespawnSound();
+        Random random = new Random();
+        localPlayer.setLocation(START_LOC.x + random.nextInt(201), START_LOC.y + random.nextInt(201));
+        localPlayer.resetHp();
+        localPlayer.resetMana();
+    }
+
+    private void onPlayerDeath() {
+        // Makes the char invisible
+        localPlayer.setLocation(0, 0);
+        localPlayer.playDeathSound();
     }
 
     private void checkCollisionWithEnemies() {
@@ -155,6 +174,7 @@ public class GameScreen extends TheValleyScreen {
 
     private void updateProjectiles(float deltaTime) {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && localPlayer.canAttack()) {
+            localPlayer.playShootSound();
             Projectile projectile = localPlayer.spawnProjectile();
 //            game.getGameClient().spawn(projectile);
         }
