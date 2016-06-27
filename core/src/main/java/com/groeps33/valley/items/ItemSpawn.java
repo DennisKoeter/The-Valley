@@ -44,11 +44,11 @@ public abstract class ItemSpawn {
         this.x = x;
 
         blueframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
-        redframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
-        greenframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
-        orangeframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
-        pinkframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
-        purpleframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/blue.png")),34,34);
+        redframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/red.png")),34,34);
+        greenframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/green.png")),34,34);
+        orangeframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/orange.png")),34,34);
+        pinkframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/pink.png")),34,34);
+        purpleframes = TextureRegion.split(new Texture(Gdx.files.internal("pickups/purple.png")),34,34);
         font = new BitmapFont();
         this.emptySpawn = new Texture(Gdx.files.internal("pickups/empty.png"));
 
